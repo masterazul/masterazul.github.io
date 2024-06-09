@@ -125,3 +125,12 @@ body {
 .index-button:hover {
   background-color: #0056b3;
 }
+
+.index-button.flip {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.index-button.flip:hover {
+  transform: rotateY(180deg);
+}
