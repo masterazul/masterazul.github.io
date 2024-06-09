@@ -244,11 +244,23 @@
         }
 
         function redirectToPortfolio() {
-            document.body.classList.add('rotate-out');
-            setTimeout(() => {
-                window.location.href = "../SOBRE_MIM/segundapagina.html";
-            }, 1000); // Aguarde 1 segundo antes de redirecionar
-        }
+    document.body.classList.add('rotate-out');
+    setTimeout(() => {
+        window.location.href = "../SOBRE_MIM/segundapagina.html";
+    }, 1000); // Aguarde 1 segundo antes de redirecionar
+}
+
+// Adiciona evento de rolagem para ativar o redirecionamento
+window.addEventListener('wheel', function(event) {
+    if (event.deltaY > 0) {
+        // Rolagem para baixo
+        redirectToPortfolio();
+    } else if (event.deltaY < 0) {
+        // Rolagem para cima
+        redirectToPortfolio();
+    }
+});
+
 
 
     </script>
