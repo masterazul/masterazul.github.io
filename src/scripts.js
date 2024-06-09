@@ -71,7 +71,7 @@
         function redirectToPortfolio() {
     document.body.classList.add('rotate-out');
     setTimeout(() => {
-        window.location.href = "../SOBRE_MIM/segundapagina.html";
+        window.location.href = "../SOBRE_MIM/resumo.html";
     }, 1000); // Aguarde 1 segundo antes de redirecionar
 }
 
