@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Portfólio</title>
+    <title>Matheus Augusto PORTFOLIO</title>
     <style>
         body, html {
-            font-family: 'Arial', sans-serif; /* Alterada a fonte para Arial */
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            color: #00ff00; /* Cor verde */
+            color: #00ff00;
             overflow: hidden;
             height: 100%;
             width: 100%;
@@ -33,8 +33,8 @@
         }
 
         .terminal {
-            background-color: rgba(0, 0, 0, 0.8); /* Fundo preto transparente */
-            color: #00ff00; /* Cor verde */
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
             font-family: 'Courier New', Courier, monospace;
             overflow: hidden;
             padding: 20px;
@@ -53,54 +53,16 @@
         .content {
             display: none;
             text-align: center;
-            animation: fadeIn 2s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .typing {
-            border-right: .15em solid #00ff00; /* Cor verde */
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-            font-size: 1.5em;
-            font-family: 'Arial', sans-serif; /* Alterada a fonte para Arial */
-            color: transparent; /* Texto transparente */
-            text-shadow: 0 0 5px #00ff00; /* Sombra verde */
-            animation-fill-mode: forwards; /* Mantém o último quadro após a animação */
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #00ff00; } /* Cor verde */
+            animation: fadeIn 1s ease-out forwards;
         }
 
         .intro h1 {
             font-size: 3em;
             margin: 0;
-            color: #00ff00; /* Cor verde */
-            font-weight: bold; /* Texto em negrito */
-            text-transform: uppercase; /* Transforma o texto em maiúsculo */
-            text-shadow: 0 0 10px #00ff00; /* Sombra verde */
-            letter-spacing: 0.1em; /* Espaçamento entre letras */
-        }
-
-        .intro p {
-            font-size: 1.5em;
-            margin: 10px 0 20px;
-            text-shadow: 0 0 5px #00ff00; /* Sombra verde */
+            color: #00ff00;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
         .intro button {
@@ -120,14 +82,21 @@
             transform: translateY(-3px);
         }
 
-        #lock-icon {
-            margin-top: 20px;
+        .animated-text {
+            animation: animateLetters 1s ease-out forwards, fadeIn 1s ease-out forwards;
+            animation-delay: 0.50s;
+            opacity: 0; /* Iniciando com opacidade 0 */
         }
 
-        #lock-icon svg {
-            width: 100px;
-            height: 100px;
-            fill: #000000;
+        @keyframes animateLetters {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -138,8 +107,8 @@
 
     <div class="content" id="content">
         <div class="intro">
-            <h1>Não sou apenas um Hacker Ético,<br>sou um Guardião da Segurança Digital</h1>
-            <p class="typing">Prepare-se para proteger e defender sua infraestrutura contra as ameaças cibernéticas.</p>
+            <!-- Adicionando classe animated-text -->
+            <h1 class="intro-text animated-text">MUITO MAIS DO QUE UM HACKER ÉTICO,<br>SOU UM GUARDIÃO DA SEGURANÇA DIGITAL</h1>
             <button onclick="showPortfolio()">Ver Portfólio</button>
         </div>
         <div id="lock-icon">
@@ -175,7 +144,7 @@
         }
 
         setInterval(addTerminalLine, 100);
-        setTimeout(showContent, 5000); // Exibir o efeito por 5 segundos
+        setTimeout(showContent, 4000);
     </script>
 </body>
 </html>
