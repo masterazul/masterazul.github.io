@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Augusto PORTFOLIO</title>
+    <title>Página Inicial</title>
     <style>
         body, html {
             font-family: 'Arial', sans-serif;
@@ -18,6 +18,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+        }
+
+        #name-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff00;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
         }
 
         .rain {
@@ -67,7 +79,7 @@
             overflow: hidden;
             padding: 20px;
             box-sizing: border-box;
-            z-index: 2; /* Mantém o terminal acima da chuva */
+            z-index: 2;
         }
 
         .terminal-line {
@@ -114,7 +126,7 @@
         .animated-text {
             animation: animateLetters 1s ease-out forwards, fadeIn 1s ease-out forwards;
             animation-delay: 0.50s;
-            opacity: 0; /* Iniciando com opacidade 0 */
+            opacity: 0;
         }
 
         @keyframes animateLetters {
@@ -127,10 +139,23 @@
                 opacity: 1;
             }
         }
+
+        /* Transição 3D */
+        .page-transition {
+            transition: transform 1s cubic-bezier(0.42, 0, 0.58, 1);
+            transform-style: preserve-3d;
+        }
+
+        .page-transition.rotate-out {
+            transform: perspective(1000px) rotateX(90deg);
+        }
     </style>
 </head>
-<body>
-    <!-- Chuva de letras -->
+<body class="page-transition">
+    <div id="name-container" onmouseover="showTooltip()" onmouseout="hideTooltip()" onclick="copyEmail()">
+        Matheus Augusto
+    </div>
+
     <div class="rain" id="rain"></div>
 
     <div class="terminal" id="terminal">
@@ -139,9 +164,8 @@
 
     <div class="content" id="content">
         <div class="intro">
-            <!-- Adicionando classe animated-text -->
             <h1 class="intro-text animated-text">MUITO MAIS DO QUE UM HACKER ÉTICO,<br>SOU UM GUARDIÃO DA SEGURANÇA DIGITAL</h1>
-            <button onclick="showPortfolio()">Ver Portfólio</button>
+            <button onclick="redirectToPortfolio()">Ver Portfólio</button>
         </div>
         <div id="lock-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -154,6 +178,37 @@
         const terminal = document.getElementById('terminal');
         const content = document.getElementById('content');
         const rain = document.getElementById('rain');
+        const nameContainer = document.getElementById('name-container');
+        let emailCopied = false;
+
+        function showTooltip() {
+            console.log("Mouse over detected");
+            if (!emailCopied) {
+                nameContainer.textContent = "você deseja copiar este email?";
+            }
+        }
+
+        function hideTooltip() {
+            console.log("Mouse out detected");
+            if (!emailCopied) {
+                nameContainer.textContent = "Matheus Augusto";
+            }
+        }
+
+        function copyEmail() {
+            const email = "ae_augusto33@proton.me";
+            navigator.clipboard.writeText(email).then(() => {
+                console.log("Email copied");
+                emailCopied = true;
+                nameContainer.textContent = "email copiado com sucesso";
+                setTimeout(() => {
+                    nameContainer.textContent = "Matheus Augusto";
+                    emailCopied = false;
+                }, 2000);
+            }).catch(err => {
+                console.error('Erro ao copiar email: ', err);
+            });
+        }
 
         function getRandomChar() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -179,15 +234,21 @@
         setInterval(addTerminalLine, 100);
         setTimeout(showContent, 4000);
 
-        // Criando chuva de letras
-        const numLetters = 100; // Número de letras
+        const numLetters = 100;
         for (let i = 0; i < numLetters; i++) {
             const letter = document.createElement('div');
             letter.className = 'raindrop';
             letter.textContent = getRandomChar();
             letter.style.left = `${Math.random() * 100}%`;
-            letter.style.animationDelay = `${Math.random() * 5}s`; // Atraso aleatório para cada letra
+            letter.style.animationDelay = `${Math.random() * 5}s`;
             rain.appendChild(letter);
+        }
+
+        function redirectToPortfolio() {
+            document.body.classList.add('rotate-out');
+            setTimeout(() => {
+                window.location.href = "segundapagina.html";
+            }, 1000); // Aguarde 1 segundo antes de redirecionar
         }
     </script>
 </body>
