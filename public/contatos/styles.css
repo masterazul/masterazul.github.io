@@ -1,0 +1,57 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000; /* Fundo preto para um visual mais hacker */
+    font-family: 'Courier New', monospace; /* Fonte de estilo hacker */
+    color: #00ff00; /* Cor verde neon */
+}
+
+.split-screen {
+    width: 33.33%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    transition: background-image 0.5s ease-in-out;
+}
+
+#screen1 {
+    background-image: url('op_art_blue.png');
+    background-size: cover;
+    background-position: center;
+}
+
+#screen2 {
+    background-image: url('op_art_black.png');
+    background-size: cover;
+    background-position: center;
+    display: none;
+}
+
+#screen3 {
+    background-image: url('op_art_green.png');
+    background-size: cover;
+    background-position: center;
+    display: none;
+}
+
+.icon {
+    width: 100px; /* Tamanho uniforme para todos os ícones */
+    margin-top: 20px;
+}
+
+.split-screen p {
+    color: #00ff00; /* Verde neon */
+    text-align: center; /* Centralizando o texto */
+    padding: 20px; /* Adicionando espaço interno */
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo preto com transparência */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.

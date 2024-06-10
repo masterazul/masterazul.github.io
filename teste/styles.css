@@ -1,0 +1,126 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.scene {
+  perspective: 800px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cat {
+  position: relative;
+  transform-style: preserve-3d;
+  width: 150px;
+  height: 150px;
+  animation: catWalk 6s linear infinite;
+}
+
+.head, .body, .tail {
+  background-color: #4d4d4d;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.head {
+  width: 80px;
+  height: 80px;
+  top: 0;
+  left: 35px;
+}
+
+.ear {
+  background-color: #4d4d4d;
+  border-radius: 50%;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+
+.left {
+  top: 10px;
+  left: 8px;
+}
+
+.right {
+  top: 10px;
+  right: 8px;
+}
+
+.face {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
+
+.eye {
+  position: absolute;
+  background-color: #000000;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.left {
+  left: 12px;
+}
+
+.right {
+  right: 12px;
+}
+
+.nose {
+  position: absolute;
+  top: 18px;
+  left: 16px;
+  width: 8px;
+  height: 8px;
+  background-color: #4d4d4d;
+  border-radius: 50%;
+}
+
+.body {
+  width: 120px;
+  height: 80px;
+  top: 60px;
+  left: 15px;
+}
+
+.tail {
+  width: 60px;
+  height: 20px;
+  top: 90px;
+  left: 140px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.yarn {
+  width: 40px;
+  height: 40px;
+  background-color: #db9b40;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  animation: moveYarn 6s linear infinite;
+}
+
+@keyframes catWalk {
+  0% { transform: translateX(0) rotateY(0); }
+  50% { transform: translateX(calc(100vw - 200px)) rotateY(180deg); }
+  100% { transform: translateX(0) rotateY(0); }
+}
+
+@keyframes moveYarn {
+  0%, 100% { right: 0; }
+  50% { right: calc(100% - 40px); }
+}
