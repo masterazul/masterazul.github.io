@@ -39,11 +39,20 @@
 
   <!-- Botões -->
   <div class="index">
-    <a href="#" class="index-button flip"><br></br>Download Currículo</a>
-    <a href="../contatos/contatos.html" class="index-button flip"><br></br>Contato</a>
-    <a href="#" class="index-button flip"><br></br>Projetos</a>
+    <a href="#" class="index-button flip" onclick="flipPageAndRedirect('#')"><br></br>Download Currículo</a>
+    <a href="#" class="index-button flip" onclick="flipPageAndRedirect('../contatos/index.html')"><br></br>Contato</a>
+    <a href="#" class="index-button flip" onclick="flipPageAndRedirect('#')"><br></br>Projetos</a>
   </div>
 </div>
+
+<script>
+  function flipPageAndRedirect(url) {
+    document.body.classList.add('page-flip');
+    setTimeout(function() {
+      window.location.href = url;
+    }, 250); // Redirecionar na metade da animação (250ms para uma animação de 0.5s)
+  }
+</script>
 
 </body>
 </html>

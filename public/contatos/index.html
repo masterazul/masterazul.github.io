@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Screen</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="split-screen" id="screen1">
+        <a href="https://www.linkedin.com/in/augustoae" target="_blank">
+            <img src="linkedin-icon.png" alt="LinkedIn Icon" class="icon" id="icon1">
+        </a>
+        <p id="text1">Clique no ícone acima para ser redirecionado<br>Recomendado por profissionais da área e recheado das maiores certificações e competências da Tenable no que tange à ameaças digitais para o seu negócio</p>
+        <p class="quote">"Noite estrelada" (Vincent Van Gogh)</p>
+    </div>
+    <div class="split-screen" id="screen2">
+        <a href="https://github.com/masterazul" target="_blank">
+            <img src="github-icon.png" alt="GitHub Icon" class="icon" id="icon2">
+        </a>
+        <p id="text2">Clique no ícone acima para ser redirecionado<br>Experiência em empresas como Firstclass, White Martins, META (Brasil), ASSIMSAUDE, Memorial Saúde e outras empresas, tenho um histórico comprovado de fortalecer a segurança de organizações importantes. Conecte-se comigo para discutir como posso ajudar a proteger seus ativos digitais!</p>
+        <p class="quote">"Onda grande de Kanagawa" (Katsuhika Hokusai)</p>
+    </div>
+    <div class="split-screen" id="screen3">
+        <a href="https://wa.me/5521989390637" target="_blank">
+            <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon" id="icon3">
+        </a>
+        <p id="text3">Clique no ícone acima para ser redirecionado<br>Entre em contato comigo pelo WhatsApp para discussões rápidas e diretas ou mesmo ajuda em algum projeto! Estou à sua disposição!</p>
+        <p class="quote">"O grito" (Edvard Munch)</p>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        window.onload = function() {
+            var textElements = document.querySelectorAll('.split-screen p');
+            textElements.forEach(function(elem) {
+                elem.style.opacity = 1;
+            });
+        };
+    </script>
+</body>
+</html>
