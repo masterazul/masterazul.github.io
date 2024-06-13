@@ -3,97 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skills de Hardening e Compliance</title>
+    <title>Qualificações</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* CSS Adicionado para o botão flutuante */
+        .floating-button {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #3498db; /* Azul */
+            border-radius: 50%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000; /* Para garantir que esteja acima de outros elementos */
+        }
+    </style>
 </head>
 <body>
-    <h1>Skills de Hardening e Compliance</h1>
-    
-    <h2>Habilidades Específicas</h2>
-    <p>Hardenização de mais de 200 servidores+</p>
-    <p>Compliance com as normas CIS, principalmente.</p>
-    <p>Utilização de Framework NIST.</p>
-    
-    <h2>Certificações</h2>
-    <ul>
-        <li>CECYBER</li>
-        <li>IBSEC como Analista</li>
-        <li>Nessus/Tenable</li>
-    </ul>
-    
-    <h2>Ferramentas</h2>
-    <div class="charts-row">
-        <div class="chart-wrapper">
-            <h3>SIEM</h3>
-            <div class="chart-container">
-                <canvas id="siemChart"></canvas>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="terminal-button red"></span>
+                <span class="terminal-button yellow"></span>
+                <span class="terminal-button green"></span>
             </div>
+            <span class="terminal-title">Terminal</span>
         </div>
-        <div class="chart-wrapper">
-            <h3>Análise de Vulnerabilidades</h3>
-            <div class="chart-container">
-                <canvas id="toolsChart"></canvas>
+        <div class="terminal-body">
+            <h1>Resumo:</h1>
+
+            <h2>Habilidades Específicas</h2>
+            <p>Hardenização de mais de 200 servidores+</p>
+            <p>Compliance com as normas CIS, principalmente.</p>
+            <p>Utilização de Framework NIST.</p>
+            <p>Uso do CISCAT, grafana e outros!</p>
+
+            <h2>Certificações</h2>
+            <ul>
+                <li>CECYBER, Capacitado como Blue Team</li>
+                <li>Instituto Brasileiro de Segurança como Analista de Cybersegurança</li>
+                <li>Análise de Vulnerabilidades avaliada pela Tenable/Nessus</li>
+            </ul>
+
+            <h2>Hard Skills</h2>
+            <div class="charts-row">
+                <div class="chart-wrapper">
+                    <h3>SIEM</h3>
+                    <div class="chart-container">
+                        <canvas id="siemChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Análise de Vulnerabilidades</h3>
+                    <div class="chart-container">
+                        <canvas id="toolsChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Cloud</h3>
+                    <div class="chart-container">
+                        <canvas id="officeChart"></canvas>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="chart-wrapper">
-            <h3>Cloud</h3>
-            <div class="chart-container">
-                <canvas id="officeChart"></canvas>
+
+            <h2>Basic Skills</h2>
+            <div class="charts-row">
+                <div class="chart-wrapper">
+                    <h3>FrameWorks</h3>
+                    <div class="chart-container">
+                        <canvas id="evolutionChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Configuração de Servidores</h3>
+                    <div class="chart-container">
+                        <canvas id="example1Chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Pacote Office</h3>
+                    <div class="chart-container">
+                        <canvas id="example2Chart"></canvas>
+                    </div>
+                </div>
             </div>
+
+            <h2>Outras leituras</h2>
+            <div class="charts-row">
+                <div class="chart-wrapper">
+                    <h3>Firewalls</h3>
+                    <div class="chart-container">
+                        <canvas id="solarFlareChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Programação</h3>
+                    <div class="chart-container">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Personalidade</h3>
+                    <div class="chart-container">
+                        <canvas id="stackedBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Pontos Positivos</h2>
+            <ul>
+                <li>Blue Team</li>
+                <li>Certificações Nessus</li>
+                <li>Proativo, criativo, responsável, adaptável</li>
+            </ul>
         </div>
     </div>
-    
-    <h2>Evolução das Skills</h2>
-    <div class="charts-row">
-        <div class="chart-wrapper">
-            <h3>FrameWorks</h3>
-            <div class="chart-container">
-                <canvas id="evolutionChart"></canvas>
-            </div>
-        </div>
-        <div class="chart-wrapper">
-            <h3>Configuração de Servidores</h3>
-            <div class="chart-container">
-                <canvas id="example1Chart"></canvas>
-            </div>
-        </div>
-        <div class="chart-wrapper">
-            <h3>Pacote Office</h3>
-            <div class="chart-container">
-                <canvas id="example2Chart"></canvas>
-            </div>
-        </div>
-    </div>
-    
-    <h2>Outros Gráficos</h2>
-    <div class="charts-row">
-        <div class="chart-wrapper">
-            <h3>Banco de dados</h3>
-            <div class="chart-container">
-                <canvas id="solarFlareChart"></canvas>
-            </div>
-        </div>
-        <div class="chart-wrapper">
-            <h3>Programação</h3>
-            <div class="chart-container">
-                <canvas id="radarChart"></canvas>
-            </div>
-        </div>
-        <div class="chart-wrapper">
-            <h3>Hardening</h3>
-            <div class="chart-container">
-                <canvas id="stackedBarChart"></canvas>
-            </div>
-        </div>
-    </div>
-    
-    <h2>Pontos Positivos</h2>
-    <ul>
-        <li>Blue Team</li>
-        <li>Certificações Nessus</li>
-    </ul>
+
+    <!-- Adicionando o botão -->
+    <a href="../SOBRE_MIM/index.html" class="floating-button"></a>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="scripts.js"></script>
+    <script src="../../src/graphquali.js"></script>
+    <script>
+        // evento de clique no botão
+        document.querySelector('.floating-button').addEventListener('click', function() {
+            window.location.href = this.getAttribute('href'); // Redireciona para a nova página
+        });
+    </script>
 </body>
 </html>
