@@ -5,21 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qualificações</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* CSS Adicionado para o botão flutuante */
-        .floating-button {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #3498db; /* Azul */
-            border-radius: 50%;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 1000; /* Para garantir que esteja acima de outros elementos */
-        }
-    </style>
 </head>
 <body>
     <div class="terminal">
@@ -123,15 +108,10 @@
     </div>
 
     <!-- Adicionando o botão -->
-    <a href="../SOBRE_MIM/index.html" class="floating-button"></a>
+    <a href="../SOBRE_MIM/index.html" class="floating-button return-button">Voltar</a>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../../src/graphquali.js"></script>
-    <script>
-        // evento de clique no botão
-        document.querySelector('.floating-button').addEventListener('click', function() {
-            window.location.href = this.getAttribute('href'); // Redireciona para a nova página
-        });
-    </script>
+    <script src="../../src/redirecionamento_button_flip.js"></script>
 </body>
 </html>

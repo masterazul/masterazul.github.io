@@ -142,3 +142,7 @@ body.page-flip {
 .index-button.flip:hover {
   transform: rotateY(180deg); /* Rotaciona em 3D */
 }
+
+.index-button.hover-flip {
+  transform: rotateY(180deg); /* Rotaciona em 3D */
+}

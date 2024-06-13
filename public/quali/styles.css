@@ -63,7 +63,6 @@ html, body {
     overflow-y: auto;
 }
 
-/* Existing styles */
 h1, h2 {
     text-align: center;
     color: #0f0; /* Verde neon */
@@ -99,6 +98,7 @@ p, li {
     width: 100%; /* Garante que o canvas ocupe toda a largura do contêiner */
     height: auto; /* Mantém a proporção do gráfico */
 }
+
 /* Adicionando estilo para o botão flutuante */
 .floating-button {
     position: fixed;
@@ -120,6 +120,37 @@ p, li {
 }
 
 .floating-button::after {
-            content: "Voltar";
-            color: #fff; /* Cor do texto */
-        }
+    color: #fff; /* Cor do texto */
+}
+
+.return-button {
+    transition: transform 0.3s ease; /* Adicionando uma transição suave */
+    transform-origin: center; /* Definindo o ponto de origem da transformação */
+}
+
+.return-button:hover {
+    animation: spin 0.5s linear forwards; /* Iniciando a animação de rotação */
+}
+
+@keyframes spin {
+    from {
+        transform: rotateY(0deg); /* A partir de 0 graus */
+    }
+    to {
+        transform: rotateY(360deg); /* Para 360 graus (uma rotação completa) */
+    }
+}
+
+/* CSS para a animação de transição tipo Wipe */
+@keyframes wipeOut {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.wipe-out {
+    animation: wipeOut 1s forwards;
+}
