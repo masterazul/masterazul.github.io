@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matheus - Especialista em Segurança Cibernética</title>
   <link rel="stylesheet" type="text/css" href="styles.css"> <!-- Referência ao arquivo CSS -->
+  <style>
+    /* Estilo para a transição de zoom out */
+    .zoom-out {
+      transition: transform 0.5s ease-in-out;
+      transform: scale(0.8);
+    }
+  </style>
 </head>
 <body>
 
@@ -13,22 +20,22 @@
   <p>Por favor, dê uma olhada ao redor!</p>
 
   <div class="icons">
-    <div class="icon">
+    <div class="icon" onclick="redirectToQuali()">
       <img src="lock_icon.png" alt="Ícone de um cadeado">
       <span>Hardening e Compliance</span>
       <div class="magnifier">Ver qualificações</div>
     </div>
-    <div class="icon">
+    <div class="icon" onclick="redirectToQuali()">
       <img src="firewall_icon.png" alt="Ícone de um muro">
       <span>Skills para Firewalls</span>
       <div class="magnifier">Ver qualificações</div>
     </div>
-    <div class="icon">
+    <div class="icon" onclick="redirectToQuali()">
       <img src="Java_icon.png" alt="Ícone do Java">
       <span>Programador Java</span>
       <div class="magnifier">Ver qualificações</div>
     </div>
-    <div class="icon">
+    <div class="icon" onclick="redirectToQuali()">
       <img src="heart_icon.png" alt="Ícone de um coração">
       <span>Construindo com amor</span>
       <div class="magnifier">Ver qualificações</div>
@@ -47,10 +54,19 @@
 
 <script>
   function flipPageAndRedirect(url) {
-    document.body.classList.add('page-flip');
+    document.body.classList.add('zoom-out'); // Adiciona classe para aplicar a transição de zoom out
+
     setTimeout(function() {
       window.location.href = url;
-    }, 250); // Redirecionar na metade da animação (250ms para uma animação de 0.5s)
+    }, 500); // Redireciona após 500ms (0.5s)
+  }
+
+  function redirectToQuali() {
+    document.body.classList.add('zoom-out'); // Adiciona classe para aplicar a transição de zoom out
+
+    setTimeout(function() {
+      window.location.href = '../quali/index.html';
+    }, 500); // Redireciona após 500ms (0.5s)
   }
 </script>
 
