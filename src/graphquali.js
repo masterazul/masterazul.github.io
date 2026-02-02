@@ -134,7 +134,7 @@ const radarData = {
     datasets: [
         {
             label: 'Frontend',
-            data: [90, 35, 10, 60, 20, 10],
+            data: [90, 35, 10, 60, 60, 10],
             backgroundColor: function(context) {
                 const chart = context.chart;
                 const {ctx, chartArea} = chart;
