@@ -133,7 +133,6 @@ body, html {
     }
 }
 
-/* Transição 3D */
 .page-transition {
     transition: transform 1s cubic-bezier(0.42, 0, 0.58, 1);
     transform-style: preserve-3d;

@@ -6,9 +6,9 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #000; /* Fundo preto para um visual mais hacker */
-    font-family: 'Courier New', monospace; /* Fonte de estilo hacker */
-    color: #00ff00; /* Cor verde neon */
+    background-color: #000;
+    font-family: 'Courier New', monospace;
+    color: #00ff00;
 }
 
 .split-screen {
@@ -41,7 +41,7 @@ body, html {
     background-image: url('op_art_green.png');
     background-size: cover;
     background-position: center;
-    height: 100vh; /* Defina a altura desejada ou ajuste conforme necessário */
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -54,60 +54,59 @@ body, html {
 
 #screen3 .btn-back {
     position: absolute;
-    right: 50%; /* Centraliza horizontalmente */
-    bottom: 20px; /* Distância da borda inferior */
-    background-color: #007bff; /* Azul Bootstrap */
-    color: #fff; /* Texto branco */
-    padding: 15px 30px; /* Espaçamento interno */
-    border-radius: 50%; /* Formato circular */
+    right: 50%;
+    bottom: 20px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 50%;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    text-decoration: none; /* Remove sublinhado padrão */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
 #screen3 .btn-back:hover {
-    background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+    background-color: #0056b3;
 }
 
 
 #screen3 .btn-back:hover {
-    background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+    background-color: #0056b3;
 }
 
 .icon {
-    width: 100px; /* Tamanho uniforme para todos os ícones */
+    width: 100px;
     margin-top: 20px;
 }
 
 .split-screen p {
-    color: #00ff00; /* Verde neon */
-    text-align: center; /* Centralizando o texto */
-    padding: 20px; /* Adicionando espaço interno */
-    background-color: rgba(0, 0, 0, 0.8); /* Fundo preto com transparência */
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.
+    color: #00ff00;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
 
-/* Estilo para o botão de voltar */
 .btn-back {
     position: fixed;
-    right: 20px; /* Distância da borda direita */
-    bottom: 20px; /* Distância da borda inferior */
-    background-color: #007bff; /* Azul Bootstrap */
-    color: #fff; /* Texto branco */
-    padding: 15px 30px; /* Espaçamento interno */
-    border-radius: 50%; /* Formato circular */
+    right: 20px;
+    bottom: 20px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 50%;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    text-decoration: none; /* Remove sublinhado padrão */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
 .btn-back:hover {
-    background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+    background-color: #0056b3;
 }
 
 body.page-transition {
-    opacity: 0; /* Torna o corpo invisível durante a transição */
-    transition: opacity 0.5s ease-in-out; /* Transição suave de opacidade */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 

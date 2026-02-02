@@ -72,16 +72,13 @@
     document.body.classList.add('rotate-out');
     setTimeout(() => {
         window.location.href = "../public/SOBRE_MIM/resumo.html";
-    }, 1000); // Aguarde 1 segundo antes de redirecionar
+    }, 1000);
 }
 
-// Adiciona evento de rolagem para ativar o redirecionamento
 window.addEventListener('wheel', function(event) {
     if (event.deltaY > 0) {
-        // Rolagem para baixo
         redirectToPortfolio();
     } else if (event.deltaY < 0) {
-        // Rolagem para cima
         redirectToPortfolio();
     }
 });

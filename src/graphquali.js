@@ -1,4 +1,3 @@
-// Função auxiliar para criar gráficos
 function createChart(ctx, type, data, options) {
     new Chart(ctx, {
         type: type,
@@ -7,7 +6,6 @@ function createChart(ctx, type, data, options) {
     });
 }
 
-// Dados e opções para os gráficos
 const siemData = {
     labels: ['QRadar', 'Alienvault', 'Splunk', 'Kuma'],
     datasets: [{
@@ -132,48 +130,45 @@ const solarFlareData = {
 };
 
 const radarData = {
-    labels: ['JavaScript', 'Java', 'Python', 'PHP', 'SQL'],
+    labels: ['JavaScript', 'TypeScript', 'Java', 'Python', 'PHP', 'SQL'],
     datasets: [
         {
             label: 'Frontend',
-            data: [90, 10, 60, 20, 10], // Habilidades de Frontend (JavaScript, Java, Python, PHP, SQL)
+            data: [90, 35, 10, 60, 20, 10],
             backgroundColor: function(context) {
                 const chart = context.chart;
                 const {ctx, chartArea} = chart;
                 if (!chartArea) {
-                    // This case happens on initial chart load
                     return null;
                 }
                 return getGradient(ctx, chartArea, 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)');
             },
-            borderColor: 'rgba(255, 99, 132, 1)', // Cor da borda do gráfico
-            pointBackgroundColor: 'rgba(255, 99, 132, 1)', // Cor de preenchimento dos pontos
-            pointBorderColor: '#fff', // Cor da borda dos pontos
-            pointHoverBackgroundColor: '#fff', // Cor de preenchimento dos pontos ao passar o mouse
-            pointHoverBorderColor: 'rgba(255, 99, 132, 1)' // Cor da borda dos pontos ao passar o mouse
+            borderColor: 'rgba(255, 99, 132, 1)',
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(255, 99, 132, 1)'
         },
         {
             label: 'Backend',
-            data: [10, 80, 75, 20, 75], // Habilidades de Backend (JavaScript, Java, Python, PHP, SQL)
+            data: [10, 0, 80, 75, 69, 75],
             backgroundColor: function(context) {
                 const chart = context.chart;
                 const {ctx, chartArea} = chart;
                 if (!chartArea) {
-                    // This case happens on initial chart load
                     return null;
                 }
                 return getGradient(ctx, chartArea, 'rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)');
             },
-            borderColor: 'rgba(54, 162, 235, 1)', // Cor da borda do gráfico
-            pointBackgroundColor: 'rgba(54, 162, 235, 1)', // Cor de preenchimento dos pontos
-            pointBorderColor: '#fff', // Cor da borda dos pontos
-            pointHoverBackgroundColor: '#fff', // Cor de preenchimento dos pontos ao passar o mouse
-            pointHoverBorderColor: 'rgba(54, 162, 235, 1)' // Cor da borda dos pontos ao passar o mouse
+            borderColor: 'rgba(54, 162, 235, 1)',
+            pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
         }
     ]
 };
 
-// Function to create the gradient
 function getGradient(ctx, chartArea, color1, color2) {
     const gradient = ctx.createLinearGradient(chartArea.left, chartArea.top, chartArea.right, chartArea.bottom);
     gradient.addColorStop(0, color1);
@@ -190,73 +185,72 @@ const stackedBarData = {
     labels: ['MBTI(ENFJ)', 'Temperamento', 'Inteligências'],
     datasets: [{
         label: 'Extroversão (MBTI)',
-        data: [70, 0, 0], // ENFJ: 70, Temperamento: 0, Inteligências: 0
+        data: [70, 0, 0],
         backgroundColor: '#ff6384'
     },{
         label: 'Sentimento (MBTI)',
-        data: [55, 0, 0], // ENFJ: 55, Temperamento: 0, Inteligências: 0
+        data: [55, 0, 0],
         backgroundColor: '#ff9f40'
     }, {
         label: 'Intuição (MBTI)',
-        data: [80, 0, 0], // ENFJ: 80, Temperamento: 0, Inteligências: 0
+        data: [80, 0, 0],
         backgroundColor: '#ffcd56'
     }, {
         label: 'Julgamento (MBTI)',
-        data: [80, 0, 0], // ENFJ: 80, Temperamento: 0, Inteligências: 0
+        data: [80, 0, 0],
         backgroundColor: '#4bc0c0'
     }, {
         label: 'Colérico',
-        data: [0, 10, 0], // ENFJ: 0, Temperamento: 10, Inteligências: 0
+        data: [0, 10, 0],
         backgroundColor: '#ffcc00'
     }, {
         label: 'Fleumático',
-        data: [0, 40, 0], // ENFJ: 0, Temperamento: 40, Inteligências: 0
+        data: [0, 40, 0],
         backgroundColor: '#ff6600'
     }, {
         label: 'Sanguíneo',
-        data: [0, 35, 0], // ENFJ: 0, Temperamento: 35, Inteligências: 0
+        data: [0, 35, 0],
         backgroundColor: '#ffff00'
     }, {
         label: 'Melancólico',
-        data: [0, 20, 0], // ENFJ: 0, Temperamento: 20, Inteligências: 0
+        data: [0, 20, 0],
         backgroundColor: '#9966cc'
     }, {
         label: 'Lógico-Matemática',
-        data: [0, 0, 80], // ENFJ: 0, Temperamento: 0, Inteligências: 80
+        data: [0, 0, 80],
         backgroundColor: '#00cc00'
     }, {
         label: 'Interpessoal',
-        data: [0, 0, 90], // ENFJ: 0, Temperamento: 0, Inteligências: 90
+        data: [0, 0, 90],
         backgroundColor: '#ff6699'
     }, {
         label: 'Linguística',
-        data: [0, 0, 87], // ENFJ: 0, Temperamento: 0, Inteligências: 87
+        data: [0, 0, 87],
         backgroundColor: '#36a2eb'
     }, {
         label: 'Espacial',
-        data: [0, 0, 75], // ENFJ: 0, Temperamento: 0, Inteligências: 75
+        data: [0, 0, 75],
         backgroundColor: '#cc65fe'
     }, {
         label: 'Corporal-Cinestésica',
-        data: [0, 0, 50], // ENFJ: 0, Temperamento: 0, Inteligências: 50
+        data: [0, 0, 50],
         backgroundColor: '#ff9900'
     }, {
         label: 'Naturalista',
-        data: [0, 0, 10], // ENFJ: 0, Temperamento: 0, Inteligências: 10
+        data: [0, 0, 10],
         backgroundColor: '#009999'
     }, {
         label: 'Musical',
-        data: [0, 0, 20], // ENFJ: 0, Temperamento: 0, Inteligências: 20
+        data: [0, 0, 20],
         backgroundColor: '#ff33cc'
     }, {
         label: 'Intrapessoal',
-        data: [0, 0, 85], // ENFJ: 0, Temperamento: 0, Inteligências: 85
+        data: [0, 0, 85],
         backgroundColor: '#cc9900'
     }]
 };
 
 
-// Configurações do gráfico
 const stackedBarOptions = {
     scales: {
         x: {
@@ -277,16 +271,15 @@ const chartOptions = {
     legend: {
         display: true,
         position: 'top',
-        align: 'start', // Adiciona alinhamento
+        align: 'start',
         labels: {
             boxWidth: 20,
             padding: 15,
-            fontSize: 14 // Aumenta o tamanho da fonte para melhor legibilidade
+            fontSize: 14
         }
     }
 };
 
-// Criação dos gráficos com títulos
 createChart(document.getElementById('siemChart').getContext('2d'), 'doughnut', siemData, { ...chartOptions, title: { text: 'Domínio de Ferramentas SIEM' } });
 createChart(document.getElementById('toolsChart').getContext('2d'), 'pie', toolsData, { ...chartOptions, title: { text: 'Domínio de Outras Ferramentas' } });
 createChart(document.getElementById('officeChart').getContext('2d'), 'pie', officeData, { ...chartOptions, title: { text: 'Domínio de Ferramentas de Office' } });

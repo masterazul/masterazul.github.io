@@ -65,7 +65,7 @@ html, body {
 
 h1, h2 {
     text-align: center;
-    color: #0f0; /* Verde neon */
+    color: #0f0;
 }
 
 h2 {
@@ -73,7 +73,7 @@ h2 {
 }
 
 p, li {
-    color: #ccc; /* Cinza claro */
+    color: #ccc;
 }
 
 .charts-row {
@@ -85,7 +85,7 @@ p, li {
 .chart-wrapper {
     width: 30%;
     margin-bottom: 20px;
-    text-align: center; /* Centraliza o conteúdo dentro do wrapper */
+    text-align: center;
 }
 
 .chart-container {
@@ -95,11 +95,10 @@ p, li {
 
 .chart-container canvas {
     display: block;
-    width: 100%; /* Garante que o canvas ocupe toda a largura do contêiner */
-    height: auto; /* Mantém a proporção do gráfico */
+    width: 100%;
+    height: auto;
 }
 
-/* Adicionando estilo para o botão flutuante */
 .floating-button {
     position: fixed;
     top: 50%;
@@ -107,41 +106,40 @@ p, li {
     transform: translateY(-50%);
     width: 100px;
     height: 40px;
-    background-color: #3498db; /* Azul */
+    background-color: #3498db;
     border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    z-index: 1000; /* Para garantir que esteja acima de outros elementos */
+    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none; /* Removendo decoração de texto */
-    color: #fff; /* Cor do texto */
+    text-decoration: none;
+    color: #fff;
 }
 
 .floating-button::after {
-    color: #fff; /* Cor do texto */
+    color: #fff;
 }
 
 .return-button {
-    transition: transform 0.3s ease; /* Adicionando uma transição suave */
-    transform-origin: center; /* Definindo o ponto de origem da transformação */
+    transition: transform 0.3s ease;
+    transform-origin: center;
 }
 
 .return-button:hover {
-    animation: spin 0.5s linear forwards; /* Iniciando a animação de rotação */
+    animation: spin 0.5s linear forwards;
 }
 
 @keyframes spin {
     from {
-        transform: rotateY(0deg); /* A partir de 0 graus */
+        transform: rotateY(0deg);
     }
     to {
-        transform: rotateY(360deg); /* Para 360 graus (uma rotação completa) */
+        transform: rotateY(360deg);
     }
 }
 
-/* CSS para a animação de transição tipo Wipe */
 @keyframes wipeOut {
     0% {
         transform: translateX(0);
