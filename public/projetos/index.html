@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matheus Augusto — Projetos</title>
+  <style>
+    :root { --bg:#0a0e14; --card:#121821; --line:#1f2a37; --txt:#e6edf3; --mut:#9aa7b4; --acc:#4ea1ff; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--txt); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 56px 20px 80px; }
+    h1 { font-size: 1.9rem; margin: 0 0 6px; }
+    .sub { color: var(--mut); margin: 0 0 36px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; transition: transform .15s ease, border-color .15s ease; }
+    .card:hover { transform: translateY(-3px); border-color: var(--acc); }
+    .card h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .card p { margin: 0 0 14px; color: var(--mut); line-height: 1.5; font-size: .92rem; }
+    .tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+    .tag { font-size:.72rem; color:var(--acc); border:1px solid var(--line); border-radius:999px; padding:3px 10px; }
+    .card a { color:var(--txt); text-decoration:none; border:1px solid var(--acc); border-radius:8px; padding:8px 14px; display:inline-block; font-size:.85rem; }
+    .card a:hover { background:var(--acc); color:var(--bg); }
+    .foot { margin-top:40px; display:flex; gap:18px; flex-wrap:wrap; }
+    .foot a { color:var(--acc); text-decoration:none; }
+    .back { color:var(--mut); text-decoration:none; display:inline-block; margin-bottom:24px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../SOBRE_MIM/resumo.html">&larr; Voltar</a>
+    <h1>Projetos open-source</h1>
+    <p class="sub">Ferramentas em Rust — leves, com testes e CI. Código em <a style="color:var(--acc)" href="https://github.com/masterazul" target="_blank" rel="noopener">github.com/masterazul</a>.</p>
+    <div class="grid">
+      <div class="card">
+        <h2>Spectra</h2>
+        <p>CLI de OSINT de registros públicos brasileiros: 19 fontes livres e legais, com verificação de disponibilidade por fonte.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">OSINT</span><span class="tag">CLI</span></div>
+        <a href="https://github.com/masterazul/Spectra" target="_blank" rel="noopener">Ver no GitHub</a>
+      </div>
+      <div class="card">
+        <h2>keyrot</h2>
+        <p>Cofre de segredos com envelope encryption (Argon2id + AES-256-GCM), versionamento, rotação e log de auditoria encadeado por hash (à prova de adulteração).</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">Criptografia</span><span class="tag">CLI</span></div>
+        <a href="https://github.com/masterazul/keyrot" target="_blank" rel="noopener">Ver no GitHub</a>
+      </div>
+      <div class="card">
+        <h2>kostwatch</h2>
+        <p>Otimizador de custos de Kubernetes: rightsizing a partir de requests versus uso real, com cliente Prometheus e relatório de economia.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">Kubernetes</span><span class="tag">Prometheus</span></div>
+        <a href="https://github.com/masterazul/kostwatch" target="_blank" rel="noopener">Ver no GitHub</a>
+      </div>
+      <div class="card">
+        <h2>deploybox</h2>
+        <p>Deploy de preview em um comando: build do repositório em container (orquestração Docker) e reverse proxy por subdomínio.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">Docker</span><span class="tag">DevOps</span></div>
+        <a href="https://github.com/masterazul/deploybox" target="_blank" rel="noopener">Ver no GitHub</a>
+      </div>
+    </div>
+    <div class="foot">
+      <a href="https://github.com/masterazul" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="../contatos/index.html">Contato</a>
+    </div>
+  </div>
+</body>
+</html>
