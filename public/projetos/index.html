@@ -3,64 +3,476 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matheus Augusto — Projetos</title>
+  <title>Matheus Augusto — Projetos open-source</title>
+  <meta name="description" content="Cinco ferramentas de segurança e infraestrutura escritas em Rust: OSINT, cofre de segredos, FinOps de Kubernetes, deploy de preview e sync offline-first.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;400;500;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#0a0e14; --card:#121821; --line:#1f2a37; --txt:#e6edf3; --mut:#9aa7b4; --acc:#4ea1ff; }
-    * { box-sizing: border-box; }
-    body { margin:0; background:var(--bg); color:var(--txt); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 56px 20px 80px; }
-    h1 { font-size: 1.9rem; margin: 0 0 6px; }
-    .sub { color: var(--mut); margin: 0 0 36px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; transition: transform .15s ease, border-color .15s ease; }
-    .card:hover { transform: translateY(-3px); border-color: var(--acc); }
-    .card h2 { margin: 0 0 8px; font-size: 1.15rem; }
-    .card p { margin: 0 0 14px; color: var(--mut); line-height: 1.5; font-size: .92rem; }
-    .tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
-    .tag { font-size:.72rem; color:var(--acc); border:1px solid var(--line); border-radius:999px; padding:3px 10px; }
-    .card a { color:var(--txt); text-decoration:none; border:1px solid var(--acc); border-radius:8px; padding:8px 14px; display:inline-block; font-size:.85rem; }
-    .card a:hover { background:var(--acc); color:var(--bg); }
-    .foot { margin-top:40px; display:flex; gap:18px; flex-wrap:wrap; }
-    .foot a { color:var(--acc); text-decoration:none; }
-    .back { color:var(--mut); text-decoration:none; display:inline-block; margin-bottom:24px; }
+    :root{
+      --bg:#07090a;
+      --ink:#e4e9e4;
+      --mut:#78857d;
+      --line:rgba(120,133,125,.16);
+      --phos:#6ef7a7;
+      --phos-soft:rgba(110,247,167,.10);
+      --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      --serif:'Instrument Serif',Georgia,serif;
+    }
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:var(--mono);
+      font-weight:400;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+
+    /* atmosfera: bloom de fósforo + scanlines + grão */
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(60rem 34rem at 12% -8%, rgba(110,247,167,.09), transparent 62%),
+        radial-gradient(40rem 26rem at 92% 4%, rgba(110,247,167,.045), transparent 66%);
+      pointer-events:none;
+      z-index:0;
+    }
+    body::after{
+      content:'';
+      position:fixed;
+      inset:0;
+      background-image:
+        repeating-linear-gradient(to bottom, rgba(255,255,255,.018) 0 1px, transparent 1px 3px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;
+      opacity:.5;
+      pointer-events:none;
+      z-index:99;
+    }
+
+    .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:36px 28px 96px}
+
+    .back{
+      display:inline-block;
+      font-size:.72rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--mut);
+      text-decoration:none;
+      padding:6px 0;
+      transition:color .25s ease;
+    }
+    .back:hover{color:var(--phos)}
+
+    /* ---------- masthead ---------- */
+    header{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+    .eyebrow{
+      font-size:.68rem;
+      font-weight:500;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      color:var(--phos);
+      margin:0 0 26px;
+      opacity:0;
+      animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;
+    }
+    h1{
+      font-family:var(--serif);
+      font-weight:400;
+      font-size:clamp(2.9rem,8vw,5.6rem);
+      line-height:.98;
+      letter-spacing:-.015em;
+      margin:0 0 24px;
+      max-width:16ch;
+      opacity:0;
+      animation:rise .8s cubic-bezier(.2,.7,.3,1) .07s forwards;
+    }
+    h1 em{font-style:italic;color:var(--phos)}
+    .caret{
+      display:inline-block;
+      width:.42em;height:.86em;
+      background:var(--phos);
+      margin-left:.12em;
+      vertical-align:-.06em;
+      animation:blink 1.15s steps(1) infinite;
+    }
+    .deck{
+      max-width:62ch;
+      color:var(--mut);
+      font-size:.92rem;
+      font-weight:200;
+      line-height:1.75;
+      margin:0;
+      opacity:0;
+      animation:rise .8s cubic-bezier(.2,.7,.3,1) .14s forwards;
+    }
+    .deck strong{color:var(--ink);font-weight:400}
+
+    /* ---------- barra de status ---------- */
+    .status{
+      display:flex;
+      flex-wrap:wrap;
+      gap:0;
+      margin-top:44px;
+      border:1px solid var(--line);
+      opacity:0;
+      animation:rise .8s cubic-bezier(.2,.7,.3,1) .2s forwards;
+    }
+    .stat{
+      flex:1 1 auto;
+      min-width:132px;
+      padding:14px 18px;
+      border-right:1px solid var(--line);
+    }
+    .stat:last-child{border-right:0}
+    .stat b{
+      display:block;
+      font-size:1.32rem;
+      font-weight:700;
+      color:var(--phos);
+      font-variant-numeric:tabular-nums;
+      line-height:1.2;
+    }
+    .stat span{
+      display:block;
+      font-size:.63rem;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      color:var(--mut);
+      margin-top:5px;
+    }
+
+    /* ---------- registro de projetos ---------- */
+    .ledger{margin-top:8px}
+    .entry{
+      position:relative;
+      display:grid;
+      grid-template-columns:78px minmax(0,1fr) 210px;
+      gap:32px;
+      align-items:start;
+      padding:38px 22px 38px 14px;
+      border-bottom:1px solid var(--line);
+      text-decoration:none;
+      color:inherit;
+      opacity:0;
+      animation:rise .75s cubic-bezier(.2,.7,.3,1) forwards;
+      transition:background .3s ease;
+    }
+    .entry::before{
+      content:'';
+      position:absolute;
+      left:0;top:0;bottom:0;
+      width:2px;
+      background:var(--phos);
+      transform:scaleY(0);
+      transform-origin:top;
+      transition:transform .38s cubic-bezier(.2,.7,.3,1);
+    }
+    .entry:hover{background:linear-gradient(90deg,var(--phos-soft),transparent 72%)}
+    .entry:hover::before{transform:scaleY(1)}
+    .entry:focus-visible{outline:1px solid var(--phos);outline-offset:-1px}
+
+    .idx{
+      font-family:var(--serif);
+      font-style:italic;
+      font-size:2.5rem;
+      line-height:1;
+      color:var(--mut);
+      opacity:.5;
+      transition:color .3s ease,opacity .3s ease;
+      font-variant-numeric:tabular-nums;
+    }
+    .entry:hover .idx{color:var(--phos);opacity:1}
+
+    .name{
+      display:flex;
+      align-items:baseline;
+      flex-wrap:wrap;
+      gap:12px;
+      margin:0 0 10px;
+    }
+    .name h2{
+      font-size:1.42rem;
+      font-weight:700;
+      letter-spacing:-.02em;
+      margin:0;
+      transition:color .3s ease;
+    }
+    .entry:hover .name h2{color:var(--phos)}
+    .slug{
+      font-size:.7rem;
+      font-weight:200;
+      letter-spacing:.06em;
+      color:var(--mut);
+    }
+    .thesis{
+      margin:0 0 16px;
+      max-width:54ch;
+      font-size:.87rem;
+      font-weight:200;
+      line-height:1.72;
+      color:var(--mut);
+    }
+    .thesis b{color:var(--ink);font-weight:400}
+    .tags{display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0;list-style:none}
+    .tags li{
+      font-size:.63rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--mut);
+      border:1px solid var(--line);
+      padding:4px 10px;
+    }
+
+    /* readout de telemetria */
+    .readout{display:flex;flex-direction:column;gap:11px}
+    .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+    .row dt{
+      font-size:.6rem;
+      letter-spacing:.19em;
+      text-transform:uppercase;
+      color:var(--mut);
+    }
+    .row dd{
+      margin:0;
+      font-size:.8rem;
+      font-weight:500;
+      font-variant-numeric:tabular-nums;
+      color:var(--ink);
+    }
+    .meter{
+      height:2px;
+      background:var(--line);
+      position:relative;
+      overflow:hidden;
+    }
+    .meter i{
+      position:absolute;
+      inset:0 auto 0 0;
+      width:var(--pct);
+      background:var(--phos);
+      opacity:.65;
+      transform:scaleX(0);
+      transform-origin:left;
+      animation:fill 1s cubic-bezier(.2,.7,.3,1) .5s forwards;
+    }
+    .scale{
+      font-size:.56rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--mut);
+      opacity:.65;
+      margin-top:-4px;
+    }
+    .go{
+      margin-top:4px;
+      font-size:.68rem;
+      letter-spacing:.19em;
+      text-transform:uppercase;
+      color:var(--mut);
+      transition:color .3s ease;
+    }
+    .entry:hover .go{color:var(--phos)}
+    .go::after{content:' \2192';transition:margin .3s ease}
+    .entry:hover .go::after{margin-left:5px}
+
+    /* ---------- rodapé ---------- */
+    footer{
+      margin-top:56px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:26px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .links{display:flex;flex-wrap:wrap;gap:24px}
+    .links a{
+      font-size:.72rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--mut);
+      text-decoration:none;
+      padding-bottom:3px;
+      border-bottom:1px solid transparent;
+      transition:color .25s ease,border-color .25s ease;
+    }
+    .links a:hover{color:var(--phos);border-bottom-color:var(--phos)}
+    .sig{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);opacity:.6}
+
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+    @keyframes fill{to{transform:scaleX(1)}}
+
+    @media (max-width:760px){
+      .wrap{padding:28px 20px 72px}
+      header{padding:48px 0 32px}
+      .entry{grid-template-columns:46px minmax(0,1fr);gap:18px;padding:30px 12px 30px 14px}
+      .idx{font-size:1.75rem}
+      .readout{grid-column:1 / -1;margin-top:6px}
+      .stat{min-width:118px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *{animation:none !important;transition:none !important}
+      .eyebrow,h1,.deck,.status,.entry{opacity:1}
+      .meter i{transform:scaleX(1)}
+      .entry::before{display:none}
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <a class="back" href="../SOBRE_MIM/resumo.html">&larr; Voltar</a>
-    <h1>Projetos open-source</h1>
-    <p class="sub">Ferramentas em Rust — leves, com testes e CI. Código em <a style="color:var(--acc)" href="https://github.com/masterazul" target="_blank" rel="noopener">github.com/masterazul</a>.</p>
-    <div class="grid">
-      <div class="card">
-        <h2>Spectra</h2>
-        <p>CLI de OSINT de registros públicos brasileiros: 19 fontes livres e legais, com verificação de disponibilidade por fonte.</p>
-        <div class="tags"><span class="tag">Rust</span><span class="tag">OSINT</span><span class="tag">CLI</span></div>
-        <a href="https://github.com/masterazul/Spectra" target="_blank" rel="noopener">Ver no GitHub</a>
+
+    <header>
+      <p class="eyebrow">Matheus Augusto · Engenharia de automação de segurança</p>
+      <h1>Cinco ferramentas em <em>Rust</em>.<span class="caret" aria-hidden="true"></span></h1>
+      <p class="deck">
+        Escritas do zero para resolver problemas que encontrei operando SOC e infraestrutura:
+        coleta de OSINT, custódia de segredos, custo de Kubernetes, ambientes de preview e
+        sincronização offline. <strong>Binários estáticos abaixo de 1 MB</strong>, suíte de testes
+        em cada projeto e CI rodando <strong>clippy em modo estrito</strong>. Licença MIT — o código
+        está aberto para leitura.
+      </p>
+
+      <div class="status">
+        <div class="stat"><b>05</b><span>Projetos</span></div>
+        <div class="stat"><b>39</b><span>Testes verdes</span></div>
+        <div class="stat"><b>0</b><span>Warnings clippy</span></div>
+        <div class="stat"><b>2021</b><span>Edição Rust</span></div>
+        <div class="stat"><b>MIT</b><span>Licença</span></div>
       </div>
-      <div class="card">
-        <h2>keyrot</h2>
-        <p>Cofre de segredos com envelope encryption (Argon2id + AES-256-GCM), versionamento, rotação e log de auditoria encadeado por hash (à prova de adulteração).</p>
-        <div class="tags"><span class="tag">Rust</span><span class="tag">Criptografia</span><span class="tag">CLI</span></div>
-        <a href="https://github.com/masterazul/keyrot" target="_blank" rel="noopener">Ver no GitHub</a>
-      </div>
-      <div class="card">
-        <h2>kostwatch</h2>
-        <p>Otimizador de custos de Kubernetes: rightsizing a partir de requests versus uso real, com cliente Prometheus e relatório de economia.</p>
-        <div class="tags"><span class="tag">Rust</span><span class="tag">Kubernetes</span><span class="tag">Prometheus</span></div>
-        <a href="https://github.com/masterazul/kostwatch" target="_blank" rel="noopener">Ver no GitHub</a>
-      </div>
-      <div class="card">
-        <h2>deploybox</h2>
-        <p>Deploy de preview em um comando: build do repositório em container (orquestração Docker) e reverse proxy por subdomínio.</p>
-        <div class="tags"><span class="tag">Rust</span><span class="tag">Docker</span><span class="tag">DevOps</span></div>
-        <a href="https://github.com/masterazul/deploybox" target="_blank" rel="noopener">Ver no GitHub</a>
-      </div>
-    </div>
-    <div class="foot">
-      <a href="https://github.com/masterazul" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="../contatos/index.html">Contato</a>
-    </div>
+    </header>
+
+    <main class="ledger">
+
+      <a class="entry" style="animation-delay:.26s" href="https://github.com/masterazul/Spectra" target="_blank" rel="noopener">
+        <div class="idx">01</div>
+        <div>
+          <div class="name"><h2>spectra</h2><span class="slug">masterazul/Spectra</span></div>
+          <p class="thesis">
+            CLI de OSINT sobre registros públicos brasileiros. <b>18 fontes livres e legais</b>
+            atrás de uma única interface, com envelope JSON idêntico para todas e um comando
+            <b>verify</b> que checa a saúde de cada fonte antes da coleta.
+          </p>
+          <ul class="tags"><li>Rust</li><li>OSINT</li><li>CLI</li><li>Threat Intel</li></ul>
+        </div>
+        <dl class="readout">
+          <div class="row"><dt>Fontes</dt><dd>18</dd></div>
+          <div class="row"><dt>Comandos</dt><dd>11</dd></div>
+          <div class="row"><dt>Testes</dt><dd>10</dd></div>
+          <div class="row"><dt>Binário</dt><dd>707 KB</dd></div>
+          <div class="meter"><i style="--pct:69%"></i></div>
+          <div class="scale">escala 1 MB</div>
+          <div class="go">Ver no GitHub</div>
+        </dl>
+      </a>
+
+      <a class="entry" style="animation-delay:.32s" href="https://github.com/masterazul/keyrot" target="_blank" rel="noopener">
+        <div class="idx">02</div>
+        <div>
+          <div class="name"><h2>keyrot</h2><span class="slug">masterazul/keyrot</span></div>
+          <p class="thesis">
+            Cofre de segredos com <b>envelope encryption</b> (Argon2id derivando a chave que
+            protege uma DEK AES-256-GCM). Versionamento, rotação e log de auditoria encadeado
+            por SHA-256 que <b>denuncia adulteração</b> no histórico. Cada segredo é amarrado
+            criptograficamente ao seu nome e versão.
+          </p>
+          <ul class="tags"><li>Rust</li><li>Criptografia</li><li>AEAD</li><li>Auditoria</li></ul>
+        </div>
+        <dl class="readout">
+          <div class="row"><dt>Cifra</dt><dd>AES-256-GCM</dd></div>
+          <div class="row"><dt>KDF</dt><dd>Argon2id</dd></div>
+          <div class="row"><dt>Testes</dt><dd>6</dd></div>
+          <div class="row"><dt>Binário</dt><dd>423 KB</dd></div>
+          <div class="meter"><i style="--pct:41%"></i></div>
+          <div class="scale">escala 1 MB</div>
+          <div class="go">Ver no GitHub</div>
+        </dl>
+      </a>
+
+      <a class="entry" style="animation-delay:.38s" href="https://github.com/masterazul/kostwatch" target="_blank" rel="noopener">
+        <div class="idx">03</div>
+        <div>
+          <div class="name"><h2>kostwatch</h2><span class="slug">masterazul/kostwatch</span></div>
+          <p class="thesis">
+            FinOps para Kubernetes: compara o que os workloads <b>pedem</b> com o que de fato
+            <b>usam</b>, precifica a diferença e ordena os achados pela economia possível.
+            Lê de um snapshot local ou direto do Prometheus.
+          </p>
+          <ul class="tags"><li>Rust</li><li>Kubernetes</li><li>Prometheus</li><li>FinOps</li></ul>
+        </div>
+        <dl class="readout">
+          <div class="row"><dt>Entrada</dt><dd>Prom / JSON</dd></div>
+          <div class="row"><dt>Saída</dt><dd>Tabela / JSON</dd></div>
+          <div class="row"><dt>Testes</dt><dd>8</dd></div>
+          <div class="row"><dt>Binário</dt><dd>693 KB</dd></div>
+          <div class="meter"><i style="--pct:68%"></i></div>
+          <div class="scale">escala 1 MB</div>
+          <div class="go">Ver no GitHub</div>
+        </dl>
+      </a>
+
+      <a class="entry" style="animation-delay:.44s" href="https://github.com/masterazul/deploybox" target="_blank" rel="noopener">
+        <div class="idx">04</div>
+        <div>
+          <div class="name"><h2>deploybox</h2><span class="slug">masterazul/deploybox</span></div>
+          <p class="thesis">
+            Ambientes de preview em um comando: constrói o Dockerfile do repositório, sobe o
+            container numa porta livre e serve tudo sob <b>&lt;nome&gt;.localhost</b> através de um
+            reverse proxy próprio, escrito só com a biblioteca padrão.
+          </p>
+          <ul class="tags"><li>Rust</li><li>Docker</li><li>Reverse proxy</li><li>DevOps</li></ul>
+        </div>
+        <dl class="readout">
+          <div class="row"><dt>Runtime</dt><dd>Docker CLI</dd></div>
+          <div class="row"><dt>Proxy</dt><dd>std::net</dd></div>
+          <div class="row"><dt>Testes</dt><dd>8</dd></div>
+          <div class="row"><dt>Binário</dt><dd>411 KB</dd></div>
+          <div class="meter"><i style="--pct:40%"></i></div>
+          <div class="scale">escala 1 MB</div>
+          <div class="go">Ver no GitHub</div>
+        </dl>
+      </a>
+
+      <a class="entry" style="animation-delay:.50s" href="https://github.com/masterazul/habitsync" target="_blank" rel="noopener">
+        <div class="idx">05</div>
+        <div>
+          <div class="name"><h2>habitsync</h2><span class="slug">masterazul/habitsync</span></div>
+          <p class="thesis">
+            Backend <b>offline-first</b>: o cliente trabalha sem rede e reconcilia num único
+            endpoint de delta sync (last-write-wins com cursor monotônico). O servidor ainda
+            calcula as sequências de hábitos. Sem banco de dados para operar.
+          </p>
+          <ul class="tags"><li>Rust</li><li>HTTP</li><li>Delta sync</li><li>Offline-first</li></ul>
+        </div>
+        <dl class="readout">
+          <div class="row"><dt>Protocolo</dt><dd>HTTP / JSON</dd></div>
+          <div class="row"><dt>Estado</dt><dd>Arquivo atômico</dd></div>
+          <div class="row"><dt>Testes</dt><dd>7</dd></div>
+          <div class="row"><dt>Binário</dt><dd>495 KB</dd></div>
+          <div class="meter"><i style="--pct:48%"></i></div>
+          <div class="scale">escala 1 MB</div>
+          <div class="go">Ver no GitHub</div>
+        </dl>
+      </a>
+
+    </main>
+
+    <footer>
+      <nav class="links">
+        <a href="https://github.com/masterazul" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="../contatos/index.html">Contato</a>
+        <a href="../SOBRE_MIM/resumo.html">Currículo</a>
+      </nav>
+      <p class="sig">Rust 2021 · MIT</p>
+    </footer>
   </div>
 </body>
 </html>
