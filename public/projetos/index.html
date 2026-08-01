@@ -393,7 +393,7 @@ proxy on http://127.0.0.1:8080 routing 2 preview(s)
 
     <div class="nav">
       <button id="ant" type="button" disabled>&larr; Anterior</button>
-      <span class="conta" id="conta">Capa</span>
+      <span class="conta" id="conta" role="status" aria-live="polite">Capa</span>
       <button id="prox" type="button">Próxima &rarr;</button>
     </div>
 
@@ -412,20 +412,29 @@ proxy on http://127.0.0.1:8080 routing 2 preview(s)
       const ant = document.getElementById('ant');
       const prox = document.getElementById('prox');
       const conta = document.getElementById('conta');
-      const rotulos = ['Capa', 'spectra', 'kostwatch', 'habitsync', 'Fim'];
+      const rotulos = ['Capa', 'Introdução · spectra', 'keyrot · kostwatch', 'deploybox · habitsync', 'Fim'];
       const total = folhas.length;
       let atual = 0;
 
       const pintar = () => {
+        const estavaNumaFolha = folhas.some((f) => f.contains(document.activeElement));
         folhas.forEach((f, i) => {
           const virada = i < atual;
           f.classList.toggle('virada', virada);
           f.style.zIndex = virada ? i : total - i;
+          // a pagina da esquerda e o verso da folha anterior; a da direita, a frente da atual
+          const [frente, verso] = f.querySelectorAll('.face');
+          frente.inert = i !== atual;
+          verso.inert = i !== atual - 1;
         });
         livro.classList.toggle('aberto', atual > 0);
         ant.disabled = atual === 0;
         prox.disabled = atual === total;
         conta.textContent = rotulos[atual] || 'Fim';
+        // virar a pagina sob o foco o descartaria no body
+        if (estavaNumaFolha && !folhas.some((f) => f.contains(document.activeElement))) {
+          (prox.disabled ? ant : prox).focus();
+        }
       };
 
       const virar = (n) => {
