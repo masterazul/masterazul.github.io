@@ -3,8 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qualificações</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Matheus Augusto — Qualificações</title>
+    <meta name="description" content="Ferramentas, frameworks, certificações e formação de Matheus Augusto, engenheiro de automação de segurança.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;400;500;700&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#07090a; --ink:#e4e9e4; --mut:#78857d;
+        --line:rgba(120,133,125,.16); --phos:#6ef7a7; --phos-soft:rgba(110,247,167,.09);
+        --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        --serif:'Instrument Serif',Georgia,serif;
+      }
+      *{box-sizing:border-box}
+      body{
+        margin:0;background:var(--bg);color:var(--ink);
+        font-family:var(--mono);line-height:1.6;-webkit-font-smoothing:antialiased;
+        padding:44px 20px 110px;overflow-x:hidden;
+        transition:opacity .9s ease, transform .9s ease;
+      }
+      body.wipe-out{opacity:0;transform:scale(.97)}
+
+      body::before{
+        content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+        background:radial-gradient(56rem 32rem at 50% -10%, rgba(110,247,167,.075), transparent 62%);
+      }
+      body::after{
+        content:'';position:fixed;inset:0;pointer-events:none;z-index:99;
+        background-image:
+          repeating-linear-gradient(to bottom, rgba(255,255,255,.018) 0 1px, transparent 1px 3px),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
+        mix-blend-mode:overlay;opacity:.45;
+      }
+
+      .terminal{
+        position:relative;z-index:1;max-width:960px;margin:0 auto;
+        border:1px solid var(--line);background:rgba(11,15,17,.6);
+        opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) forwards;
+      }
+      .terminal-header{
+        display:flex;align-items:center;gap:14px;
+        padding:12px 16px;border-bottom:1px solid var(--line);
+      }
+      .terminal-buttons{display:flex;gap:7px}
+      .terminal-button{width:9px;height:9px;border-radius:50%;display:block;opacity:.55}
+      .terminal-button.red{background:#e05561}
+      .terminal-button.yellow{background:#d5a04a}
+      .terminal-button.green{background:var(--phos)}
+      .terminal-title{
+        font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);
+      }
+      .terminal-body{padding:40px 34px 46px}
+
+      h1{
+        font-family:var(--serif);font-weight:400;
+        font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.05;letter-spacing:-.015em;
+        margin:0 0 14px;
+      }
+      h1 em{font-style:italic;color:var(--phos)}
+      .lede{
+        margin:0 0 34px;max-width:60ch;color:var(--mut);
+        font-size:.88rem;font-weight:200;line-height:1.78;
+      }
+
+      .prova{display:flex;flex-wrap:wrap;border:1px solid var(--line);margin-bottom:44px}
+      .prova div{flex:1 1 auto;min-width:136px;padding:14px 18px;border-right:1px solid var(--line)}
+      .prova div:last-child{border-right:0}
+      .prova b{display:block;font-size:1.24rem;font-weight:700;color:var(--phos);font-variant-numeric:tabular-nums}
+      .prova span{display:block;font-size:.6rem;letter-spacing:.19em;text-transform:uppercase;color:var(--mut);margin-top:5px}
+
+      h2{
+        margin:0 0 16px;font-size:.68rem;font-weight:700;
+        letter-spacing:.24em;text-transform:uppercase;color:var(--phos);
+      }
+      section{padding:26px 0;border-top:1px solid var(--line)}
+      section:first-of-type{border-top:0;padding-top:0}
+
+      .linha{display:grid;grid-template-columns:190px minmax(0,1fr);gap:20px;padding:9px 0}
+      .linha dt{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+      .linha dd{margin:0;font-size:.84rem;font-weight:200;line-height:1.7;color:var(--ink)}
+      dl{margin:0}
+
+      ul{margin:0;padding:0;list-style:none}
+      li{
+        position:relative;padding:8px 0 8px 20px;
+        font-size:.84rem;font-weight:200;line-height:1.7;color:var(--mut);
+      }
+      li::before{content:'';position:absolute;left:0;top:17px;width:7px;height:1px;background:var(--phos)}
+      li strong{color:var(--ink);font-weight:400}
+
+      .floating-button{
+        position:fixed;left:50%;transform:translateX(-50%);bottom:24px;z-index:60;
+        font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+        color:var(--mut);text-decoration:none;
+        background:rgba(7,9,10,.85);border:1px solid var(--line);padding:11px 24px;
+        transition:color .3s ease,border-color .3s ease;
+      }
+      .floating-button:hover{color:var(--phos);border-color:var(--phos)}
+
+      @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+      @media (max-width:700px){
+        .terminal-body{padding:30px 20px 36px}
+        .linha{grid-template-columns:1fr;gap:4px}
+        .prova div{min-width:118px}
+      }
+      @media (prefers-reduced-motion:reduce){
+        *{animation:none !important;transition:none !important}
+        .terminal{opacity:1}
+      }
+    </style>
 </head>
 <body>
     <div class="terminal">
@@ -14,108 +122,75 @@
                 <span class="terminal-button yellow"></span>
                 <span class="terminal-button green"></span>
             </div>
-            <span class="terminal-title">Terminal</span>
+            <span class="terminal-title">matheus@seguranca — qualificações</span>
         </div>
         <div class="terminal-body">
-            <h1>Resumo:</h1>
+            <h1>O que eu <em>sei fazer</em>, e onde dá pra conferir.</h1>
+            <p class="lede">
+                Preferi listar ferramenta que opero de verdade e número que dá pra checar, em vez de
+                barra de porcentagem. Se algo aqui interessar, o código está aberto e o currículo
+                detalha o contexto.
+            </p>
 
-            <h2>Habilidades Específicas</h2>
-            <p>Hardenização de mais de 200 servidores+</p>
-            <p>Compliance com as normas CIS, principalmente.</p>
-            <p>Utilização de Framework NIST.</p>
-            <p>Uso do CISCAT, grafana e outros!</p>
-
-            <h2>Certificações</h2>
-            <ul>
-                <li>CECYBER, Capacitado como Blue Team</li>
-                <li>Instituto Brasileiro de Segurança como Analista de Cybersegurança</li>
-                <li>Análise de Vulnerabilidades avaliada pela Tenable/Nessus</li>
-            </ul>
-
-            <h2>Hard Skills</h2>
-            <div class="charts-row">
-                <div class="chart-wrapper">
-                    <h3>SIEM</h3>
-                    <div class="chart-container">
-                        <canvas id="siemChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <h3>Análise de Vulnerabilidades</h3>
-                    <div class="chart-container">
-                        <canvas id="toolsChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <h3>Cloud</h3>
-                    <div class="chart-container">
-                        <canvas id="officeChart"></canvas>
-                    </div>
-                </div>
+            <div class="prova">
+                <div><b>3 anos</b><span>Em segurança</span></div>
+                <div><b>200+</b><span>Servidores endurecidos</span></div>
+                <div><b>40+</b><span>Clientes na operação</span></div>
+                <div><b>10 mil+</b><span>Alertas correlacionados</span></div>
+                <div><b>-50%</b><span>Tempo de triagem</span></div>
             </div>
 
-            <h2>Basic Skills</h2>
-            <div class="charts-row">
-                <div class="chart-wrapper">
-                    <h3>FrameWorks</h3>
-                    <div class="chart-container">
-                        <canvas id="evolutionChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <h3>Configuração de Servidores</h3>
-                    <div class="chart-container">
-                        <canvas id="example1Chart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <h3>Pacote Office</h3>
-                    <div class="chart-container">
-                        <canvas id="example2Chart"></canvas>
-                    </div>
-                </div>
-            </div>
+            <section>
+                <h2>Detecção e resposta</h2>
+                <dl>
+                    <div class="linha"><dt>SIEM</dt><dd>IBM QRadar — consulta em AQL, criação e tuning de regra, investigação de ofensa, corte de falso positivo. Também LogRhythm.</dd></div>
+                    <div class="linha"><dt>EDR e XDR</dt><dd>Trend Vision One, com resposta a incidente e contenção.</dd></div>
+                    <div class="linha"><dt>Metodologia</dt><dd>MITRE ATT&amp;CK para mapear TTP, Diamond Model na análise de intrusão.</dd></div>
+                </dl>
+            </section>
 
-            <h2>Outras leituras</h2>
-            <div class="charts-row">
-                <div class="chart-wrapper">
-                    <h3>Firewalls</h3>
-                    <div class="chart-container">
-                        <canvas id="solarFlareChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <h3>Programação</h3>
-                    <div class="chart-container">
-                        <canvas id="radarChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <h3>Personalidade</h3>
-                    <div class="chart-container">
-                        <canvas id="stackedBarChart"></canvas>
-                    </div>
-                </div>
-            </div>
+            <section>
+                <h2>Automação e DevSecOps</h2>
+                <dl>
+                    <div class="linha"><dt>Linguagens</dt><dd>Rust e Python. O SOAR interno da operação foi escrito por mim em Rust, com API, fila e PostgreSQL.</dd></div>
+                    <div class="linha"><dt>Pipeline</dt><dd>SAST, DAST, SCA e segurança de IaC dentro do CI/CD, com Policy as Code.</dd></div>
+                    <div class="linha"><dt>Infra</dt><dd>Docker, Kubernetes e Terraform. Hardening de container e gestão de segredo.</dd></div>
+                </dl>
+            </section>
 
-            <h2>Pontos Positivos</h2>
-            <ul>
-                <li>Especialista em Cyber Threat Intelligence com experiência em monitoramento de Deep e Dark Web</li>
-                <li>Expertise em DevSecOps e automação de pipelines CI/CD</li>
-                <li>Desenvolvimento de sistemas de IA para triagem preditiva de alertas de segurança</li>
-                <li>Experiência em GRC e Compliance com ISO 27001</li>
-                <li>Hardening de mais de 200 servidores e bancos de dados</li>
-                <li>Certificações: Tenable Cloud Security Administration, Nessus Engineer, Analista de Cybersegurança</li>
-                <li>Background sólido em SOC, análise de vulnerabilidades e gestão de riscos</li>
-                <li>Proativo, criativo, responsável e adaptável</li>
-            </ul>
+            <section>
+                <h2>Threat Intelligence</h2>
+                <dl>
+                    <div class="linha"><dt>Investigação</dt><dd>OSINT em deep e dark web, fórum e Telegram. Análise de vazamento e de fraude.</dd></div>
+                    <div class="linha"><dt>Produto</dt><dd>Relatório de modus operandi, linha do tempo de incidente e IoCs estruturados para consumo do SOC.</dd></div>
+                </dl>
+            </section>
+
+            <section>
+                <h2>Governança e vulnerabilidades</h2>
+                <dl>
+                    <div class="linha"><dt>Normas</dt><dd>ISO/IEC 27001, NIST CSF, PCI DSS, LGPD e CIS Benchmark.</dd></div>
+                    <div class="linha"><dt>Ferramentas</dt><dd>Tenable.io e Tenable.sc, Nessus, CIS-CAT e Grafana para indicador de risco.</dd></div>
+                    <div class="linha"><dt>Prática</dt><dd>Gestão de vulnerabilidade e de patch, hardening de servidor e de banco em ambiente crítico.</dd></div>
+                </dl>
+            </section>
+
+            <section>
+                <h2>Certificações e formação</h2>
+                <ul>
+                    <li><strong>Tenable Cloud Security Administration (TSCA)</strong> — Tenable</li>
+                    <li><strong>Nessus Engineer</strong> — Tenable</li>
+                    <li><strong>From IT To Cyber</strong> — Cecyber</li>
+                    <li><strong>Analista de Cibersegurança</strong> — IBSEC</li>
+                    <li><strong>Tecnólogo em Defesa Cibernética e Gestão de Segurança</strong> — Centro Universitário UniDomBosco, concluído em 2024</li>
+                    <li><strong>Idiomas</strong> — português nativo, inglês intermediário (B2)</li>
+                </ul>
+            </section>
         </div>
     </div>
 
     <a href="../SOBRE_MIM/resumo.html" class="floating-button return-button">Voltar</a>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../../src/graphquali.js"></script>
     <script src="../../src/redirecionamento_button_flip.js"></script>
 </body>
 </html>
