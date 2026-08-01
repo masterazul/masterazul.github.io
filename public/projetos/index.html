@@ -4,395 +4,194 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matheus Augusto — Projetos open-source</title>
-  <meta name="description" content="Cinco ferramentas de segurança e infraestrutura escritas em Rust: OSINT, cofre de segredos, FinOps de Kubernetes, deploy de preview e sync offline-first.">
+  <meta name="description" content="Cinco ferramentas de segurança e infraestrutura escritas em Rust, apresentadas como um caderno: cada página traz a ideia, o desafio real de engenharia e a saída de verdade.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;400;500;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#07090a;
-      --ink:#e4e9e4;
-      --mut:#78857d;
-      --line:rgba(120,133,125,.16);
-      --phos:#6ef7a7;
-      --phos-soft:rgba(110,247,167,.10);
+      --bg:#07090a; --ink:#e4e9e4; --mut:#78857d;
+      --line:rgba(120,133,125,.16); --phos:#6ef7a7; --phos-soft:rgba(110,247,167,.09);
+      --pg:#0b0f11; --pg2:#090d0f;
       --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
       --serif:'Instrument Serif',Georgia,serif;
     }
     *{box-sizing:border-box}
     html{-webkit-text-size-adjust:100%}
     body{
-      margin:0;
-      background:var(--bg);
-      color:var(--ink);
-      font-family:var(--mono);
-      font-weight:400;
-      line-height:1.6;
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
+      margin:0;background:var(--bg);color:var(--ink);
+      font-family:var(--mono);line-height:1.6;
+      -webkit-font-smoothing:antialiased;overflow-x:hidden;
     }
-
-    /* atmosfera: bloom de fósforo + scanlines + grão */
     body::before{
-      content:'';
-      position:fixed;
-      inset:0;
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       background:
-        radial-gradient(60rem 34rem at 12% -8%, rgba(110,247,167,.09), transparent 62%),
-        radial-gradient(40rem 26rem at 92% 4%, rgba(110,247,167,.045), transparent 66%);
-      pointer-events:none;
-      z-index:0;
+        radial-gradient(62rem 36rem at 50% -12%, rgba(110,247,167,.08), transparent 62%),
+        radial-gradient(40rem 26rem at 92% 96%, rgba(110,247,167,.04), transparent 68%);
     }
     body::after{
-      content:'';
-      position:fixed;
-      inset:0;
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:200;
       background-image:
-        repeating-linear-gradient(to bottom, rgba(255,255,255,.018) 0 1px, transparent 1px 3px),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
-      mix-blend-mode:overlay;
-      opacity:.5;
-      pointer-events:none;
-      z-index:99;
+        repeating-linear-gradient(to bottom, rgba(255,255,255,.015) 0 1px, transparent 1px 3px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;opacity:.42;
     }
 
-    .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:36px 28px 96px}
-
+    .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:30px 24px 70px}
     .back{
-      display:inline-block;
-      font-size:.72rem;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:var(--mut);
-      text-decoration:none;
-      padding:6px 0;
-      transition:color .25s ease;
+      display:inline-block;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--mut);text-decoration:none;padding:6px 0;transition:color .25s ease;
     }
     .back:hover{color:var(--phos)}
 
-    /* ---------- masthead ---------- */
-    header{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+    header{padding:38px 0 26px;text-align:center}
     .eyebrow{
-      font-size:.68rem;
-      font-weight:500;
-      letter-spacing:.34em;
-      text-transform:uppercase;
-      color:var(--phos);
-      margin:0 0 26px;
-      opacity:0;
-      animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;
+      margin:0 0 16px;font-size:.64rem;font-weight:500;letter-spacing:.34em;
+      text-transform:uppercase;color:var(--phos);
     }
     h1{
-      font-family:var(--serif);
-      font-weight:400;
-      font-size:clamp(2.9rem,8vw,5.6rem);
-      line-height:.98;
-      letter-spacing:-.015em;
-      margin:0 0 24px;
-      max-width:16ch;
-      opacity:0;
-      animation:rise .8s cubic-bezier(.2,.7,.3,1) .07s forwards;
+      font-family:var(--serif);font-weight:400;
+      font-size:clamp(2.2rem,5.4vw,3.6rem);line-height:1.02;letter-spacing:-.015em;margin:0 0 14px;
     }
     h1 em{font-style:italic;color:var(--phos)}
-    .caret{
-      display:inline-block;
-      width:.42em;height:.86em;
-      background:var(--phos);
-      margin-left:.12em;
-      vertical-align:-.06em;
-      animation:blink 1.15s steps(1) infinite;
-    }
     .deck{
-      max-width:62ch;
-      color:var(--mut);
-      font-size:.92rem;
-      font-weight:200;
-      line-height:1.75;
-      margin:0;
-      opacity:0;
-      animation:rise .8s cubic-bezier(.2,.7,.3,1) .14s forwards;
+      margin:0 auto;max-width:60ch;color:var(--mut);
+      font-size:.86rem;font-weight:200;line-height:1.75;
     }
     .deck strong{color:var(--ink);font-weight:400}
 
-    /* ---------- barra de status ---------- */
-    .status{
-      display:flex;
-      flex-wrap:wrap;
-      gap:0;
-      margin-top:44px;
+    /* ---------------- livro ---------------- */
+    .stage{
+      perspective:2600px;perspective-origin:50% 42%;
+      margin:38px auto 0;max-width:1000px;
+    }
+    .book{
+      position:relative;margin:0 auto;
+      width:100%;height:clamp(520px,74vh,650px);
+      transform-style:preserve-3d;
+      transition:transform .9s cubic-bezier(.2,.7,.25,1);
+    }
+    .book.aberto{transform:translateX(25%)}
+
+    .leaf{
+      position:absolute;top:0;right:0;
+      width:50%;height:100%;
+      transform-origin:left center;transform-style:preserve-3d;
+      transition:transform 1.15s cubic-bezier(.36,.02,.2,1);
+    }
+    .leaf.virada{transform:rotateY(-180deg)}
+
+    .face{
+      position:absolute;inset:0;
+      backface-visibility:hidden;-webkit-backface-visibility:hidden;
+      background:linear-gradient(105deg,var(--pg) 0%,var(--pg2) 100%);
       border:1px solid var(--line);
-      opacity:0;
-      animation:rise .8s cubic-bezier(.2,.7,.3,1) .2s forwards;
+      padding:34px 32px 46px;
+      overflow-y:auto;overflow-x:hidden;
+      display:flex;flex-direction:column;
     }
-    .stat{
-      flex:1 1 auto;
-      min-width:132px;
-      padding:14px 18px;
-      border-right:1px solid var(--line);
+    .face.verso{transform:rotateY(180deg);background:linear-gradient(255deg,var(--pg) 0%,var(--pg2) 100%)}
+    .face::before{
+      content:'';position:absolute;top:0;bottom:0;left:0;width:26px;
+      background:linear-gradient(90deg,rgba(0,0,0,.5),transparent);
+      pointer-events:none;
     }
-    .stat:last-child{border-right:0}
-    .stat b{
-      display:block;
-      font-size:1.32rem;
-      font-weight:700;
-      color:var(--phos);
-      font-variant-numeric:tabular-nums;
-      line-height:1.2;
-    }
-    .stat span{
-      display:block;
-      font-size:.63rem;
-      letter-spacing:.2em;
-      text-transform:uppercase;
-      color:var(--mut);
-      margin-top:5px;
-    }
+    .face.verso::before{left:auto;right:0;background:linear-gradient(270deg,rgba(0,0,0,.5),transparent)}
+    .face::-webkit-scrollbar{width:6px}
+    .face::-webkit-scrollbar-thumb{background:var(--line)}
 
-    /* ---------- registro de projetos ---------- */
-    .ledger{margin-top:8px}
-    .entry{
-      position:relative;
-      display:grid;
-      grid-template-columns:78px minmax(0,1fr) 210px;
-      gap:32px;
-      align-items:start;
-      padding:38px 22px 38px 14px;
-      border-bottom:1px solid var(--line);
-      text-decoration:none;
-      color:inherit;
-      opacity:0;
-      animation:rise .75s cubic-bezier(.2,.7,.3,1) forwards;
-      transition:background .3s ease;
+    .capa{justify-content:center;align-items:center;text-align:center;
+      background:linear-gradient(140deg,#0d1417 0%,#080b0d 60%);cursor:pointer}
+    .capa .marca{font-size:.6rem;letter-spacing:.36em;text-transform:uppercase;color:var(--phos);margin-bottom:26px}
+    .capa h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.05;margin:0 0 18px;max-width:14ch}
+    .capa h2 em{font-style:italic;color:var(--phos)}
+    .capa p{margin:0;max-width:30ch;font-size:.76rem;font-weight:200;line-height:1.75;color:var(--mut)}
+    .capa .abrir{
+      margin-top:34px;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+      color:var(--phos);border:1px solid var(--phos);padding:10px 22px;
+      transition:background .3s ease,color .3s ease;
     }
-    .entry::before{
-      content:'';
-      position:absolute;
-      left:0;top:0;bottom:0;
-      width:2px;
-      background:var(--phos);
-      transform:scaleY(0);
-      transform-origin:top;
-      transition:transform .38s cubic-bezier(.2,.7,.3,1);
-    }
-    .entry:hover{background:linear-gradient(90deg,var(--phos-soft),transparent 72%)}
-    .entry:hover::before{transform:scaleY(1)}
-    .entry:focus-visible{outline:1px solid var(--phos);outline-offset:-1px}
+    .capa:hover .abrir{background:var(--phos);color:var(--bg)}
 
-    .idx{
-      font-family:var(--serif);
-      font-style:italic;
-      font-size:2.5rem;
-      line-height:1;
-      color:var(--mut);
-      opacity:.5;
-      transition:color .3s ease,opacity .3s ease;
-      font-variant-numeric:tabular-nums;
+    .pnum{
+      position:absolute;bottom:16px;right:26px;
+      font-size:.58rem;letter-spacing:.2em;color:var(--mut);opacity:.55;
     }
-    .entry:hover .idx{color:var(--phos);opacity:1}
+    .face.verso .pnum{right:auto;left:26px}
+    .kicker{font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--phos);margin:0 0 12px}
+    .face h3{
+      font-family:var(--serif);font-weight:400;font-size:clamp(1.7rem,3.2vw,2.3rem);
+      line-height:1.05;margin:0 0 4px;
+    }
+    .slug{font-size:.64rem;font-weight:200;letter-spacing:.06em;color:var(--mut);margin:0 0 18px}
+    .face p.txt{margin:0 0 16px;font-size:.79rem;font-weight:200;line-height:1.78;color:var(--mut)}
+    .face p.txt b{color:var(--ink);font-weight:400}
+    .rot{
+      margin:4px 0 8px;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--phos);opacity:.85;
+    }
+    .desafio{border-left:2px solid var(--phos);padding:2px 0 2px 15px;margin:0 0 18px}
+    .desafio p{margin:0;font-size:.76rem;font-weight:200;line-height:1.78;color:var(--mut)}
+    .desafio p b{color:var(--ink);font-weight:400}
 
-    .name{
-      display:flex;
-      align-items:baseline;
-      flex-wrap:wrap;
-      gap:12px;
-      margin:0 0 10px;
-    }
-    .name h2{
-      font-size:1.42rem;
-      font-weight:700;
-      letter-spacing:-.02em;
-      margin:0;
-      transition:color .3s ease;
-    }
-    .entry:hover .name h2{color:var(--phos)}
-    .slug{
-      font-size:.7rem;
-      font-weight:200;
-      letter-spacing:.06em;
-      color:var(--mut);
-    }
-    .thesis{
-      margin:0 0 16px;
-      max-width:54ch;
-      font-size:.87rem;
-      font-weight:200;
-      line-height:1.72;
-      color:var(--mut);
-    }
-    .thesis b{color:var(--ink);font-weight:400}
-    .tags{display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0;list-style:none}
-    .tags li{
-      font-size:.63rem;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:var(--mut);
-      border:1px solid var(--line);
-      padding:4px 10px;
-    }
+    .tel{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);margin:0 0 16px}
+    .tel div{flex:1 1 auto;min-width:74px;padding:9px 11px;border-right:1px solid var(--line)}
+    .tel div:last-child{border-right:0}
+    .tel b{display:block;font-size:.92rem;font-weight:700;color:var(--phos);font-variant-numeric:tabular-nums}
+    .tel span{display:block;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-top:3px}
 
+    pre.demo{
+      margin:0 0 16px;border:1px solid var(--line);background:rgba(5,7,8,.6);
+      padding:11px 13px;font-size:.64rem;line-height:1.72;color:var(--mut);
+      overflow-x:auto;white-space:pre;font-weight:200;
+    }
+    pre.demo b{color:var(--phos);font-weight:400}
+    pre.demo i{color:var(--ink);font-style:normal}
 
-    /* demonstracao com saida real */
-    .demo{
-      margin:16px 0 0;
-      border:1px solid var(--line);
-      background:rgba(7,9,10,.55);
-      padding:13px 15px;
-      font-size:.7rem;
-      line-height:1.75;
-      color:var(--mut);
-      overflow-x:auto;
-      white-space:pre;
-      font-weight:200;
+    .ir{
+      margin-top:auto;align-self:flex-start;
+      font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--mut);text-decoration:none;border:1px solid var(--line);padding:10px 18px;
+      transition:color .3s ease,border-color .3s ease,background .3s ease;
     }
-    .demo b{color:var(--phos);font-weight:400}
-    .demo i{color:var(--ink);font-style:normal}
-    .demo u{color:#d5a04a;text-decoration:none}
-    .demo-note{
-      margin:8px 0 0;
-      font-size:.63rem;
-      line-height:1.6;
-      color:var(--mut);
-      opacity:.72;
-      max-width:52ch;
-    }
+    .ir:hover{color:var(--phos);border-color:var(--phos);background:var(--phos-soft)}
 
-    /* readout de telemetria */
-    .readout{display:flex;flex-direction:column;gap:11px}
-    .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-    .row dt{
-      font-size:.6rem;
-      letter-spacing:.19em;
-      text-transform:uppercase;
-      color:var(--mut);
+    .wasm{border:1px solid var(--line);padding:14px 15px;margin:0 0 16px}
+    .wasm label{display:block;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--phos);margin-bottom:9px}
+    .wasm input{
+      width:100%;font-family:var(--mono);font-size:.8rem;color:var(--ink);
+      background:rgba(5,7,8,.7);border:1px solid var(--line);padding:9px 11px;
     }
-    .row dd{
-      margin:0;
-      font-size:.8rem;
-      font-weight:500;
-      font-variant-numeric:tabular-nums;
-      color:var(--ink);
-    }
-    .meter{
-      height:2px;
-      background:var(--line);
-      position:relative;
-      overflow:hidden;
-    }
-    .meter i{
-      position:absolute;
-      inset:0 auto 0 0;
-      width:var(--pct);
-      background:var(--phos);
-      opacity:.65;
-      transform:scaleX(0);
-      transform-origin:left;
-      animation:fill 1s cubic-bezier(.2,.7,.3,1) .5s forwards;
-    }
-    .scale{
-      font-size:.56rem;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:var(--mut);
-      opacity:.65;
-      margin-top:-4px;
-    }
-    .go{
-      margin-top:4px;
-      font-size:.68rem;
-      letter-spacing:.19em;
-      text-transform:uppercase;
-      color:var(--mut);
-      transition:color .3s ease;
-    }
-    .entry:hover .go{color:var(--phos)}
-    .go::after{content:' \2192';transition:margin .3s ease}
-    .entry:hover .go::after{margin-left:5px}
+    .wasm input:focus{outline:none;border-color:var(--phos)}
+    .wasm input::placeholder{color:var(--mut);opacity:.65}
+    .wasm output{display:block;margin-top:9px;font-size:.7rem;color:var(--mut)}
+    .wasm output[data-state="ok"]{color:var(--phos)}
+    .wasm output[data-state="bad"]{color:#e05561}
 
+    .nav{display:flex;align-items:center;justify-content:center;gap:16px;margin:26px auto 0}
+    .nav button{
+      font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--mut);background:transparent;border:1px solid var(--line);
+      padding:11px 20px;cursor:pointer;
+      transition:color .25s ease,border-color .25s ease,opacity .25s ease;
+    }
+    .nav button:hover:not(:disabled){color:var(--phos);border-color:var(--phos)}
+    .nav button:disabled{opacity:.3;cursor:default}
+    .nav .conta{font-size:.62rem;letter-spacing:.2em;color:var(--mut);min-width:100px;text-align:center}
 
-    /* ---------- validador ao vivo (wasm) ---------- */
-    .live{
-      margin-top:52px;
-      border:1px solid var(--line);
-      padding:30px 26px 28px;
-      opacity:0;
-      animation:rise .8s cubic-bezier(.2,.7,.3,1) .56s forwards;
-    }
-    .live h2{
-      margin:0 0 10px;
-      font-size:.7rem;font-weight:700;
-      letter-spacing:.24em;text-transform:uppercase;color:var(--phos);
-    }
-    .live p{
-      margin:0 0 22px;max-width:62ch;
-      font-size:.85rem;font-weight:200;line-height:1.75;color:var(--mut);
-    }
-    .live p strong{color:var(--ink);font-weight:400}
-    .live-row{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch}
-    .live input{
-      flex:1 1 260px;min-width:0;
-      font-family:var(--mono);font-size:.9rem;font-weight:400;
-      color:var(--ink);background:rgba(7,9,10,.6);
-      border:1px solid var(--line);border-radius:0;
-      padding:13px 16px;
-      transition:border-color .25s ease;
-    }
-    .live input:focus{outline:none;border-color:var(--phos)}
-    .live input::placeholder{color:var(--mut);opacity:.7}
-    .live output{
-      flex:1 1 240px;
-      display:flex;align-items:center;
-      font-size:.8rem;letter-spacing:.06em;
-      color:var(--mut);
-      border:1px solid transparent;
-      padding:13px 4px;
-    }
-    .live output[data-state="ok"]{color:var(--phos)}
-    .live output[data-state="bad"]{color:#e05561}
-    .live-note{
-      margin:20px 0 0 !important;
-      font-size:.66rem !important;line-height:1.7 !important;opacity:.75;
-    }
+    footer{margin-top:44px;display:flex;flex-wrap:wrap;gap:24px;justify-content:center}
+    footer a{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);text-decoration:none;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .25s ease,border-color .25s ease}
+    footer a:hover{color:var(--phos);border-bottom-color:var(--phos)}
 
-    /* ---------- rodapé ---------- */
-    footer{
-      margin-top:56px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:26px;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .links{display:flex;flex-wrap:wrap;gap:24px}
-    .links a{
-      font-size:.72rem;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:var(--mut);
-      text-decoration:none;
-      padding-bottom:3px;
-      border-bottom:1px solid transparent;
-      transition:color .25s ease,border-color .25s ease;
-    }
-    .links a:hover{color:var(--phos);border-bottom-color:var(--phos)}
-    .sig{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);opacity:.6}
-
-    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-    @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
-    @keyframes fill{to{transform:scaleX(1)}}
-
-    @media (max-width:760px){
-      .wrap{padding:28px 20px 72px}
-      header{padding:48px 0 32px}
-      .entry{grid-template-columns:46px minmax(0,1fr);gap:18px;padding:30px 12px 30px 14px}
-      .idx{font-size:1.75rem}
-      .readout{grid-column:1 / -1;margin-top:6px}
-      .stat{min-width:118px}
+    @media (max-width:860px){
+      .stage{perspective:1500px}
+      .book{width:100%;height:clamp(560px,80vh,700px)}
+      .book.aberto{transform:none}
+      .leaf{width:100%}
+      .face{padding:26px 20px 42px}
     }
     @media (prefers-reduced-motion:reduce){
-      *{animation:none !important;transition:none !important}
-      .eyebrow,h1,.deck,.status,.entry{opacity:1}
-      .meter i{transform:scaleX(1)}
-      .entry::before{display:none}
+      .book,.leaf{transition:none !important}
     }
   </style>
 </head>
@@ -402,198 +201,252 @@
 
     <header>
       <p class="eyebrow">Matheus Augusto · Engenharia de automação de segurança</p>
-      <h1>Cinco ferramentas em <em>Rust</em>.<span class="caret" aria-hidden="true"></span></h1>
+      <h1>Cinco ferramentas em <em>Rust</em>.</h1>
       <p class="deck">
-        Cada uma nasceu de um problema que apareceu no trabalho e não tinha ferramenta do jeito
-        que eu precisava. Todas em Rust, com teste e CI rodando <strong>clippy no modo estrito</strong>.
-        O maior binário tem 724 KB e nenhuma delas exige runtime instalado. Actions do CI pinadas por digest, <strong>zero linha de unsafe</strong> e varredura semanal de vulnerabilidade nas dependências. Código aberto, MIT.
+        Cada uma nasceu de um problema que apareceu no trabalho. Abra o caderno e vá virando:
+        em toda página tem a ideia, <strong>o desafio de engenharia que ela me deu</strong> e a
+        saída real do terminal.
       </p>
-
-      <div class="status">
-        <div class="stat"><b>05</b><span>Projetos</span></div>
-        <div class="stat"><b>44</b><span>Testes verdes</span></div>
-        <div class="stat"><b>0</b><span>Warnings clippy</span></div>
-        <div class="stat"><b>0</b><span>Linhas unsafe</span></div>
-        <div class="stat"><b>2021</b><span>Edição Rust</span></div>
-        <div class="stat"><b>MIT</b><span>Licença</span></div>
-      </div>
     </header>
 
-    <main class="ledger">
+    <div class="stage">
+      <div class="book" id="livro">
 
-      <a class="entry" style="animation-delay:.26s" href="https://github.com/masterazul/Spectra" target="_blank" rel="noopener">
-        <div class="idx">01</div>
-        <div>
-          <div class="name"><h2>spectra</h2><span class="slug">masterazul/Spectra</span></div>
-          <p class="thesis">
-            Consultar CNPJ, CEP, DNS e certificado de um domínio significava abrir meia dúzia de
-            sites. Aqui são <b>18 fontes públicas numa CLI só</b>, todas devolvendo o mesmo formato
-            de JSON. E tem o <b>verify</b>: antes de sair coletando, ele diz quais fontes estão de pé.
-          </p>
-          <ul class="tags"><li>Rust</li><li>OSINT</li><li>CLI</li><li>Threat Intel</li></ul>
-          <pre class="demo"><b>$</b> spectra verify
-[  <i>up</i>] cep-viacep           cep              534ms
-[  <i>up</i>] cnpj-brasilapi       cnpj             243ms
-[  <i>up</i>] domain-crtsh         domain         10853ms
-[<u>down</u>] ip-rdap              ip             12019ms  transport error</pre>
-<p class="demo-note">Saída real. A fonte fora do ar é do provedor, não da ferramenta — e é exatamente para isso que o <b>verify</b> existe: descobrir antes de coletar, não no meio.</p>
+        <div class="leaf" data-leaf="0">
+          <div class="face capa" id="capa">
+            <p class="marca">Caderno de projetos</p>
+            <h2>Cinco ferramentas, cinco <em>problemas</em>.</h2>
+            <p>OSINT, custódia de segredos, custo de Kubernetes, ambientes de preview e sincronização offline.</p>
+            <span class="abrir">Abrir o caderno</span>
+          </div>
+          <div class="face verso">
+            <p class="kicker">Sumário</p>
+            <h3>O que tem aqui</h3>
+            <p class="slug">github.com/masterazul</p>
+            <p class="txt"><b>01 spectra</b> — 18 fontes públicas numa CLI só.</p>
+            <p class="txt"><b>02 keyrot</b> — cofre de segredos com auditoria encadeada.</p>
+            <p class="txt"><b>03 kostwatch</b> — quanto o cluster desperdiça, em dinheiro.</p>
+            <p class="txt"><b>04 deploybox</b> — preview no ar com um comando.</p>
+            <p class="txt"><b>05 habitsync</b> — backend que funciona sem rede.</p>
+            <div class="tel">
+              <div><b>44</b><span>Testes</span></div>
+              <div><b>0</b><span>Unsafe</span></div>
+              <div><b>0</b><span>Warnings</span></div>
+              <div><b>MIT</b><span>Licença</span></div>
+            </div>
+            <p class="txt">Actions do CI pinadas por digest, <b>cargo audit</b> semanal e verificação de overflow no release.</p>
+            <span class="pnum">i</span>
+          </div>
         </div>
-        <dl class="readout">
-          <div class="row"><dt>Fontes</dt><dd>18</dd></div>
-          <div class="row"><dt>Comandos</dt><dd>11</dd></div>
-          <div class="row"><dt>Testes</dt><dd>11</dd></div>
-          <div class="row"><dt>Binário</dt><dd>724 KB</dd></div>
-          <div class="meter"><i style="--pct:71%"></i></div>
-          <div class="scale">escala 1 MB</div>
-          <div class="go">Ver no GitHub</div>
-        </dl>
-      </a>
 
-      <a class="entry" style="animation-delay:.32s" href="https://github.com/masterazul/keyrot" target="_blank" rel="noopener">
-        <div class="idx">02</div>
-        <div>
-          <div class="name"><h2>keyrot</h2><span class="slug">masterazul/keyrot</span></div>
-          <p class="thesis">
-            A senha não cifra os segredos. Ela deriva, com Argon2id, a chave que embrulha outra
-            chave — e é essa que cifra. Assim trocar a senha não obriga a re-cifrar nada. Todo
-            <b>put</b> cria uma versão nova em vez de sobrescrever, e cada operação vira uma linha
-            num log encadeado por SHA-256. Mexeu no histórico, o <b>verify</b> acusa.
-          </p>
-          <ul class="tags"><li>Rust</li><li>Criptografia</li><li>AEAD</li><li>Auditoria</li></ul>
-          <pre class="demo"><b>$</b> keyrot put db/senha 's3cr3t'
-stored version 1
-<b>$</b> keyrot rotate db/senha --generate
+        <div class="leaf" data-leaf="1">
+          <div class="face">
+            <p class="kicker">01 · OSINT</p>
+            <h3>spectra</h3>
+            <p class="slug">masterazul/Spectra · Rust · 724 KB</p>
+            <p class="txt">Consultar CNPJ, CEP, DNS e certificado de um domínio significava abrir meia dúzia de sites. Aqui são <b>18 fontes públicas numa CLI só</b>, todas devolvendo o mesmo formato de JSON. E tem o <b>verify</b>: antes de sair coletando, ele diz quais fontes estão de pé.</p>
+            <p class="rot">O desafio</p>
+            <div class="desafio">
+              <p>Rejeitar IP literal não bastava. <b>169.254.43518</b> não parece um endereço, mas o parser de URL normaliza para <b>169.254.169.254</b> — os metadados da AWS. A sonda de cabeçalho conectava no host interno logo na primeira requisição. Passei a exigir que o último rótulo comece com letra, a única condição em que o parser não tenta virar IPv4.</p>
+            </div>
+            <div class="wasm">
+              <label for="doc">Rode aqui: o mesmo código, compilado para WebAssembly</label>
+              <input id="doc" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="111.444.777-35" aria-label="CPF ou CNPJ para validar">
+              <output id="doc-out" for="doc">carregando o módulo</output>
+            </div>
+            <div class="tel">
+              <div><b>18</b><span>Fontes</span></div>
+              <div><b>11</b><span>Comandos</span></div>
+              <div><b>11</b><span>Testes</span></div>
+            </div>
+            <a class="ir" href="https://github.com/masterazul/Spectra" target="_blank" rel="noopener">Ver o código &rarr;</a>
+            <span class="pnum">01</span>
+          </div>
+          <div class="face verso">
+            <p class="kicker">02 · Criptografia</p>
+            <h3>keyrot</h3>
+            <p class="slug">masterazul/keyrot · Rust · 443 KB</p>
+            <p class="txt">A senha não cifra os segredos. Ela deriva, com Argon2id, a chave que embrulha outra chave — e é essa que cifra. Trocar a senha não obriga a re-cifrar nada. Todo <b>put</b> cria uma versão nova, e cada operação vira uma linha num log encadeado por SHA-256.</p>
+            <p class="rot">O desafio</p>
+            <div class="desafio">
+              <p>Dez processos gravando no mesmo cofre perdiam de <b>três a cinco escritas</b>. Cada um lia o arquivo inteiro, alterava em memória e reescrevia por cima. A cadeia de auditoria quebrava junto e o <b>verify</b> passava a acusar adulteração que nunca houve. Resolvi com lock por operação; os dez passaram a sobreviver, e a cadeia ficou íntegra.</p>
+            </div>
+            <pre class="demo"><b>$</b> keyrot rotate db/senha --generate
 stored version 2
 <b>$</b> keyrot get db/senha --version 1
 <i>s3cr3t</i>
 <b>$</b> keyrot verify
 <i>audit chain ok (5 entries)</i></pre>
+            <div class="tel">
+              <div><b>AES-256</b><span>GCM</span></div>
+              <div><b>Argon2id</b><span>KDF</span></div>
+              <div><b>6</b><span>Testes</span></div>
+            </div>
+            <a class="ir" href="https://github.com/masterazul/keyrot" target="_blank" rel="noopener">Ver o código &rarr;</a>
+            <span class="pnum">02</span>
+          </div>
         </div>
-        <dl class="readout">
-          <div class="row"><dt>Cifra</dt><dd>AES-256-GCM</dd></div>
-          <div class="row"><dt>KDF</dt><dd>Argon2id</dd></div>
-          <div class="row"><dt>Testes</dt><dd>6</dd></div>
-          <div class="row"><dt>Binário</dt><dd>443 KB</dd></div>
-          <div class="meter"><i style="--pct:43%"></i></div>
-          <div class="scale">escala 1 MB</div>
-          <div class="go">Ver no GitHub</div>
-        </dl>
-      </a>
 
-      <a class="entry" style="animation-delay:.38s" href="https://github.com/masterazul/kostwatch" target="_blank" rel="noopener">
-        <div class="idx">03</div>
-        <div>
-          <div class="name"><h2>kostwatch</h2><span class="slug">masterazul/kostwatch</span></div>
-          <p class="thesis">
-            O time pede 2 vCPUs e usa 0,1. Multiplica por réplica e por mês: vira dinheiro parado.
-            O kostwatch confronta <b>o que foi pedido</b> com <b>o que roda de verdade</b> — lendo um
-            snapshot ou o Prometheus direto — e devolve a conta, do maior desperdício para o menor.
-          </p>
-          <ul class="tags"><li>Rust</li><li>Kubernetes</li><li>Prometheus</li><li>FinOps</li></ul>
-          <pre class="demo"><b>$</b> kostwatch analyze --snapshot snapshot.json
-monthly cost: <i>448.95 USD</i>   potential savings: <i>196.56 USD (44%)</i>
-payments  api          197.10  164.40  1.00->0.15  cpu-overprovisioned
-legacy    cron-runner   32.85   32.15  0.50->0.01  idle
-search    indexer      219.00    0.00  2.00->2.00</pre>
-<p class="demo-note">O <b>indexer</b> aparece com economia zero: o uso acompanha o pedido. A ferramenta não inventa corte onde não há.</p>
-        </div>
-        <dl class="readout">
-          <div class="row"><dt>Entrada</dt><dd>Prom / JSON</dd></div>
-          <div class="row"><dt>Saída</dt><dd>Tabela / JSON</dd></div>
-          <div class="row"><dt>Testes</dt><dd>10</dd></div>
-          <div class="row"><dt>Binário</dt><dd>715 KB</dd></div>
-          <div class="meter"><i style="--pct:70%"></i></div>
-          <div class="scale">escala 1 MB</div>
-          <div class="go">Ver no GitHub</div>
-        </dl>
-      </a>
-
-      <a class="entry" style="animation-delay:.44s" href="https://github.com/masterazul/deploybox" target="_blank" rel="noopener">
-        <div class="idx">04</div>
-        <div>
-          <div class="name"><h2>deploybox</h2><span class="slug">masterazul/deploybox</span></div>
-          <p class="thesis">
-            <b>deploybox up .</b> e o repositório vira um ambiente de preview no ar. Build do
-            Dockerfile, porta livre escolhida sozinha, e um reverse proxy feito na unha com
-            <b>std::net</b> para servir cada ambiente em nome.localhost.
-          </p>
-          <ul class="tags"><li>Rust</li><li>Docker</li><li>Reverse proxy</li><li>DevOps</li></ul>
-          <pre class="demo"><b>$</b> deploybox proxy
-proxy on http://127.0.0.1:8080 routing 2 preview(s) by &lt;name&gt;.localhost
+        <div class="leaf" data-leaf="2">
+          <div class="face">
+            <p class="kicker">03 · FinOps</p>
+            <h3>kostwatch</h3>
+            <p class="slug">masterazul/kostwatch · Rust · 715 KB</p>
+            <p class="txt">O time pede 2 vCPUs e usa 0,1. Multiplica por réplica e por mês: vira dinheiro parado. O kostwatch confronta <b>o que foi pedido</b> com <b>o que roda de verdade</b> — de um snapshot ou do Prometheus — e devolve a conta, do maior desperdício para o menor.</p>
+            <p class="rot">O desafio</p>
+            <div class="desafio">
+              <p>Separar <b>"sem métrica"</b> de <b>"uso zero"</b>. Um pod recém-criado, ainda sem duas coletas para o <b>rate[5m]</b>, aparecia como ocioso com 100% de economia — e a recomendação era encolher um serviço vivo. Ausência de amostra agora descarta o workload em vez de virar zero.</p>
+            </div>
+            <pre class="demo"><b>$</b> kostwatch analyze --snapshot snapshot.json
+monthly cost: <i>448.95 USD</i>  savings: <i>196.56 (44%)</i>
+payments  api        197.10  164.40  1.00->0.15
+legacy    cron-run    32.85   32.15  0.50->0.01  idle
+search    indexer    219.00    0.00  2.00->2.00</pre>
+            <div class="tel">
+              <div><b>Prom</b><span>Entrada</span></div>
+              <div><b>44%</b><span>Exemplo</span></div>
+              <div><b>10</b><span>Testes</span></div>
+            </div>
+            <a class="ir" href="https://github.com/masterazul/kostwatch" target="_blank" rel="noopener">Ver o código &rarr;</a>
+            <span class="pnum">03</span>
+          </div>
+          <div class="face verso">
+            <p class="kicker">04 · DevOps</p>
+            <h3>deploybox</h3>
+            <p class="slug">masterazul/deploybox · Rust · 422 KB</p>
+            <p class="txt"><b>deploybox up .</b> e o repositório vira um ambiente de preview no ar. Build do Dockerfile, porta livre escolhida sozinha, e um reverse proxy feito na unha com <b>std::net</b> para servir cada ambiente em nome.localhost.</p>
+            <p class="rot">O desafio</p>
+            <div class="desafio">
+              <p>O proxy encaminhava só o corpo que chegava junto do cabeçalho. Qualquer requisição em <b>Transfer-Encoding: chunked</b> chegava truncada e a conexão pendurava. Sem <b>Content-Length</b> para contar bytes, a saída foi clonar o socket e copiar numa thread separada até o cliente fechar a escrita.</p>
+            </div>
+            <pre class="demo"><b>$</b> deploybox proxy
+proxy on http://127.0.0.1:8080 routing 2 preview(s)
 <b>$</b> curl -H "Host: api.localhost" localhost:8080
 <i>preview vivo respondendo</i></pre>
+            <div class="tel">
+              <div><b>std::net</b><span>Proxy</span></div>
+              <div><b>0</b><span>Dep de rede</span></div>
+              <div><b>9</b><span>Testes</span></div>
+            </div>
+            <a class="ir" href="https://github.com/masterazul/deploybox" target="_blank" rel="noopener">Ver o código &rarr;</a>
+            <span class="pnum">04</span>
+          </div>
         </div>
-        <dl class="readout">
-          <div class="row"><dt>Runtime</dt><dd>Docker CLI</dd></div>
-          <div class="row"><dt>Proxy</dt><dd>std::net</dd></div>
-          <div class="row"><dt>Testes</dt><dd>9</dd></div>
-          <div class="row"><dt>Binário</dt><dd>422 KB</dd></div>
-          <div class="meter"><i style="--pct:41%"></i></div>
-          <div class="scale">escala 1 MB</div>
-          <div class="go">Ver no GitHub</div>
-        </dl>
-      </a>
 
-      <a class="entry" style="animation-delay:.50s" href="https://github.com/masterazul/habitsync" target="_blank" rel="noopener">
-        <div class="idx">05</div>
-        <div>
-          <div class="name"><h2>habitsync</h2><span class="slug">masterazul/habitsync</span></div>
-          <p class="thesis">
-            Feito para app que precisa funcionar no avião. O cliente grava tudo offline; quando a
-            rede volta, manda num <b>POST só</b> e recebe de volta apenas o que mudou desde o último
-            cursor. Conflito resolve por last-write-wins. Não tem banco: o estado é um arquivo JSON
-            gravado de forma atômica.
-          </p>
-          <ul class="tags"><li>Rust</li><li>HTTP</li><li>Delta sync</li><li>Offline-first</li></ul>
-          <pre class="demo"><b>$</b> curl -s localhost:8787/analytics
-[{"id":"h1","name":"Ler 20 paginas",
+        <div class="leaf" data-leaf="3">
+          <div class="face">
+            <p class="kicker">05 · Offline-first</p>
+            <h3>habitsync</h3>
+            <p class="slug">masterazul/habitsync · Rust · 509 KB</p>
+            <p class="txt">Feito para app que precisa funcionar no avião. O cliente grava tudo offline; quando a rede volta, manda num <b>POST só</b> e recebe apenas o que mudou desde o último cursor. Não tem banco: o estado é um arquivo JSON gravado de forma atômica.</p>
+            <p class="rot">O desafio</p>
+            <div class="desafio">
+              <p>Um push rejeitado por last-write-wins sumia sem aviso: resposta <b>200</b>, delta vazio, cursor inalterado. Um celular com o relógio atrasado perdia as próprias edições para sempre. Agora o servidor devolve a versão vencedora de todo id empurrado — e o cliente converge em vez de divergir calado.</p>
+            </div>
+            <pre class="demo"><b>$</b> curl -s localhost:8787/analytics
+[{"name":"Ler 20 paginas",
   "current_streak":<i>3</i>,"longest_streak":<i>3</i>,
   "total":3,"rate_30d":0.1}]</pre>
+            <div class="tel">
+              <div><b>LWW</b><span>Conflito</span></div>
+              <div><b>413</b><span>Limite 1 MiB</span></div>
+              <div><b>8</b><span>Testes</span></div>
+            </div>
+            <a class="ir" href="https://github.com/masterazul/habitsync" target="_blank" rel="noopener">Ver o código &rarr;</a>
+            <span class="pnum">05</span>
+          </div>
+          <div class="face verso">
+            <p class="kicker">Fim</p>
+            <h3>Obrigado pela leitura.</h3>
+            <p class="slug">Curitiba · 100% remoto · disponibilidade imediata</p>
+            <p class="txt">Se algo aqui interessar, o código está aberto e eu respondo rápido. Os cinco projetos têm teste, CI e a mesma disciplina de segurança que eu levo para a operação.</p>
+            <p class="txt">Os desafios que você acabou de ler não são teóricos: todos vieram de bugs reais, encontrados com reprodução e corrigidos com teste antes e depois.</p>
+            <div class="tel">
+              <div><b>5</b><span>Projetos</span></div>
+              <div><b>44</b><span>Testes</span></div>
+              <div><b>34</b><span>Bugs corrigidos</span></div>
+            </div>
+            <a class="ir" href="../contatos/index.html">Falar comigo &rarr;</a>
+            <span class="pnum">fim</span>
+          </div>
         </div>
-        <dl class="readout">
-          <div class="row"><dt>Protocolo</dt><dd>HTTP / JSON</dd></div>
-          <div class="row"><dt>Estado</dt><dd>Arquivo atômico</dd></div>
-          <div class="row"><dt>Testes</dt><dd>8</dd></div>
-          <div class="row"><dt>Binário</dt><dd>509 KB</dd></div>
-          <div class="meter"><i style="--pct:50%"></i></div>
-          <div class="scale">escala 1 MB</div>
-          <div class="go">Ver no GitHub</div>
-        </dl>
-      </a>
 
-    </main>
-
-    <section class="live">
-      <h2>Rode o spectra aqui, sem instalar nada</h2>
-      <p>
-        O <strong>mesmo arquivo de código</strong> que valida CPF e CNPJ no terminal foi compilado
-        para WebAssembly — 18 KB, sem dependência nenhuma. Roda dentro do seu navegador e não
-        manda o documento para lugar algum, porque a verificação é aritmética de dígito, não consulta.
-      </p>
-      <div class="live-row">
-        <input id="doc" type="text" inputmode="numeric" autocomplete="off" spellcheck="false"
-               aria-label="CPF ou CNPJ para validar" placeholder="111.444.777-35">
-        <output id="doc-out" for="doc">aguardando</output>
       </div>
-      <p class="live-note">
-        Confira desligando a internet: continua funcionando. O módulo é a compilação direta de
-        <code>src/validate.rs</code> e <code>src/util.rs</code> do repositório.
-      </p>
-    </section>
+    </div>
 
+    <div class="nav">
+      <button id="ant" type="button" disabled>&larr; Anterior</button>
+      <span class="conta" id="conta">Capa</span>
+      <button id="prox" type="button">Próxima &rarr;</button>
+    </div>
 
     <footer>
-      <nav class="links">
-        <a href="https://github.com/masterazul" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="../contatos/index.html">Contato</a>
-        <a href="../SOBRE_MIM/resumo.html">Currículo</a>
-      </nav>
-      <p class="sig">Rust 2021 · MIT</p>
+      <a href="https://github.com/masterazul" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="../contatos/index.html">Contato</a>
+      <a href="../SOBRE_MIM/resumo.html">Currículo</a>
     </footer>
   </div>
 
   <script>
+    (() => {
+      const livro = document.getElementById('livro');
+      const folhas = [...livro.querySelectorAll('.leaf')];
+      const ant = document.getElementById('ant');
+      const prox = document.getElementById('prox');
+      const conta = document.getElementById('conta');
+      const rotulos = ['Capa', 'spectra', 'kostwatch', 'habitsync', 'Fim'];
+      const total = folhas.length;
+      let atual = 0;
+
+      const pintar = () => {
+        folhas.forEach((f, i) => {
+          const virada = i < atual;
+          f.classList.toggle('virada', virada);
+          f.style.zIndex = virada ? i : total - i;
+        });
+        livro.classList.toggle('aberto', atual > 0);
+        ant.disabled = atual === 0;
+        prox.disabled = atual === total;
+        conta.textContent = rotulos[atual] || 'Fim';
+      };
+
+      const virar = (n) => {
+        const novo = Math.max(0, Math.min(total, atual + n));
+        if (novo === atual) return;
+        // a folha em movimento passa por cima das demais durante o giro
+        const movida = folhas[n > 0 ? atual : novo];
+        atual = novo;
+        pintar();
+        if (movida) {
+          movida.style.zIndex = total + 1;
+          let solto = false;
+          const soltar = () => {
+            if (solto) return;
+            solto = true;
+            movida.removeEventListener('transitionend', soltar);
+            pintar();
+          };
+          movida.addEventListener('transitionend', soltar);
+          // rede: sem transicao (reduced-motion) o transitionend nunca dispara
+          setTimeout(soltar, 1300);
+        }
+      };
+
+      prox.addEventListener('click', () => virar(1));
+      ant.addEventListener('click', () => virar(-1));
+      livro.addEventListener('click', (e) => {
+        if (e.target.closest('a, input, button')) return;
+        if (e.target.closest('.capa')) virar(1);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT') return;
+        if (e.key === 'ArrowRight') virar(1);
+        if (e.key === 'ArrowLeft') virar(-1);
+      });
+      pintar();
+    })();
+
     (async () => {
       const campo = document.getElementById('doc');
       const saida = document.getElementById('doc-out');
@@ -609,7 +462,7 @@ proxy on http://127.0.0.1:8080 routing 2 preview(s) by &lt;name&gt;.localhost
         return;
       }
       saida.textContent = 'digite para validar';
-      const avaliar = () => {
+      campo.addEventListener('input', () => {
         const d = campo.value.replace(/\D/g, '');
         if (!d) { saida.textContent = 'digite para validar'; saida.dataset.state = ''; return; }
         if (d.length !== 11 && d.length !== 14) {
@@ -621,8 +474,7 @@ proxy on http://127.0.0.1:8080 routing 2 preview(s) by &lt;name&gt;.localhost
         const tipo = d.length === 11 ? 'CPF' : 'CNPJ';
         saida.textContent = r ? tipo + ' válido' : tipo + ' inválido';
         saida.dataset.state = r ? 'ok' : 'bad';
-      };
-      campo.addEventListener('input', avaliar);
+      });
     })();
   </script>
 </body>
