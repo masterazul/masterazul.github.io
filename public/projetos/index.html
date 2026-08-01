@@ -417,7 +417,6 @@ proxy on http://127.0.0.1:8080 routing 2 preview(s)
       let atual = 0;
 
       const pintar = () => {
-        const estavaNumaFolha = folhas.some((f) => f.contains(document.activeElement));
         folhas.forEach((f, i) => {
           const virada = i < atual;
           f.classList.toggle('virada', virada);
@@ -431,8 +430,8 @@ proxy on http://127.0.0.1:8080 routing 2 preview(s)
         ant.disabled = atual === 0;
         prox.disabled = atual === total;
         conta.textContent = rotulos[atual] || 'Fim';
-        // virar a pagina sob o foco o descartaria no body
-        if (estavaNumaFolha && !folhas.some((f) => f.contains(document.activeElement))) {
+        // o navegador nao tira o foco de um elemento que acabou de ficar inerte
+        if (document.activeElement && document.activeElement.closest('[inert]')) {
           (prox.disabled ? ant : prox).focus();
         }
       };
