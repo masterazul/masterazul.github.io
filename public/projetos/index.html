@@ -308,6 +308,51 @@
     .go::after{content:' \2192';transition:margin .3s ease}
     .entry:hover .go::after{margin-left:5px}
 
+
+    /* ---------- validador ao vivo (wasm) ---------- */
+    .live{
+      margin-top:52px;
+      border:1px solid var(--line);
+      padding:30px 26px 28px;
+      opacity:0;
+      animation:rise .8s cubic-bezier(.2,.7,.3,1) .56s forwards;
+    }
+    .live h2{
+      margin:0 0 10px;
+      font-size:.7rem;font-weight:700;
+      letter-spacing:.24em;text-transform:uppercase;color:var(--phos);
+    }
+    .live p{
+      margin:0 0 22px;max-width:62ch;
+      font-size:.85rem;font-weight:200;line-height:1.75;color:var(--mut);
+    }
+    .live p strong{color:var(--ink);font-weight:400}
+    .live-row{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch}
+    .live input{
+      flex:1 1 260px;min-width:0;
+      font-family:var(--mono);font-size:.9rem;font-weight:400;
+      color:var(--ink);background:rgba(7,9,10,.6);
+      border:1px solid var(--line);border-radius:0;
+      padding:13px 16px;
+      transition:border-color .25s ease;
+    }
+    .live input:focus{outline:none;border-color:var(--phos)}
+    .live input::placeholder{color:var(--mut);opacity:.7}
+    .live output{
+      flex:1 1 240px;
+      display:flex;align-items:center;
+      font-size:.8rem;letter-spacing:.06em;
+      color:var(--mut);
+      border:1px solid transparent;
+      padding:13px 4px;
+    }
+    .live output[data-state="ok"]{color:var(--phos)}
+    .live output[data-state="bad"]{color:#e05561}
+    .live-note{
+      margin:20px 0 0 !important;
+      font-size:.66rem !important;line-height:1.7 !important;opacity:.75;
+    }
+
     /* ---------- rodapé ---------- */
     footer{
       margin-top:56px;
@@ -518,6 +563,25 @@ proxy on http://127.0.0.1:8080 routing 2 preview(s) by &lt;name&gt;.localhost
 
     </main>
 
+    <section class="live">
+      <h2>Rode o spectra aqui, sem instalar nada</h2>
+      <p>
+        O <strong>mesmo arquivo de código</strong> que valida CPF e CNPJ no terminal foi compilado
+        para WebAssembly — 18 KB, sem dependência nenhuma. Roda dentro do seu navegador e não
+        manda o documento para lugar algum, porque a verificação é aritmética de dígito, não consulta.
+      </p>
+      <div class="live-row">
+        <input id="doc" type="text" inputmode="numeric" autocomplete="off" spellcheck="false"
+               aria-label="CPF ou CNPJ para validar" placeholder="111.444.777-35">
+        <output id="doc-out" for="doc">aguardando</output>
+      </div>
+      <p class="live-note">
+        Confira desligando a internet: continua funcionando. O módulo é a compilação direta de
+        <code>src/validate.rs</code> e <code>src/util.rs</code> do repositório.
+      </p>
+    </section>
+
+
     <footer>
       <nav class="links">
         <a href="https://github.com/masterazul" target="_blank" rel="noopener">GitHub</a>
@@ -528,5 +592,38 @@ proxy on http://127.0.0.1:8080 routing 2 preview(s) by &lt;name&gt;.localhost
       <p class="sig">Rust 2021 · MIT</p>
     </footer>
   </div>
+
+  <script>
+    (async () => {
+      const campo = document.getElementById('doc');
+      const saida = document.getElementById('doc-out');
+      if (!campo || !saida) return;
+      let wasm;
+      try {
+        const resposta = await fetch('spectra_validate.wasm');
+        const { instance } = await WebAssembly.instantiate(await resposta.arrayBuffer(), {});
+        wasm = instance.exports;
+      } catch (erro) {
+        saida.textContent = 'não foi possível carregar o módulo';
+        campo.disabled = true;
+        return;
+      }
+      saida.textContent = 'digite para validar';
+      const avaliar = () => {
+        const d = campo.value.replace(/\D/g, '');
+        if (!d) { saida.textContent = 'digite para validar'; saida.dataset.state = ''; return; }
+        if (d.length !== 11 && d.length !== 14) {
+          saida.textContent = d.length + (d.length === 1 ? ' dígito' : ' dígitos') + ' — CPF tem 11, CNPJ tem 14';
+          saida.dataset.state = '';
+          return;
+        }
+        const r = wasm.validate(BigInt(d), d.length);
+        const tipo = d.length === 11 ? 'CPF' : 'CNPJ';
+        saida.textContent = r ? tipo + ' válido' : tipo + ' inválido';
+        saida.dataset.state = r ? 'ok' : 'bad';
+      };
+      campo.addEventListener('input', avaliar);
+    })();
+  </script>
 </body>
 </html>
