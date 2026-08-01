@@ -230,6 +230,32 @@
       padding:4px 10px;
     }
 
+
+    /* demonstracao com saida real */
+    .demo{
+      margin:16px 0 0;
+      border:1px solid var(--line);
+      background:rgba(7,9,10,.55);
+      padding:13px 15px;
+      font-size:.7rem;
+      line-height:1.75;
+      color:var(--mut);
+      overflow-x:auto;
+      white-space:pre;
+      font-weight:200;
+    }
+    .demo b{color:var(--phos);font-weight:400}
+    .demo i{color:var(--ink);font-style:normal}
+    .demo u{color:#d5a04a;text-decoration:none}
+    .demo-note{
+      margin:8px 0 0;
+      font-size:.63rem;
+      line-height:1.6;
+      color:var(--mut);
+      opacity:.72;
+      max-width:52ch;
+    }
+
     /* readout de telemetria */
     .readout{display:flex;flex-direction:column;gap:11px}
     .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
@@ -360,6 +386,12 @@
             de JSON. E tem o <b>verify</b>: antes de sair coletando, ele diz quais fontes estão de pé.
           </p>
           <ul class="tags"><li>Rust</li><li>OSINT</li><li>CLI</li><li>Threat Intel</li></ul>
+          <pre class="demo"><b>$</b> spectra verify
+[  <i>up</i>] cep-viacep           cep              534ms
+[  <i>up</i>] cnpj-brasilapi       cnpj             243ms
+[  <i>up</i>] domain-crtsh         domain         10853ms
+[<u>down</u>] ip-rdap              ip             12019ms  transport error</pre>
+<p class="demo-note">Saída real. A fonte fora do ar é do provedor, não da ferramenta — e é exatamente para isso que o <b>verify</b> existe: descobrir antes de coletar, não no meio.</p>
         </div>
         <dl class="readout">
           <div class="row"><dt>Fontes</dt><dd>18</dd></div>
@@ -383,6 +415,14 @@
             num log encadeado por SHA-256. Mexeu no histórico, o <b>verify</b> acusa.
           </p>
           <ul class="tags"><li>Rust</li><li>Criptografia</li><li>AEAD</li><li>Auditoria</li></ul>
+          <pre class="demo"><b>$</b> keyrot put db/senha 's3cr3t'
+stored version 1
+<b>$</b> keyrot rotate db/senha --generate
+stored version 2
+<b>$</b> keyrot get db/senha --version 1
+<i>s3cr3t</i>
+<b>$</b> keyrot verify
+<i>audit chain ok (5 entries)</i></pre>
         </div>
         <dl class="readout">
           <div class="row"><dt>Cifra</dt><dd>AES-256-GCM</dd></div>
@@ -405,6 +445,12 @@
             snapshot ou o Prometheus direto — e devolve a conta, do maior desperdício para o menor.
           </p>
           <ul class="tags"><li>Rust</li><li>Kubernetes</li><li>Prometheus</li><li>FinOps</li></ul>
+          <pre class="demo"><b>$</b> kostwatch analyze --snapshot snapshot.json
+monthly cost: <i>448.95 USD</i>   potential savings: <i>196.56 USD (44%)</i>
+payments  api          197.10  164.40  1.00->0.15  cpu-overprovisioned
+legacy    cron-runner   32.85   32.15  0.50->0.01  idle
+search    indexer      219.00    0.00  2.00->2.00</pre>
+<p class="demo-note">O <b>indexer</b> aparece com economia zero: o uso acompanha o pedido. A ferramenta não inventa corte onde não há.</p>
         </div>
         <dl class="readout">
           <div class="row"><dt>Entrada</dt><dd>Prom / JSON</dd></div>
@@ -427,6 +473,10 @@
             <b>std::net</b> para servir cada ambiente em nome.localhost.
           </p>
           <ul class="tags"><li>Rust</li><li>Docker</li><li>Reverse proxy</li><li>DevOps</li></ul>
+          <pre class="demo"><b>$</b> deploybox proxy
+proxy on http://127.0.0.1:8080 routing 2 preview(s) by &lt;name&gt;.localhost
+<b>$</b> curl -H "Host: api.localhost" localhost:8080
+<i>preview vivo respondendo</i></pre>
         </div>
         <dl class="readout">
           <div class="row"><dt>Runtime</dt><dd>Docker CLI</dd></div>
@@ -450,6 +500,10 @@
             gravado de forma atômica.
           </p>
           <ul class="tags"><li>Rust</li><li>HTTP</li><li>Delta sync</li><li>Offline-first</li></ul>
+          <pre class="demo"><b>$</b> curl -s localhost:8787/analytics
+[{"id":"h1","name":"Ler 20 paginas",
+  "current_streak":<i>3</i>,"longest_streak":<i>3</i>,
+  "total":3,"rate_30d":0.1}]</pre>
         </div>
         <dl class="readout">
           <div class="row"><dt>Protocolo</dt><dd>HTTP / JSON</dd></div>
