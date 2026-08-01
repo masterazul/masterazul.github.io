@@ -3,47 +3,140 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matheus - Especialista em Segurança Cibernética</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Matheus Augusto — Segurança e automação</title>
+  <meta name="description" content="Engenheiro de automação de segurança: operação de SOC, DevSecOps, threat intelligence e gestão de vulnerabilidades.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;400;500;700&display=swap" rel="stylesheet">
   <style>
-    .zoom-out {
-      transition: transform 0.5s ease-in-out;
-      transform: scale(0.8);
+    :root{
+      --bg:#07090a; --ink:#e4e9e4; --mut:#78857d;
+      --line:rgba(120,133,125,.16); --phos:#6ef7a7; --phos-soft:rgba(110,247,167,.10);
+      --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      --serif:'Instrument Serif',Georgia,serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:var(--bg);color:var(--ink);
+      font-family:var(--mono);font-weight:400;line-height:1.6;
+      -webkit-font-smoothing:antialiased;overflow-x:hidden;
+      transition:transform .5s ease-in-out;
+    }
+    body.zoom-out{transform:scale(.8)}
+
+    body::before{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+      background:
+        radial-gradient(58rem 34rem at 14% -6%, rgba(110,247,167,.085), transparent 62%),
+        radial-gradient(38rem 26rem at 90% 6%, rgba(110,247,167,.04), transparent 66%);
+    }
+    body::after{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:99;
+      background-image:
+        repeating-linear-gradient(to bottom, rgba(255,255,255,.018) 0 1px, transparent 1px 3px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;opacity:.5;
+    }
+
+    .container{position:relative;z-index:1;max-width:1020px;margin:0 auto;padding:76px 28px 88px}
+
+    .eyebrow{
+      margin:0 0 24px;font-size:.66rem;font-weight:500;letter-spacing:.32em;
+      text-transform:uppercase;color:var(--phos);
+      opacity:0;animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;
+    }
+    h1{
+      font-family:var(--serif);font-weight:400;
+      font-size:clamp(2.5rem,6.5vw,4.4rem);line-height:1.02;letter-spacing:-.015em;
+      margin:0 0 22px;max-width:18ch;
+      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .07s forwards;
+    }
+    h1 em{font-style:italic;color:var(--phos)}
+    .lede{
+      max-width:60ch;margin:0 0 12px;color:var(--mut);
+      font-size:.92rem;font-weight:200;line-height:1.78;
+      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .14s forwards;
+    }
+    .lede strong{color:var(--ink);font-weight:400}
+
+    .areas{
+      list-style:none;margin:52px 0 0;padding:0;
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));
+      border-top:1px solid var(--line);
+    }
+    .areas li{
+      padding:26px 22px 28px 0;border-bottom:1px solid var(--line);
+      opacity:0;animation:rise .75s cubic-bezier(.2,.7,.3,1) forwards;
+    }
+    .areas h2{
+      margin:0 0 10px;font-size:.72rem;font-weight:700;
+      letter-spacing:.18em;text-transform:uppercase;color:var(--phos);
+    }
+    .areas p{
+      margin:0;font-size:.84rem;font-weight:200;line-height:1.7;color:var(--mut);
+      max-width:34ch;
+    }
+
+    .index{
+      margin-top:56px;display:flex;flex-wrap:wrap;gap:12px;
+      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .5s forwards;
+    }
+    .index-button{
+      font-family:var(--mono);font-size:.7rem;letter-spacing:.19em;text-transform:uppercase;
+      color:var(--mut);text-decoration:none;
+      border:1px solid var(--line);padding:13px 22px;
+      transition:color .3s ease,border-color .3s ease,background .3s ease;
+    }
+    .index-button:hover{color:var(--phos);border-color:var(--phos);background:var(--phos-soft)}
+    .index-button.primary{color:var(--phos);border-color:var(--phos)}
+    .index-button.primary:hover{background:var(--phos);color:var(--bg)}
+
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+    @media (max-width:640px){
+      .container{padding:52px 20px 72px}
+      .areas li{padding-right:0}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *{animation:none !important;transition:none !important}
+      .eyebrow,h1,.lede,.areas li,.index{opacity:1}
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1 class="typing-animation">Olá. Meu nome é Matheus, prazer em conhecê-lo.</h1>
-  <p>Por favor, dê uma olhada ao redor!</p>
-  <div class="icons">
-    <div class="icon" onclick="redirectToQuali()">
-      <img src="lock_icon.png" alt="Ícone de um cadeado">
-      <span>Hardening e Compliance</span>
-      <div class="magnifier">Ver qualificações</div>
-    </div>
-    <div class="icon" onclick="redirectToQuali()">
-      <img src="firewall_icon.png" alt="Ícone de um muro">
-      <span>Skills para Firewalls</span>
-      <div class="magnifier">Ver qualificações</div>
-    </div>
-    <div class="icon" onclick="redirectToQuali()">
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Ícone de código"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-      <span>Back-end (Rust/Python)</span>
-      <div class="magnifier">Ver qualificações</div>
-    </div>
-    <div class="icon" onclick="redirectToQuali()">
-      <img src="heart_icon.png" alt="Ícone de um coração">
-      <span>Construindo com amor</span>
-      <div class="magnifier">Ver qualificações</div>
-    </div>
-  </div>
-  <p>Sou apaixonado por construir uma segurança cibernética excelente que melhore a vida das pessoas ao meu redor. Sou especializado em criptografia e análise de vulnerabilidades para clientes que vão desde pessoas físicas e pequenas empresas até grandes corporações. O que você faria se tivesse um especialista em software disponível ao seu alcance?</p>
+  <p class="eyebrow">Matheus Augusto · Curitiba, 100% remoto</p>
+  <h1>Olá. Eu cuido da <em>operação</em> e do código que a sustenta.</h1>
+  <p class="lede">
+    São três anos em segurança: comecei monitorando em SOC e hoje escrevo, em Rust e Python,
+    a automação que a operação usa todo dia. <strong>Reduzir o ruído que chega ao analista</strong>
+    é o que orienta quase toda decisão minha — de tuning de regra a pipeline de triagem.
+  </p>
+
+  <ul class="areas">
+    <li style="animation-delay:.22s">
+      <h2>Detecção e resposta</h2>
+      <p>QRadar, LogRhythm e Trend Vision One. Investigação de ofensa, criação e tuning de regra, corte de falso positivo, mapeamento em MITRE ATT&amp;CK.</p>
+    </li>
+    <li style="animation-delay:.28s">
+      <h2>Automação e DevSecOps</h2>
+      <p>SOAR próprio escrito em Rust, com API, fila e PostgreSQL. No CI/CD: SAST, DAST, SCA, segurança de IaC, hardening de container e Kubernetes, gestão de segredo.</p>
+    </li>
+    <li style="animation-delay:.34s">
+      <h2>Threat Intelligence</h2>
+      <p>Investigação OSINT em deep e dark web, análise de modus operandi, IoCs estruturados, Diamond Model e TTPs. Também análise de fraude e vazamento.</p>
+    </li>
+    <li style="animation-delay:.40s">
+      <h2>GRC e vulnerabilidades</h2>
+      <p>ISO/IEC 27001, NIST CSF, PCI DSS e LGPD. Gestão de vulnerabilidade e patch com Tenable e Nessus, hardening de servidor e banco.</p>
+    </li>
+  </ul>
+
   <div class="index">
-    <a href="vitae_matheus.pdf" download="vitae_matheus.pdf" class="index-button"><br></br>Visualizar Currículo</a>
-    <a href="../quali/index.html" class="index-button flip" onclick="flipPageAndRedirect('../quali/index.html')"><br></br>Ver Qualificações</a>
-    <a href="#" class="index-button flip" onclick="flipPageAndRedirect('../contatos/index.html')"><br></br>Contato</a>
-    <a href="../projetos/index.html" class="index-button flip" onclick="flipPageAndRedirect('../projetos/index.html')"><br></br>Projetos</a>
+    <a href="../projetos/index.html" class="index-button primary" onclick="flipPageAndRedirect('../projetos/index.html'); return false;">Projetos open-source</a>
+    <a href="vitae_matheus.pdf" download="vitae_matheus.pdf" class="index-button">Baixar currículo</a>
+    <a href="../quali/index.html" class="index-button" onclick="flipPageAndRedirect('../quali/index.html'); return false;">Qualificações</a>
+    <a href="../contatos/index.html" class="index-button" onclick="flipPageAndRedirect('../contatos/index.html'); return false;">Contato</a>
   </div>
 </div>
 <script src="../../src/transition_verportfolio_resumo.js"></script>
