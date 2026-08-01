@@ -333,11 +333,9 @@
       <p class="eyebrow">Matheus Augusto · Engenharia de automação de segurança</p>
       <h1>Cinco ferramentas em <em>Rust</em>.<span class="caret" aria-hidden="true"></span></h1>
       <p class="deck">
-        Escritas do zero para resolver problemas que encontrei operando SOC e infraestrutura:
-        coleta de OSINT, custódia de segredos, custo de Kubernetes, ambientes de preview e
-        sincronização offline. <strong>Binários estáticos abaixo de 1 MB</strong>, suíte de testes
-        em cada projeto e CI rodando <strong>clippy em modo estrito</strong>. Licença MIT — o código
-        está aberto para leitura.
+        Cada uma nasceu de um problema que apareceu no trabalho e não tinha ferramenta do jeito
+        que eu precisava. Todas em Rust, com teste e CI rodando <strong>clippy no modo estrito</strong>.
+        O maior binário tem 707 KB e nenhuma delas exige runtime instalado. Código aberto, MIT.
       </p>
 
       <div class="status">
@@ -356,9 +354,9 @@
         <div>
           <div class="name"><h2>spectra</h2><span class="slug">masterazul/Spectra</span></div>
           <p class="thesis">
-            CLI de OSINT sobre registros públicos brasileiros. <b>18 fontes livres e legais</b>
-            atrás de uma única interface, com envelope JSON idêntico para todas e um comando
-            <b>verify</b> que checa a saúde de cada fonte antes da coleta.
+            Consultar CNPJ, CEP, DNS e certificado de um domínio significava abrir meia dúzia de
+            sites. Aqui são <b>18 fontes públicas numa CLI só</b>, todas devolvendo o mesmo formato
+            de JSON. E tem o <b>verify</b>: antes de sair coletando, ele diz quais fontes estão de pé.
           </p>
           <ul class="tags"><li>Rust</li><li>OSINT</li><li>CLI</li><li>Threat Intel</li></ul>
         </div>
@@ -378,10 +376,10 @@
         <div>
           <div class="name"><h2>keyrot</h2><span class="slug">masterazul/keyrot</span></div>
           <p class="thesis">
-            Cofre de segredos com <b>envelope encryption</b> (Argon2id derivando a chave que
-            protege uma DEK AES-256-GCM). Versionamento, rotação e log de auditoria encadeado
-            por SHA-256 que <b>denuncia adulteração</b> no histórico. Cada segredo é amarrado
-            criptograficamente ao seu nome e versão.
+            A senha não cifra os segredos. Ela deriva, com Argon2id, a chave que embrulha outra
+            chave — e é essa que cifra. Assim trocar a senha não obriga a re-cifrar nada. Todo
+            <b>put</b> cria uma versão nova em vez de sobrescrever, e cada operação vira uma linha
+            num log encadeado por SHA-256. Mexeu no histórico, o <b>verify</b> acusa.
           </p>
           <ul class="tags"><li>Rust</li><li>Criptografia</li><li>AEAD</li><li>Auditoria</li></ul>
         </div>
@@ -401,9 +399,9 @@
         <div>
           <div class="name"><h2>kostwatch</h2><span class="slug">masterazul/kostwatch</span></div>
           <p class="thesis">
-            FinOps para Kubernetes: compara o que os workloads <b>pedem</b> com o que de fato
-            <b>usam</b>, precifica a diferença e ordena os achados pela economia possível.
-            Lê de um snapshot local ou direto do Prometheus.
+            O time pede 2 vCPUs e usa 0,1. Multiplica por réplica e por mês: vira dinheiro parado.
+            O kostwatch confronta <b>o que foi pedido</b> com <b>o que roda de verdade</b> — lendo um
+            snapshot ou o Prometheus direto — e devolve a conta, do maior desperdício para o menor.
           </p>
           <ul class="tags"><li>Rust</li><li>Kubernetes</li><li>Prometheus</li><li>FinOps</li></ul>
         </div>
@@ -423,9 +421,9 @@
         <div>
           <div class="name"><h2>deploybox</h2><span class="slug">masterazul/deploybox</span></div>
           <p class="thesis">
-            Ambientes de preview em um comando: constrói o Dockerfile do repositório, sobe o
-            container numa porta livre e serve tudo sob <b>&lt;nome&gt;.localhost</b> através de um
-            reverse proxy próprio, escrito só com a biblioteca padrão.
+            <b>deploybox up .</b> e o repositório vira um ambiente de preview no ar. Build do
+            Dockerfile, porta livre escolhida sozinha, e um reverse proxy feito na unha com
+            <b>std::net</b> para servir cada ambiente em nome.localhost.
           </p>
           <ul class="tags"><li>Rust</li><li>Docker</li><li>Reverse proxy</li><li>DevOps</li></ul>
         </div>
@@ -445,9 +443,10 @@
         <div>
           <div class="name"><h2>habitsync</h2><span class="slug">masterazul/habitsync</span></div>
           <p class="thesis">
-            Backend <b>offline-first</b>: o cliente trabalha sem rede e reconcilia num único
-            endpoint de delta sync (last-write-wins com cursor monotônico). O servidor ainda
-            calcula as sequências de hábitos. Sem banco de dados para operar.
+            Feito para app que precisa funcionar no avião. O cliente grava tudo offline; quando a
+            rede volta, manda num <b>POST só</b> e recebe de volta apenas o que mudou desde o último
+            cursor. Conflito resolve por last-write-wins. Não tem banco: o estado é um arquivo JSON
+            gravado de forma atômica.
           </p>
           <ul class="tags"><li>Rust</li><li>HTTP</li><li>Delta sync</li><li>Offline-first</li></ul>
         </div>
