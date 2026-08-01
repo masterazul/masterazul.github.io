@@ -1,108 +1,159 @@
+:root {
+    --bg: #07090a;
+    --ink: #e4e9e4;
+    --mut: #78857d;
+    --line: rgba(120, 133, 125, .18);
+    --phos: #6ef7a7;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --serif: 'Instrument Serif', Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    background-color: var(--bg);
+    font-family: var(--mono);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #000;
-    font-family: 'Courier New', monospace;
-    color: #00ff00;
+    align-items: stretch;
+    overflow-x: hidden;
+}
+
+/* grão e scanline por cima de tudo */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    background-image:
+        repeating-linear-gradient(to bottom, rgba(255, 255, 255, .016) 0 1px, transparent 1px 3px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: .45;
 }
 
 .split-screen {
-    width: 33.33%;
-    height: 100vh;
+    width: 33.3333%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     position: relative;
     overflow: hidden;
     text-align: center;
-    transition: background-image 0.5s ease-in-out;
-}
-
-#screen1 {
-    background-image: url('op_art_blue.png');
+    padding: 48px 28px 76px;
+    border-right: 1px solid var(--line);
     background-size: cover;
     background-position: center;
+    opacity: 0;
+    animation: painel .8s cubic-bezier(.2, .7, .3, 1) forwards;
 }
 
-#screen2 {
-    background-image: url('op_art_black.png');
-    background-size: cover;
-    background-position: center;
-    display: none;
-}
+.split-screen:last-of-type { border-right: 0; }
 
-#screen3 {
-    background-image: url('op_art_green.png');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    transition: background-image 0.5s ease-in-out;
-}
-
-#screen3 .btn-back {
+/* a arte fica como textura, nao como cor dominante */
+.split-screen::before {
+    content: '';
     position: absolute;
-    right: 50%;
-    bottom: 20px;
-    background-color: #007bff;
-    color: #fff;
-    padding: 15px 30px;
-    border-radius: 50%;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-    transition: background-color 0.3s ease;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(7, 9, 10, .90), rgba(7, 9, 10, .96));
+    z-index: 0;
 }
 
-#screen3 .btn-back:hover {
-    background-color: #0056b3;
-}
+.split-screen > * { position: relative; z-index: 1; }
 
+#screen1 { background-image: url('op_art_blue.png');  animation-delay: .05s; }
+#screen2 { background-image: url('op_art_black.png'); animation-delay: .18s; }
+#screen3 { background-image: url('op_art_green.png'); animation-delay: .31s; }
 
-#screen3 .btn-back:hover {
-    background-color: #0056b3;
-}
+.split-screen a { display: inline-block; }
 
 .icon {
-    width: 100px;
-    margin-top: 20px;
+    width: 46px;
+    height: auto;
+    opacity: .7;
+    filter: grayscale(1);
+    transition: opacity .3s ease, filter .3s ease, transform .3s ease;
+}
+
+.split-screen a:hover .icon {
+    opacity: 1;
+    filter: grayscale(0);
+    transform: translateY(-3px);
+}
+
+.split-screen .rotulo {
+    margin: 20px 0 12px;
+    font-size: .68rem;
+    font-weight: 500;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--phos);
+    max-width: none;
 }
 
 .split-screen p {
-    color: #00ff00;
+    color: var(--mut);
     text-align: center;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    margin: 0;
+    padding: 0;
+    max-width: 30ch;
+    font-size: .82rem;
+    font-weight: 200;
+    line-height: 1.75;
+}
+
+.quote {
+    position: absolute;
+    bottom: 26px;
+    left: 0;
+    right: 0;
+    font-size: .58rem !important;
+    letter-spacing: .12em;
+    color: var(--mut) !important;
+    opacity: .45;
+    max-width: none !important;
+}
 
 .btn-back {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
-    background-color: #007bff;
-    color: #fff;
-    padding: 15px 30px;
-    border-radius: 50%;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 22px;
+    z-index: 60;
+    font-family: var(--mono);
+    font-size: .66rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--mut);
+    background: rgba(7, 9, 10, .82);
+    border: 1px solid var(--line);
+    border-radius: 0;
+    padding: 11px 24px;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    box-shadow: none;
+    transition: color .3s ease, border-color .3s ease;
 }
 
 .btn-back:hover {
-    background-color: #0056b3;
+    color: var(--phos);
+    border-color: var(--phos);
+    background: rgba(7, 9, 10, .92);
+}
+
+@keyframes painel {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
 }
 
 body.page-transition {
@@ -110,3 +161,20 @@ body.page-transition {
     transition: opacity 0.5s ease-in-out;
 }
 
+@media (max-width: 820px) {
+    body { flex-direction: column; }
+    .split-screen {
+        width: 100%;
+        min-height: auto;
+        padding: 54px 24px 62px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+    .quote { position: static; margin-top: 22px; }
+    .btn-back { position: static; transform: none; display: block; margin: 24px auto 40px; width: max-content; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .split-screen { opacity: 1; }
+}

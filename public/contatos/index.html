@@ -3,44 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Split Screen</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Matheus Augusto — Contato</title>
+    <meta name="description" content="LinkedIn, GitHub e WhatsApp de Matheus Augusto, engenheiro de automação de segurança.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <div class="split-screen" id="screen1">
-        <a href="https://www.linkedin.com/in/augustoae" target="_blank">
-            <img src="linkedin-icon.png" alt="LinkedIn Icon" class="icon" id="icon1">
+        <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">
+            <img src="linkedin-icon.png" alt="LinkedIn" class="icon" id="icon1">
         </a>
-        <p id="text1">Clique no ícone acima para ver meu LinkedIn<br>Engenheiro Back-end (Rust/Python) com foco em DevSecOps e automação de operações de SOC. Certificações Tenable (TSCA, Nessus Engineer).</p>
-        <p class="quote">"Noite estrelada" (Vincent Van Gogh)</p>
+        <p class="rotulo">LinkedIn</p>
+        <p id="text1">Histórico completo e recomendações. Engenheiro de automação de segurança — SOC, DevSecOps e threat intelligence. Certificado Tenable (TSCA e Nessus Engineer).</p>
+        <p class="quote">"Noite estrelada" (Vincent van Gogh)</p>
     </div>
+
     <div class="split-screen" id="screen2">
-        <a href="https://github.com/masterazul" target="_blank">
-            <img src="github-icon.png" alt="GitHub Icon" class="icon" id="icon2">
+        <a href="https://github.com/masterazul" target="_blank" rel="noopener">
+            <img src="github-icon.png" alt="GitHub" class="icon" id="icon2">
         </a>
-        <p id="text2">Clique no ícone acima para ver meu GitHub<br>Projetos open-source em Rust — gestão de segredos, custos de Kubernetes, OSINT e deploy de preview. O código fala por si; vamos conversar.</p>
-        <p class="quote">"Onda grande de Kanagawa" (Katsuhika Hokusai)</p>
+        <p class="rotulo">GitHub</p>
+        <p id="text2">Cinco ferramentas em Rust, todas com teste e CI: OSINT de registros públicos, cofre de segredos, custo de Kubernetes, deploy de preview e sync offline-first.</p>
+        <p class="quote">"A grande onda de Kanagawa" (Katsushika Hokusai)</p>
     </div>
+
     <div class="split-screen" id="screen3">
+        <a href="https://wa.me/5521989390637" target="_blank" rel="noopener">
+            <img src="whatsapp-icon.png" alt="WhatsApp" class="icon" id="icon3">
+        </a>
+        <p class="rotulo">WhatsApp</p>
+        <p id="text3">Para conversa direta sobre vaga, projeto ou uma dúvida técnica rápida. Costumo responder no mesmo dia.</p>
+        <p class="quote">"O grito" (Edvard Munch)</p>
+    </div>
+
     <a href="../SOBRE_MIM/resumo.html" class="btn-back">Voltar</a>
-    <a href="https://wa.me/5521989390637" target="_blank">
-        <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon" id="icon3">
-    </a>
-    <p id="text3">Clique no ícone acima para ser redirecionado<br>Entre em contato comigo pelo WhatsApp para discussões rápidas e diretas ou mesmo ajuda em algum projeto! Estou à sua disposição!</p>
-    <p class="quote">"O grito" (Edvard Munch)</p>
-</div>
-
-
 
     <script src="scripts.js"></script>
     <script src="../../src/transition_contatos.js"></script>
-    <script>
-        window.onload = function() {
-            var textElements = document.querySelectorAll('.split-screen p');
-            textElements.forEach(function(elem) {
-                elem.style.opacity = 1;
-            });
-        };
-    </script>
 </body>
 </html>
