@@ -164,7 +164,12 @@ body {
     background: var(--pg);
     border: 1px solid var(--line);
     border-radius: 3px;
-    padding: 9px 18px;
+    /* alvo de toque garantido em qualquer tela, inclusive celular deitado,
+       que passa da largura do breakpoint e caia na regra de desktop */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 9px 20px;
     text-decoration: none;
     box-shadow: var(--sombra);
     transition: color .25s ease, border-color .25s ease, background .25s ease;
