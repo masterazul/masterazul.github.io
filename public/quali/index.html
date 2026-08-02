@@ -27,102 +27,113 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;400;500;700&display=swap" rel="stylesheet">
     <style>
       :root{
-        --bg:#07090a; --ink:#e4e9e4; --mut:#78857d;
-        --line:rgba(120,133,125,.16); --phos:#6ef7a7; --phos-soft:rgba(110,247,167,.09);
-        --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        --bg:#f7f7f5; --ink:#1a1c1a; --mut:#6a706c;
+        --line:rgba(26,28,26,.12); --phos:#186a4e; --phos-soft:rgba(24,106,78,.06);
+        --pg:#ffffff; --pg2:#fbfbfa;
+        --sombra:0 1px 2px rgba(26,28,26,.05), 0 12px 32px rgba(26,28,26,.07);
+        --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
         --serif:'Instrument Serif',Georgia,serif;
+        --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
       }
       *{box-sizing:border-box}
+      html{-webkit-text-size-adjust:100%}
       body{
         margin:0;background:var(--bg);color:var(--ink);
-        font-family:var(--mono);line-height:1.6;-webkit-font-smoothing:antialiased;
+        font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;
         padding:44px 20px 110px;overflow-x:hidden;
         transition:opacity .9s ease, transform .9s ease;
       }
       body.wipe-out{opacity:0;transform:scale(.97)}
 
-      body::before{
-        content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-        background:radial-gradient(56rem 32rem at 50% -10%, rgba(110,247,167,.075), transparent 62%);
-      }
-      body::after{
-        content:'';position:fixed;inset:0;pointer-events:none;z-index:99;
-        background-image:
-          repeating-linear-gradient(to bottom, rgba(255,255,255,.018) 0 1px, transparent 1px 3px),
-          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
-        mix-blend-mode:overlay;opacity:.45;
-      }
-
       .terminal{
         position:relative;z-index:1;max-width:960px;margin:0 auto;
-        border:1px solid var(--line);background:rgba(11,15,17,.6);
+        background:var(--pg);border:1px solid var(--line);border-radius:3px;
+        box-shadow:var(--sombra);overflow:hidden;
         opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) forwards;
       }
       .terminal-header{
         display:flex;align-items:center;gap:14px;
-        padding:12px 16px;border-bottom:1px solid var(--line);
+        padding:13px 20px;border-bottom:1px solid var(--line);background:var(--pg2);
       }
       .terminal-buttons{display:flex;gap:7px}
-      .terminal-button{width:9px;height:9px;border-radius:50%;display:block;opacity:.55}
-      .terminal-button.red{background:#e05561}
-      .terminal-button.yellow{background:#d5a04a}
+      .terminal-button{width:9px;height:9px;border-radius:50%;display:block}
+      .terminal-button.red{background:#c4796f}
+      .terminal-button.yellow{background:#c2a05c}
       .terminal-button.green{background:var(--phos)}
       .terminal-title{
-        font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);
+        font-family:var(--mono);font-size:.62rem;font-weight:500;
+        letter-spacing:.14em;text-transform:uppercase;color:var(--mut);
       }
       .terminal-body{padding:40px 34px 46px}
 
       h1{
         font-family:var(--serif);font-weight:400;
         font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.05;letter-spacing:-.015em;
-        margin:0 0 14px;
+        margin:0 0 16px;
       }
       h1 em{font-style:italic;color:var(--phos)}
       .lede{
-        margin:0 0 34px;max-width:60ch;color:var(--mut);
-        font-size:.88rem;font-weight:200;line-height:1.78;
+        margin:0 0 34px;max-width:62ch;color:var(--mut);
+        font-size:.96rem;line-height:1.7;
       }
 
-      .prova{display:flex;flex-wrap:wrap;border:1px solid var(--line);margin-bottom:44px}
+      .prova{
+        display:flex;flex-wrap:wrap;
+        border:1px solid var(--line);border-radius:3px;overflow:hidden;
+        margin-bottom:44px;
+      }
       .prova div{flex:1 1 auto;min-width:136px;padding:14px 18px;border-right:1px solid var(--line)}
       .prova div:last-child{border-right:0}
-      .prova b{display:block;font-size:1.24rem;font-weight:700;color:var(--phos);font-variant-numeric:tabular-nums}
-      .prova span{display:block;font-size:.6rem;letter-spacing:.19em;text-transform:uppercase;color:var(--mut);margin-top:5px}
+      .prova b{display:block;font-size:1.18rem;font-weight:600;color:var(--phos);font-variant-numeric:tabular-nums}
+      .prova span{
+        display:block;font-family:var(--mono);font-size:.58rem;
+        letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-top:5px;
+      }
 
       h2{
-        margin:0 0 16px;font-size:.68rem;font-weight:700;
-        letter-spacing:.24em;text-transform:uppercase;color:var(--phos);
+        margin:0 0 16px;font-family:var(--mono);font-size:.66rem;font-weight:500;
+        letter-spacing:.16em;text-transform:uppercase;color:var(--phos);
       }
       section{padding:26px 0;border-top:1px solid var(--line)}
       section:first-of-type{border-top:0;padding-top:0}
 
       .linha{display:grid;grid-template-columns:190px minmax(0,1fr);gap:20px;padding:9px 0}
-      .linha dt{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-      .linha dd{margin:0;font-size:.84rem;font-weight:200;line-height:1.7;color:var(--ink)}
+      .linha dt{
+        font-family:var(--mono);font-size:.64rem;
+        letter-spacing:.14em;text-transform:uppercase;color:var(--mut);padding-top:3px;
+      }
+      .linha dd{margin:0;font-size:.92rem;line-height:1.7;color:var(--ink)}
       dl{margin:0}
 
       ul{margin:0;padding:0;list-style:none}
       li{
         position:relative;padding:8px 0 8px 20px;
-        font-size:.84rem;font-weight:200;line-height:1.7;color:var(--mut);
+        font-size:.92rem;line-height:1.7;color:var(--mut);
       }
-      li::before{content:'';position:absolute;left:0;top:17px;width:7px;height:1px;background:var(--phos)}
-      li strong{color:var(--ink);font-weight:400}
+      li::before{content:'';position:absolute;left:0;top:19px;width:7px;height:1px;background:var(--phos)}
+      li strong{color:var(--ink);font-weight:600}
 
+      /* antes ficava fixo no centro do rodape, planando por cima do texto;
+         no canto superior sai do caminho e combina com as outras paginas */
       .floating-button{
-        position:fixed;left:50%;transform:translateX(-50%);bottom:24px;z-index:60;
-        font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
-        color:var(--mut);text-decoration:none;
-        background:rgba(7,9,10,.85);border:1px solid var(--line);padding:11px 24px;
-        transition:color .3s ease,border-color .3s ease;
+        position:fixed;top:22px;left:24px;z-index:60;
+        font-family:var(--sans);font-size:.8rem;
+        color:var(--ink);text-decoration:none;
+        background:var(--pg);border:1px solid var(--line);border-radius:3px;
+        box-shadow:var(--sombra);padding:9px 18px;
+        transition:color .3s ease,border-color .3s ease,background .3s ease;
       }
-      .floating-button:hover{color:var(--phos);border-color:var(--phos)}
+      @media (max-width:820px){
+        .floating-button{position:static;display:block;width:max-content;margin:28px auto 40px}
+      }
+      .floating-button:hover{color:var(--phos);border-color:var(--phos);background:var(--phos-soft)}
 
       @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
       @media (max-width:700px){
         .terminal-body{padding:30px 20px 36px}
         .linha{grid-template-columns:1fr;gap:4px}
+        .linha dt{padding-top:0}
         .prova div{min-width:118px}
       }
       @media (prefers-reduced-motion:reduce){
@@ -139,7 +150,7 @@
                 <span class="terminal-button yellow"></span>
                 <span class="terminal-button green"></span>
             </div>
-            <span class="terminal-title">matheus@seguranca — qualificações</span>
+            <span class="terminal-title">Matheus Augusto · Qualificações</span>
         </div>
         <div class="terminal-body">
             <h1>O que eu <em>sei fazer</em>, e onde dá pra conferir.</h1>

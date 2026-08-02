@@ -31,9 +31,9 @@
       --line:rgba(26,28,26,.12); --phos:#186a4e; --phos-soft:rgba(24,106,78,.06);
       --pg:#ffffff; --pg2:#fbfbfa;
       --sombra:0 1px 2px rgba(26,28,26,.05), 0 12px 32px rgba(26,28,26,.07);
-      --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
       --serif:'Instrument Serif',Georgia,serif;
-      --sans:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Inter,Helvetica,Arial,sans-serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
     }
     *{box-sizing:border-box}
     html{-webkit-text-size-adjust:100%}
@@ -50,7 +50,7 @@
     }
     .back:hover{color:var(--phos)}
 
-    header{padding:44px 0 30px;text-align:center}
+    header{padding:26px 0 20px;text-align:center}
     .eyebrow{
       margin:0 0 18px;font-family:var(--mono);font-size:.66rem;font-weight:500;
       letter-spacing:.18em;text-transform:uppercase;color:var(--phos);
@@ -61,29 +61,41 @@
     }
     h1 em{font-style:italic;color:var(--phos)}
     .deck{
-      margin:0 auto;max-width:62ch;color:var(--mut);
-      font-size:1rem;line-height:1.7;
+      margin:0 auto;max-width:72ch;color:var(--mut);
+      font-size:.98rem;line-height:1.65;
     }
     .deck strong{color:var(--ink);font-weight:600}
 
     /* ---------------- livro ---------------- */
     .stage{
       perspective:2600px;perspective-origin:50% 42%;
-      margin:38px auto 0;max-width:1000px;
+      margin:22px auto 0;max-width:1000px;
     }
     .book{
       position:relative;margin:0 auto;
-      width:100%;height:clamp(520px,74vh,650px);
+      width:100%;height:clamp(400px,54vh,520px);
       transform-style:preserve-3d;
       /* as folhas ocupam a metade direita: fechado desloca para o centro, aberto ocupa as duas */
       transform:translateX(-25%);
       transition:transform .9s cubic-bezier(.2,.7,.25,1);
     }
     .book.aberto{transform:translateX(0)}
+    /* miolo de folhas na borda de fora, para o objeto parecer um livro fechado */
+    .book::after{
+      content:'';position:absolute;top:7px;bottom:7px;right:-6px;width:6px;
+      border-radius:0 3px 3px 0;
+      background:repeating-linear-gradient(90deg,
+        rgba(26,28,26,.13) 0 1px, rgba(255,255,255,.9) 1px 2px);
+      box-shadow:1px 0 3px rgba(26,28,26,.06);
+      transition:opacity .5s ease;
+    }
+    .book.aberto::after{opacity:0}
 
     .leaf{
       position:absolute;top:0;right:0;
       width:50%;height:100%;
+      /* a folha e papel opaco: sem isso o esmaecido do pe deixa ver a pagina de tras */
+      background:var(--pg);
       transform-origin:left center;transform-style:preserve-3d;
       transition:transform 1.15s cubic-bezier(.36,.02,.2,1);
     }
@@ -95,10 +107,16 @@
       background:var(--pg);
       border:1px solid var(--line);border-radius:3px;
       box-shadow:var(--sombra);
-      padding:40px 38px 52px;
+      padding:30px 34px 42px;
       overflow-y:auto;overflow-x:hidden;
       display:flex;flex-direction:column;
+      /* o corte seco no pe parecia defeito; assim a leitura entende que continua */
+      -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 34px),transparent 100%);
+      mask-image:linear-gradient(180deg,#000 calc(100% - 34px),transparent 100%);
     }
+    /* a pagina e um flex column: sem isso o conteudo excedente espreme os blocos
+       em vez de rolar, e quem tem overflow:hidden (a telemetria) some */
+    .face > *{flex-shrink:0}
     .face.verso{transform:rotateY(180deg);background:var(--pg2)}
     .face::before{
       content:'';position:absolute;top:0;bottom:0;left:0;width:22px;
@@ -134,7 +152,7 @@
       line-height:1.05;margin:0 0 6px;letter-spacing:-.01em;
     }
     .slug{font-family:var(--mono);font-size:.72rem;color:var(--mut);margin:0 0 20px}
-    .face p.txt{margin:0 0 18px;font-size:.92rem;line-height:1.7;color:var(--mut)}
+    .face p.txt{margin:0 0 14px;font-size:.89rem;line-height:1.62;color:var(--mut)}
     .face p.txt b{color:var(--ink);font-weight:600}
     .rot{
       margin:6px 0 8px;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;

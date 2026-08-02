@@ -57,10 +57,18 @@
             conteudoAVista = true;
         }
 
-        setInterval(addTerminalLine, 100);
-        setTimeout(showContent, 4000);
+        // o visual claro esconde terminal e chuva por CSS: sem isso os dois seguiriam
+        // criando no e gastando bateria atras de um elemento invisivel
+        const teatroVisivel = (el) => el && getComputedStyle(el).display !== 'none';
 
-        const numLetters = 100;
+        if (teatroVisivel(terminal)) {
+            setInterval(addTerminalLine, 100);
+            setTimeout(showContent, 4000);
+        } else {
+            showContent();
+        }
+
+        const numLetters = teatroVisivel(rain) ? 100 : 0;
         for (let i = 0; i < numLetters; i++) {
             const letter = document.createElement('div');
             letter.className = 'raindrop';

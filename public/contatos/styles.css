@@ -1,11 +1,16 @@
 :root {
-    --bg: #07090a;
-    --ink: #e4e9e4;
-    --mut: #78857d;
-    --line: rgba(120, 133, 125, .18);
-    --phos: #6ef7a7;
-    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --bg: #f7f7f5;
+    --ink: #1a1c1a;
+    --mut: #6a706c;
+    --line: rgba(26, 28, 26, .12);
+    --phos: #186a4e;
+    --phos-soft: rgba(24, 106, 78, .06);
+    --pg: #ffffff;
+    --pg2: #fbfbfa;
+    --sombra: 0 1px 2px rgba(26, 28, 26, .05), 0 12px 32px rgba(26, 28, 26, .07);
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
     --serif: 'Instrument Serif', Georgia, serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -16,7 +21,7 @@ body, html {
     width: 100%;
     min-height: 100%;
     background-color: var(--bg);
-    font-family: var(--mono);
+    font-family: var(--sans);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
 }
@@ -27,47 +32,42 @@ body {
     overflow-x: hidden;
 }
 
-/* grão e scanline por cima de tudo */
-body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 50;
-    background-image:
-        repeating-linear-gradient(to bottom, rgba(255, 255, 255, .016) 0 1px, transparent 1px 3px),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
-    mix-blend-mode: overlay;
-    opacity: .45;
-}
-
 .split-screen {
     width: 33.3333%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* topo fixo em vez de centro: com centro, cada painel desloca o icone conforme
+       o tamanho do proprio texto e os tres saem desalinhados */
+    justify-content: flex-start;
     align-items: center;
     position: relative;
     overflow: hidden;
     text-align: center;
-    padding: 48px 28px 76px;
+    padding: clamp(150px, 27vh, 300px) 32px 96px;
     border-right: 1px solid var(--line);
+    background-color: var(--pg);
     background-size: cover;
-    background-position: center;
+    background-position: bottom center;
     opacity: 0;
     animation: painel .8s cubic-bezier(.2, .7, .3, 1) forwards;
 }
 
 .split-screen:last-of-type { border-right: 0; }
 
-/* a arte fica como textura, nao como cor dominante */
+/* a pintura sobe do rodape: branco solido onde o texto le, e ela so aparece
+   perto da legenda. Veu uniforme deixava a tela manchada, parecendo defeito. */
 .split-screen::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(7, 9, 10, .90), rgba(7, 9, 10, .96));
+    background: linear-gradient(180deg,
+        #fff 0%,
+        #fff 46%,
+        rgba(255, 255, 255, .97) 66%,
+        rgba(255, 255, 255, .86) 100%);
     z-index: 0;
+    pointer-events: none;
 }
 
 .split-screen > * { position: relative; z-index: 1; }
@@ -76,19 +76,25 @@ body::after {
 #screen2 { background-image: url('op_art_black.png'); animation-delay: .18s; }
 #screen3 { background-image: url('op_art_green.png'); animation-delay: .31s; }
 
-.split-screen a { display: inline-block; }
+.split-screen a { display: inline-block; border-radius: 3px; }
 
+.split-screen a:focus-visible {
+    outline: 2px solid var(--phos);
+    outline-offset: 4px;
+}
+
+/* sem grayscale: o icone do WhatsApp e claro e sumia em cinza, enquanto
+   LinkedIn e GitHub ficavam pretos — os tres perdiam o mesmo peso visual */
 .icon {
     width: 46px;
     height: auto;
-    opacity: .7;
-    filter: grayscale(1);
-    transition: opacity .3s ease, filter .3s ease, transform .3s ease;
+    border-radius: 3px;
+    transition: transform .3s ease, opacity .3s ease;
 }
 
-.split-screen a:hover .icon {
-    opacity: 1;
-    filter: grayscale(0);
+.split-screen a:hover .icon,
+.split-screen a:focus-visible .icon {
+    opacity: .85;
     transform: translateY(-3px);
 }
 
@@ -105,10 +111,11 @@ body::after {
 }
 
 .split-screen .rotulo {
-    margin: 20px 0 12px;
-    font-size: .68rem;
+    margin: 24px 0 14px;
+    font-family: var(--mono);
+    font-size: .72rem;
     font-weight: 500;
-    letter-spacing: .28em;
+    letter-spacing: .16em;
     text-transform: uppercase;
     color: var(--phos);
     max-width: none;
@@ -121,48 +128,54 @@ body::after {
     text-align: center;
     margin: 0;
     padding: 0;
-    max-width: 30ch;
-    font-size: .82rem;
-    font-weight: 200;
-    line-height: 1.75;
+    max-width: 34ch;
+    font-size: .92rem;
+    font-weight: 400;
+    line-height: 1.7;
 }
 
-.quote {
+/* .split-screen p (0,1,1) atropelaria .quote (0,1,0); por isso o seletor duplo */
+.split-screen .quote {
     position: absolute;
-    bottom: 26px;
+    bottom: 30px;
     left: 0;
     right: 0;
-    font-size: .58rem !important;
-    letter-spacing: .12em;
-    color: var(--mut) !important;
-    opacity: .45;
-    max-width: none !important;
+    padding: 0 24px;
+    font-family: var(--mono);
+    font-size: .72rem;
+    line-height: 1.7;
+    letter-spacing: .02em;
+    color: var(--mut);
+    max-width: none;
+    opacity: 1;
 }
 
 .btn-back {
     position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 22px;
+    top: 22px;
+    left: 24px;
     z-index: 60;
-    font-family: var(--mono);
-    font-size: .66rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--mut);
-    background: rgba(7, 9, 10, .82);
+    font-family: var(--sans);
+    font-size: .8rem;
+    color: var(--ink);
+    background: var(--pg);
     border: 1px solid var(--line);
-    border-radius: 0;
-    padding: 11px 24px;
+    border-radius: 3px;
+    padding: 9px 18px;
     text-decoration: none;
-    box-shadow: none;
-    transition: color .3s ease, border-color .3s ease;
+    box-shadow: var(--sombra);
+    transition: color .25s ease, border-color .25s ease, background .25s ease;
 }
 
 .btn-back:hover {
     color: var(--phos);
     border-color: var(--phos);
-    background: rgba(7, 9, 10, .92);
+    background: var(--phos-soft);
+}
+
+.btn-back:focus-visible {
+    outline: 2px solid var(--phos);
+    outline-offset: 2px;
 }
 
 @keyframes painel {
@@ -180,12 +193,18 @@ body.page-transition {
     .split-screen {
         width: 100%;
         min-height: auto;
-        padding: 54px 24px 62px;
+        padding: 58px 24px 66px;
         border-right: 0;
         border-bottom: 1px solid var(--line);
     }
-    .quote { position: static; margin-top: 22px; }
-    .btn-back { position: static; transform: none; display: block; margin: 24px auto 40px; width: max-content; }
+    .split-screen .quote { position: static; margin-top: 24px; padding: 0; }
+    .btn-back {
+        position: static;
+        transform: none;
+        display: block;
+        margin: 28px auto 40px;
+        width: max-content;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
