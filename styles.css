@@ -179,7 +179,9 @@ body::after {
     animation: fadeIn .8s ease-out .35s forwards;
 }
 
-.intro button {
+.intro button,
+.intro .cta {
+    display: inline-block;
     font-family: var(--mono);
     padding: 13px 30px;
     font-size: .72rem;
@@ -189,13 +191,16 @@ body::after {
     background: transparent;
     border: 1px solid var(--phos);
     border-radius: 0;
+    text-decoration: none;
     cursor: pointer;
     transition: background .3s ease, color .3s ease;
     opacity: 0;
     animation: fadeIn .8s ease-out .5s forwards;
 }
 
-.intro button:hover {
+.intro button:hover,
+.intro .cta:hover,
+.intro .cta:focus-visible {
     background: var(--phos);
     color: var(--bg);
 }

@@ -3,17 +3,19 @@
         const content = document.getElementById('content');
         const rain = document.getElementById('rain');
         const nameContainer = document.getElementById('name-container');
+        const cta = document.querySelector('.intro .cta');
+        const destino = cta ? cta.getAttribute('href') : 'public/SOBRE_MIM/resumo.html';
         let emailCopied = false;
+        let conteudoAVista = false;
+        let saindo = false;
 
         function showTooltip() {
-            console.log("Mouse over detected");
             if (!emailCopied) {
                 nameContainer.textContent = "você deseja copiar este email?";
             }
         }
 
         function hideTooltip() {
-            console.log("Mouse out detected");
             if (!emailCopied) {
                 nameContainer.textContent = "Matheus Augusto";
             }
@@ -22,7 +24,6 @@
         function copyEmail() {
             const email = "ae_augusto33@proton.me";
             navigator.clipboard.writeText(email).then(() => {
-                console.log("Email copied");
                 emailCopied = true;
                 nameContainer.textContent = "email copiado com sucesso";
                 setTimeout(() => {
@@ -53,6 +54,7 @@
         function showContent() {
             terminal.style.display = 'none';
             content.style.display = 'flex';
+            conteudoAVista = true;
         }
 
         setInterval(addTerminalLine, 100);
@@ -69,16 +71,23 @@
         }
 
         function redirectToPortfolio() {
-    document.body.classList.add('rotate-out');
-    setTimeout(() => {
-        window.location.href = "public/SOBRE_MIM/resumo.html";
-    }, 1000);
-}
+            if (saindo) return;
+            saindo = true;
+            document.body.classList.add('rotate-out');
+            setTimeout(() => {
+                window.location.href = destino;
+            }, 1000);
+        }
 
-window.addEventListener('wheel', function(event) {
-    if (event.deltaY > 0) {
-        redirectToPortfolio();
-    } else if (event.deltaY < 0) {
-        redirectToPortfolio();
-    }
-});
+        if (cta) {
+            cta.addEventListener('click', (event) => {
+                // ctrl, cmd, shift ou botao do meio abrem em outra aba: deixar passar
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                event.preventDefault();
+                redirectToPortfolio();
+            });
+        }
+
+        window.addEventListener('wheel', (event) => {
+            if (conteudoAVista && event.deltaY > 0) redirectToPortfolio();
+        }, { passive: true });
