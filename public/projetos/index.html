@@ -216,10 +216,17 @@
       /* uma pagina por vez ocupa a largura toda, entao nao ha metade a compensar.
          altura menor que a antiga porque com 80vh a navegacao caia abaixo da dobra
          e nao havia como descobrir que da para virar a pagina */
-      .book{width:100%;height:clamp(420px,56vh,520px);transform:none}
+      .book{width:100%;height:clamp(380px,50vh,470px);transform:none}
       .book.aberto{transform:none}
       .leaf{width:100%}
       .face{padding:26px 20px 40px}
+      /* cabecalho enxuto no celular: e o que faz a navegacao caber na primeira tela */
+      .wrap{padding:18px 20px 48px}
+      header{padding:14px 0 12px}
+      h1{font-size:1.85rem;margin:0 0 12px}
+      .eyebrow{margin:0 0 12px;font-size:.6rem;letter-spacing:.14em}
+      .deck{font-size:.88rem;line-height:1.55}
+      .stage{margin-top:14px}
       .nav{gap:10px}
       .nav .conta{min-width:0;flex:1 1 auto;font-size:.68rem}
       .nav button{padding:12px 16px}
