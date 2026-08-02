@@ -4,7 +4,7 @@
     --mut: #6a706c;
     --line: rgba(26, 28, 26, .12);
     --phos: #186a4e;
-    --phos-soft: rgba(24, 106, 78, .06);
+    --phos-soft: rgba(24, 106, 78, .06); --phos-tint: #f1f6f3;
     --pg: #ffffff;
     --pg2: #fbfbfa;
     --sombra: 0 1px 2px rgba(26, 28, 26, .05), 0 12px 32px rgba(26, 28, 26, .07);
@@ -63,9 +63,10 @@ body {
     inset: 0;
     background: linear-gradient(180deg,
         #fff 0%,
-        #fff 46%,
-        rgba(255, 255, 255, .97) 66%,
-        rgba(255, 255, 255, .86) 100%);
+        #fff 44%,
+        rgba(255, 255, 255, .95) 62%,
+        rgba(255, 255, 255, .82) 84%,
+        rgba(255, 255, 255, .94) 100%);
     z-index: 0;
     pointer-events: none;
 }
@@ -142,10 +143,12 @@ body {
     right: 0;
     padding: 0 24px;
     font-family: var(--mono);
-    font-size: .72rem;
+    font-size: .78rem;
     line-height: 1.7;
     letter-spacing: .02em;
-    color: var(--mut);
+    /* mais escuro que --mut porque aqui o fundo e a pintura, nao o branco:
+       medido, --mut dava 4,2:1 sobre as tres telas e nao passava em 4,5 */
+    color: #565c58;
     max-width: none;
     opacity: 1;
 }
@@ -170,7 +173,7 @@ body {
 .btn-back:hover {
     color: var(--phos);
     border-color: var(--phos);
-    background: var(--phos-soft);
+    background: var(--phos-tint);
 }
 
 .btn-back:focus-visible {
