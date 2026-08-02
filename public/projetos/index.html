@@ -213,12 +213,20 @@
 
     @media (max-width:860px){
       .stage{perspective:1500px}
-      /* uma pagina por vez ocupa a largura toda, entao nao ha metade a compensar */
-      .book{width:100%;height:clamp(560px,80vh,700px);transform:none}
+      /* uma pagina por vez ocupa a largura toda, entao nao ha metade a compensar.
+         altura menor que a antiga porque com 80vh a navegacao caia abaixo da dobra
+         e nao havia como descobrir que da para virar a pagina */
+      .book{width:100%;height:clamp(420px,56vh,520px);transform:none}
       .book.aberto{transform:none}
       .leaf{width:100%}
-      .face{padding:28px 22px 46px}
-      .nav .conta{min-width:0;flex:1 1 auto}
+      .face{padding:26px 20px 40px}
+      .nav{gap:10px}
+      .nav .conta{min-width:0;flex:1 1 auto;font-size:.68rem}
+      .nav button{padding:12px 16px}
+      /* alvo de toque: 26px de altura e pequeno demais para o dedo */
+      .back{padding:12px 0}
+      footer{gap:18px}
+      footer a{padding:11px 4px}
     }
     @media (prefers-reduced-motion:reduce){
       .book,.leaf{transition:none !important}

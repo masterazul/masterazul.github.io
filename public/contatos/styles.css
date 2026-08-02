@@ -207,6 +207,8 @@ body.page-transition {
         display: block;
         margin: 28px auto 40px;
         width: max-content;
+        /* 37px de altura era alvo de toque curto para o dedo */
+        padding: 13px 24px;
     }
 }
 
