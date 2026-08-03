@@ -1,22 +1,17 @@
 :root {
-    --bg: #f7f7f5;
-    --ink: #1a1c1a;
-    --mut: #6a706c;
-    --line: rgba(26, 28, 26, .12);
-    --phos: #186a4e;
-    --phos-soft: rgba(24, 106, 78, .06); --phos-tint: #f1f6f3;
-    --pg: #ffffff;
-    --pg2: #fbfbfa;
-    --sombra: 0 1px 2px rgba(26, 28, 26, .05), 0 12px 32px rgba(26, 28, 26, .07);
+    --bg: #07090a;
+    --ink: #e4e9e4;
+    --mut: #78857d;
+    --line: rgba(120, 133, 125, .16);
+    --phos: #6ef7a7;
     --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
     --serif: 'Instrument Serif', Georgia, serif;
-    --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
 
 body, html {
-    font-family: var(--sans);
+    font-family: var(--mono);
     margin: 0;
     padding: 0;
     color: var(--ink);
@@ -28,8 +23,33 @@ body, html {
     justify-content: center;
     align-items: center;
     position: relative;
-    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+}
+
+/* bloom de fósforo */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(52rem 32rem at 50% 42%, rgba(110, 247, 167, .085), transparent 64%),
+        radial-gradient(36rem 24rem at 88% 88%, rgba(110, 247, 167, .04), transparent 68%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* scanlines + grão */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(to bottom, rgba(255, 255, 255, .018) 0 1px, transparent 1px 3px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: .5;
+    pointer-events: none;
+    z-index: 99;
 }
 
 #name-container {
@@ -37,10 +57,9 @@ body, html {
     top: 26px;
     left: 28px;
     z-index: 4;
-    font-family: var(--mono);
-    font-size: .74rem;
+    font-size: .72rem;
     font-weight: 500;
-    letter-spacing: .14em;
+    letter-spacing: .22em;
     text-transform: uppercase;
     color: var(--mut);
     cursor: pointer;
@@ -54,10 +73,7 @@ body, html {
     border-bottom-color: var(--phos);
 }
 
-/* chuva de caracteres: fora do caminho no visual claro (elementos preservados no HTML) */
-.rain,
-#rain {
-    display: none;
+.rain {
     position: absolute;
     top: 0;
     left: 0;
@@ -70,7 +86,7 @@ body, html {
 .raindrop {
     position: absolute;
     color: var(--phos);
-    opacity: .12;
+    opacity: .16;
     font-family: var(--mono);
     font-size: 13px;
     animation: fall 2.6s linear infinite;
@@ -78,7 +94,7 @@ body, html {
 
 @keyframes fall {
     0%   { transform: translateY(-60px); opacity: 0; }
-    12%  { opacity: .18; }
+    12%  { opacity: .22; }
     100% { transform: translateY(100vh); opacity: 0; }
 }
 
@@ -94,14 +110,11 @@ body, html {
     flex-direction: column;
 }
 
-/* teatro de terminal: idem, oculto por CSS sem sair do HTML */
-.terminal,
-#terminal {
-    display: none;
-    background-color: var(--pg);
+.terminal {
+    background-color: rgba(7, 9, 10, .92);
     color: var(--phos);
     font-family: var(--mono);
-    font-weight: 400;
+    font-weight: 200;
     overflow: hidden;
     padding: 20px;
     z-index: 2;
@@ -111,16 +124,15 @@ body, html {
     display: block;
     width: 100%;
     text-align: center;
-    font-family: var(--mono);
     font-size: .78rem;
-    letter-spacing: .1em;
-    color: var(--mut);
+    letter-spacing: .18em;
+    opacity: .34;
     white-space: nowrap;
     overflow: hidden;
 }
 
 .content {
-    display: flex;
+    display: none;
     text-align: center;
     z-index: 3;
     padding: 0 24px;
@@ -130,11 +142,10 @@ body, html {
 .intro { max-width: 46rem; }
 
 .eyebrow {
-    margin: 0 0 20px;
-    font-family: var(--mono);
+    margin: 0 0 22px;
     font-size: .66rem;
     font-weight: 500;
-    letter-spacing: .18em;
+    letter-spacing: .32em;
     text-transform: uppercase;
     color: var(--phos);
     opacity: 0;
@@ -143,12 +154,12 @@ body, html {
 
 .intro h1 {
     font-family: var(--serif);
-    font-size: clamp(2.4rem, 6.4vw, 4.4rem);
-    line-height: 1.04;
+    font-size: clamp(2.6rem, 7.5vw, 5.2rem);
+    line-height: 1;
     letter-spacing: -.015em;
     font-weight: 400;
     text-transform: none;
-    margin: 0 0 24px;
+    margin: 0 0 26px;
     color: var(--ink);
 }
 
@@ -158,12 +169,11 @@ body, html {
 }
 
 .sub {
-    margin: 0 auto 34px;
-    max-width: 46ch;
-    font-family: var(--sans);
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.7;
+    margin: 0 auto 38px;
+    max-width: 44ch;
+    font-size: .88rem;
+    font-weight: 200;
+    line-height: 1.75;
     color: var(--mut);
     opacity: 0;
     animation: fadeIn .8s ease-out .35s forwards;
@@ -172,20 +182,18 @@ body, html {
 .intro button,
 .intro .cta {
     display: inline-block;
-    font-family: var(--sans);
-    padding: 12px 26px;
-    font-size: .82rem;
-    font-weight: 500;
-    letter-spacing: .02em;
-    text-transform: none;
-    color: #fff;
-    background: var(--phos);
+    font-family: var(--mono);
+    padding: 13px 30px;
+    font-size: .72rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--phos);
+    background: transparent;
     border: 1px solid var(--phos);
-    border-radius: 3px;
-    box-shadow: var(--sombra);
+    border-radius: 0;
     text-decoration: none;
     cursor: pointer;
-    transition: opacity .25s ease;
+    transition: background .3s ease, color .3s ease;
     opacity: 0;
     animation: fadeIn .8s ease-out .5s forwards;
 }
@@ -194,21 +202,19 @@ body, html {
 .intro .cta:hover,
 .intro .cta:focus-visible {
     background: var(--phos);
-    color: #fff;
-    opacity: .86;
+    color: var(--bg);
 }
 
 .intro .cta:focus-visible {
     outline: 2px solid var(--phos);
-    outline-offset: 2px;
+    outline-offset: 3px;
 }
 
 .hint {
     margin: 18px 0 0;
-    font-family: var(--sans);
-    font-size: .88rem;
-    letter-spacing: 0;
-    text-transform: none;
+    font-size: .62rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
     color: var(--mut);
     opacity: 0;
     animation: fadeIn .8s ease-out .7s forwards;
@@ -220,7 +226,7 @@ body, html {
     width: 20px;
     height: 20px;
     color: var(--mut);
-    opacity: .5;
+    opacity: .4;
 }
 
 #lock-icon svg { width: 100%; height: 100%; display: block; }
@@ -250,8 +256,8 @@ body, html {
 }
 
 @media (max-width: 640px) {
-    #name-container { top: 20px; left: 20px; font-size: .7rem; }
-    .sub { font-size: .94rem; }
+    #name-container { top: 20px; left: 20px; font-size: .66rem; }
+    .sub { font-size: .82rem; }
 }
 
 /* em tela baixa (celular deitado) o cadeado encostava no "ou role a pagina" */

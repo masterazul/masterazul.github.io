@@ -24,23 +24,37 @@
   <meta name="twitter:image" content="https://masterazul.github.io/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;400;500;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#f7f7f5; --ink:#1a1c1a; --mut:#6a706c;
-      --line:rgba(26,28,26,.12); --phos:#186a4e; --phos-soft:rgba(24,106,78,.06); --phos-tint:#f1f6f3;
-      --pg:#ffffff; --pg2:#fbfbfa;
-      --sombra:0 1px 2px rgba(26,28,26,.05), 0 12px 32px rgba(26,28,26,.07);
+      --bg:#07090a; --ink:#e4e9e4; --mut:#78857d;
+      --line:rgba(120,133,125,.16); --phos:#6ef7a7; --phos-soft:rgba(110,247,167,.09);
+      --pg:#0b0f11; --pg2:#090d0f;
+      --sombra:0 2px 6px rgba(0,0,0,.35), 0 18px 44px rgba(0,0,0,.45);
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
       --serif:'Instrument Serif',Georgia,serif;
-      --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
     }
     *{box-sizing:border-box}
     html{-webkit-text-size-adjust:100%}
     body{
       margin:0;background:var(--bg);color:var(--ink);
-      font-family:var(--sans);line-height:1.65;
+      font-family:var(--mono);line-height:1.6;
       -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    }
+    /* bloom de fósforo */
+    body::before{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+      background:
+        radial-gradient(62rem 36rem at 50% -12%, rgba(110,247,167,.08), transparent 62%),
+        radial-gradient(40rem 26rem at 92% 96%, rgba(110,247,167,.04), transparent 68%);
+    }
+    /* scanlines + grão */
+    body::after{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:200;
+      background-image:
+        repeating-linear-gradient(to bottom, rgba(255,255,255,.015) 0 1px, transparent 1px 3px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;opacity:.42;
     }
 
     /* coluna da altura da tela: o palco absorve o que sobra, entao o livro se ajusta
@@ -55,15 +69,16 @@
          regras de tela baixa cortam o padding para ganhar altura */
       display:inline-flex;align-items:center;min-height:44px;
       align-self:flex-start;
-      font-size:.82rem;color:var(--mut);text-decoration:none;
+      font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--mut);text-decoration:none;
       transition:color .25s ease;
     }
     .back:hover{color:var(--phos)}
 
     header{padding:26px 0 20px;text-align:center}
     .eyebrow{
-      margin:0 0 18px;font-family:var(--mono);font-size:.66rem;font-weight:500;
-      letter-spacing:.18em;text-transform:uppercase;color:var(--phos);
+      margin:0 0 18px;font-size:.64rem;font-weight:500;
+      letter-spacing:.34em;text-transform:uppercase;color:var(--phos);
     }
     h1{
       font-family:var(--serif);font-weight:400;
@@ -71,10 +86,10 @@
     }
     h1 em{font-style:italic;color:var(--phos)}
     .deck{
-      margin:0 auto;max-width:72ch;color:var(--mut);
-      font-size:.98rem;line-height:1.65;
+      margin:0 auto;max-width:60ch;color:var(--mut);
+      font-size:.86rem;font-weight:200;line-height:1.75;
     }
-    .deck strong{color:var(--ink);font-weight:600}
+    .deck strong{color:var(--ink);font-weight:400}
 
     /* ---------------- livro ---------------- */
     .stage{
@@ -96,10 +111,9 @@
     /* miolo de folhas na borda de fora, para o objeto parecer um livro fechado */
     .book::after{
       content:'';position:absolute;top:7px;bottom:7px;right:-6px;width:6px;
-      border-radius:0 3px 3px 0;
       background:repeating-linear-gradient(90deg,
-        rgba(26,28,26,.13) 0 1px, rgba(255,255,255,.9) 1px 2px);
-      box-shadow:1px 0 3px rgba(26,28,26,.06);
+        rgba(228,233,228,.16) 0 1px, rgba(9,13,15,.92) 1px 2px);
+      box-shadow:1px 0 3px rgba(0,0,0,.5);
       transition:opacity .5s ease;
     }
     .book.aberto::after{opacity:0}
@@ -117,8 +131,8 @@
     .face{
       position:absolute;inset:0;
       backface-visibility:hidden;-webkit-backface-visibility:hidden;
-      background:var(--pg);
-      border:1px solid var(--line);border-radius:3px;
+      background:linear-gradient(105deg,var(--pg) 0%,var(--pg2) 100%);
+      border:1px solid var(--line);
       box-shadow:var(--sombra);
       padding:30px 34px 42px;
       overflow-y:auto;overflow-x:hidden;
@@ -130,101 +144,102 @@
     /* a pagina e um flex column: sem isso o conteudo excedente espreme os blocos
        em vez de rolar, e quem tem overflow:hidden (a telemetria) some */
     .face > *{flex-shrink:0}
-    .face.verso{transform:rotateY(180deg);background:var(--pg2)}
+    .face.verso{transform:rotateY(180deg);background:linear-gradient(255deg,var(--pg) 0%,var(--pg2) 100%)}
     .face::before{
-      content:'';position:absolute;top:0;bottom:0;left:0;width:22px;
-      background:linear-gradient(90deg,rgba(26,28,26,.07),transparent);
+      content:'';position:absolute;top:0;bottom:0;left:0;width:26px;
+      background:linear-gradient(90deg,rgba(0,0,0,.5),transparent);
       pointer-events:none;
     }
-    .face.verso::before{left:auto;right:0;background:linear-gradient(270deg,rgba(26,28,26,.07),transparent)}
+    .face.verso::before{left:auto;right:0;background:linear-gradient(270deg,rgba(0,0,0,.5),transparent)}
     .face::-webkit-scrollbar{width:6px}
-    .face::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+    .face::-webkit-scrollbar-thumb{background:var(--line)}
 
     /* a capa e composicao fixa, nao prosa que rola: com a mascara do pe o botao
        principal aparecia esmaecido em tela pequena */
     .capa{justify-content:center;align-items:center;text-align:center;
-      background:var(--pg);cursor:pointer;
+      background:linear-gradient(140deg,#0d1417 0%,#080b0d 60%);cursor:pointer;
       -webkit-mask-image:none;mask-image:none;overflow:hidden}
-    .capa .marca{font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--phos);margin-bottom:26px}
+    .capa .marca{font-size:.6rem;letter-spacing:.36em;text-transform:uppercase;color:var(--phos);margin-bottom:26px}
     .capa h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.05;margin:0 0 18px;max-width:14ch}
     .capa h2 em{font-style:italic;color:var(--phos)}
-    .capa p{margin:0;max-width:32ch;font-size:.88rem;line-height:1.75;color:var(--mut)}
+    .capa p{margin:0;max-width:30ch;font-size:.76rem;font-weight:200;line-height:1.75;color:var(--mut)}
     .capa .abrir{
-      margin-top:34px;font-size:.72rem;letter-spacing:.08em;
-      color:#fff;background:var(--phos);border:1px solid var(--phos);
-      border-radius:3px;padding:11px 24px;
-      transition:opacity .25s ease;
+      margin-top:34px;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+      color:var(--phos);background:transparent;border:1px solid var(--phos);
+      padding:10px 22px;
+      transition:background .3s ease,color .3s ease;
     }
-    .capa:hover .abrir{opacity:.86}
+    .capa:hover .abrir{background:var(--phos);color:var(--bg)}
 
     .pnum{
       position:absolute;bottom:18px;right:30px;
-      font-family:var(--mono);font-size:.62rem;color:var(--mut);opacity:.5;
+      font-size:.58rem;letter-spacing:.2em;color:var(--mut);opacity:.55;
     }
     .face.verso .pnum{right:auto;left:30px}
-    .kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--phos);margin:0 0 14px}
+    .kicker{font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--phos);margin:0 0 12px}
     .face h3{
       font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.2vw,2.4rem);
       line-height:1.05;margin:0 0 6px;letter-spacing:-.01em;
     }
-    .slug{font-family:var(--mono);font-size:.72rem;color:var(--mut);margin:0 0 20px}
-    .face p.txt{margin:0 0 14px;font-size:.89rem;line-height:1.62;color:var(--mut)}
-    .face p.txt b{color:var(--ink);font-weight:600}
+    .slug{font-size:.64rem;font-weight:200;letter-spacing:.06em;color:var(--mut);margin:0 0 18px}
+    .face p.txt{margin:0 0 14px;font-size:.79rem;font-weight:200;line-height:1.72;color:var(--mut)}
+    .face p.txt b{color:var(--ink);font-weight:400}
     .rot{
-      margin:6px 0 8px;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;
-      text-transform:uppercase;color:var(--phos);
+      margin:6px 0 8px;font-size:.58rem;letter-spacing:.22em;
+      text-transform:uppercase;color:var(--phos);opacity:.85;
     }
-    .desafio{border-left:2px solid var(--phos);padding:2px 0 2px 16px;margin:0 0 20px}
-    .desafio p{margin:0;font-size:.88rem;line-height:1.7;color:var(--mut)}
-    .desafio p b{color:var(--ink);font-weight:600}
+    .desafio{border-left:2px solid var(--phos);padding:2px 0 2px 16px;margin:0 0 18px}
+    .desafio p{margin:0;font-size:.76rem;font-weight:200;line-height:1.72;color:var(--mut)}
+    .desafio p b{color:var(--ink);font-weight:400}
 
-    .tel{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:0 0 18px}
-    .tel div{flex:1 1 auto;min-width:74px;padding:11px 13px;border-right:1px solid var(--line)}
+    .tel{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);overflow:hidden;margin:0 0 16px}
+    .tel div{flex:1 1 auto;min-width:74px;padding:9px 11px;border-right:1px solid var(--line)}
     .tel div:last-child{border-right:0}
-    .tel b{display:block;font-size:1.05rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
-    .tel span{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-top:4px}
+    .tel b{display:block;font-size:.92rem;font-weight:700;color:var(--phos);font-variant-numeric:tabular-nums}
+    .tel span{display:block;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-top:3px}
 
     pre.demo{
-      margin:0 0 18px;border:1px solid var(--line);border-radius:3px;background:#f4f4f2;
-      padding:13px 15px;font-family:var(--mono);font-size:.7rem;line-height:1.7;color:var(--mut);
+      margin:0 0 16px;border:1px solid var(--line);background:rgba(5,7,8,.6);
+      padding:11px 13px;font-size:.64rem;font-weight:200;line-height:1.72;color:var(--mut);
       overflow-x:auto;white-space:pre;
     }
-    pre.demo b{color:var(--phos);font-weight:600}
+    pre.demo b{color:var(--phos);font-weight:400}
     pre.demo i{color:var(--ink);font-style:normal}
 
     .ir{
       margin-top:auto;align-self:flex-start;
-      font-size:.8rem;color:var(--ink);text-decoration:none;
-      border:1px solid var(--line);border-radius:3px;padding:10px 18px;background:#fff;
-      transition:color .25s ease,border-color .25s ease,background .25s ease;
+      font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--mut);text-decoration:none;
+      border:1px solid var(--line);padding:10px 18px;background:transparent;
+      transition:color .3s ease,border-color .3s ease,background .3s ease;
     }
-    .ir:hover{color:var(--phos);border-color:var(--phos);background:var(--phos-tint)}
+    .ir:hover{color:var(--phos);border-color:var(--phos);background:var(--phos-soft)}
 
-    .wasm{border:1px solid var(--line);border-radius:3px;padding:16px;margin:0 0 18px;background:#fbfbfa}
-    .wasm label{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--phos);margin-bottom:10px}
+    .wasm{border:1px solid var(--line);padding:14px 15px;margin:0 0 16px}
+    .wasm label{display:block;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--phos);margin-bottom:9px}
     .wasm input{
-      width:100%;font-family:var(--mono);font-size:.85rem;color:var(--ink);
-      background:#fff;border:1px solid var(--line);border-radius:3px;padding:10px 12px;
+      width:100%;font-family:var(--mono);font-size:.8rem;color:var(--ink);
+      background:rgba(5,7,8,.7);border:1px solid var(--line);padding:9px 11px;
     }
-    .wasm input:focus{outline: 2px solid var(--phos);outline-offset:1px;border-color:var(--phos)}
-    .wasm input::placeholder{color:var(--mut);opacity:.6}
-    .wasm output{display:block;margin-top:10px;font-size:.8rem;color:var(--mut)}
-    .wasm output[data-state="ok"]{color:var(--phos);font-weight:600}
-    .wasm output[data-state="bad"]{color:#b3261e;font-weight:600}
+    .wasm input:focus{outline:2px solid var(--phos);outline-offset:1px;border-color:var(--phos)}
+    .wasm input::placeholder{color:var(--mut);opacity:.65}
+    .wasm output{display:block;margin-top:9px;font-size:.7rem;color:var(--mut)}
+    .wasm output[data-state="ok"]{color:var(--phos)}
+    .wasm output[data-state="bad"]{color:#e05561}
 
     .nav{display:flex;align-items:center;justify-content:center;gap:14px;margin:30px auto 0}
     .nav button{
-      font-family:var(--sans);font-size:.82rem;
-      color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:3px;
-      padding:10px 20px;cursor:pointer;
+      font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--mut);background:transparent;border:1px solid var(--line);
+      min-height:44px;padding:10px 20px;cursor:pointer;
       transition:color .25s ease,border-color .25s ease,opacity .25s ease;
     }
     .nav button:hover:not(:disabled){color:var(--phos);border-color:var(--phos)}
-    .nav button:disabled{opacity:.35;cursor:default}
-    .nav .conta{font-family:var(--mono);font-size:.72rem;color:var(--mut);min-width:190px;text-align:center}
+    .nav button:disabled{opacity:.3;cursor:default}
+    .nav .conta{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);min-width:190px;text-align:center}
 
     footer{margin-top:26px;display:flex;flex-wrap:wrap;gap:26px;justify-content:center}
-    footer a{font-size:.84rem;color:var(--mut);text-decoration:none;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .25s ease,border-color .25s ease}
+    footer a{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);text-decoration:none;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .25s ease,border-color .25s ease}
     footer a:hover{color:var(--phos);border-bottom-color:var(--phos)}
 
     /* notebook de tela baixa (1366x768 e parentes): o cabecalho comia 234px e

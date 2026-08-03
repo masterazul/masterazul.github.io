@@ -1,16 +1,11 @@
 :root {
-    --bg: #f7f7f5;
-    --ink: #1a1c1a;
-    --mut: #6a706c;
-    --line: rgba(26, 28, 26, .12);
-    --phos: #186a4e;
-    --phos-soft: rgba(24, 106, 78, .06); --phos-tint: #f1f6f3;
-    --pg: #ffffff;
-    --pg2: #fbfbfa;
-    --sombra: 0 1px 2px rgba(26, 28, 26, .05), 0 12px 32px rgba(26, 28, 26, .07);
+    --bg: #07090a;
+    --ink: #e4e9e4;
+    --mut: #78857d;
+    --line: rgba(120, 133, 125, .18);
+    --phos: #6ef7a7;
     --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
     --serif: 'Instrument Serif', Georgia, serif;
-    --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -21,7 +16,7 @@ body, html {
     width: 100%;
     min-height: 100%;
     background-color: var(--bg);
-    font-family: var(--sans);
+    font-family: var(--mono);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
 }
@@ -30,6 +25,20 @@ body {
     display: flex;
     align-items: stretch;
     overflow-x: hidden;
+}
+
+/* grão e scanline por cima de tudo */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    background-image:
+        repeating-linear-gradient(to bottom, rgba(255, 255, 255, .016) 0 1px, transparent 1px 3px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: .45;
 }
 
 .split-screen {
@@ -44,29 +53,22 @@ body {
     position: relative;
     overflow: hidden;
     text-align: center;
-    padding: clamp(150px, 27vh, 300px) 32px 96px;
+    padding: clamp(150px, 27vh, 300px) 28px 96px;
     border-right: 1px solid var(--line);
-    background-color: var(--pg);
     background-size: cover;
-    background-position: bottom center;
+    background-position: center;
     opacity: 0;
     animation: painel .8s cubic-bezier(.2, .7, .3, 1) forwards;
 }
 
 .split-screen:last-of-type { border-right: 0; }
 
-/* a pintura sobe do rodape: branco solido onde o texto le, e ela so aparece
-   perto da legenda. Veu uniforme deixava a tela manchada, parecendo defeito. */
+/* a arte fica como textura, nao como cor dominante */
 .split-screen::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg,
-        #fff 0%,
-        #fff 44%,
-        rgba(255, 255, 255, .95) 62%,
-        rgba(255, 255, 255, .82) 84%,
-        rgba(255, 255, 255, .94) 100%);
+    background: linear-gradient(180deg, rgba(7, 9, 10, .90), rgba(7, 9, 10, .96));
     z-index: 0;
     pointer-events: none;
 }
@@ -77,25 +79,25 @@ body {
 #screen2 { background-image: url('op_art_black.png'); animation-delay: .18s; }
 #screen3 { background-image: url('op_art_green.png'); animation-delay: .31s; }
 
-.split-screen a { display: inline-block; border-radius: 3px; }
+.split-screen a { display: inline-block; }
 
 .split-screen a:focus-visible {
     outline: 2px solid var(--phos);
     outline-offset: 4px;
 }
 
-/* sem grayscale: o icone do WhatsApp e claro e sumia em cinza, enquanto
-   LinkedIn e GitHub ficavam pretos — os tres perdiam o mesmo peso visual */
 .icon {
     width: 46px;
     height: auto;
-    border-radius: 3px;
-    transition: transform .3s ease, opacity .3s ease;
+    opacity: .7;
+    filter: grayscale(1);
+    transition: opacity .3s ease, filter .3s ease, transform .3s ease;
 }
 
 .split-screen a:hover .icon,
 .split-screen a:focus-visible .icon {
-    opacity: .85;
+    opacity: 1;
+    filter: grayscale(0);
     transform: translateY(-3px);
 }
 
@@ -112,11 +114,10 @@ body {
 }
 
 .split-screen .rotulo {
-    margin: 24px 0 14px;
-    font-family: var(--mono);
-    font-size: .72rem;
+    margin: 20px 0 12px;
+    font-size: .68rem;
     font-weight: 500;
-    letter-spacing: .16em;
+    letter-spacing: .28em;
     text-transform: uppercase;
     color: var(--phos);
     max-width: none;
@@ -129,56 +130,55 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    max-width: 34ch;
-    font-size: .92rem;
-    font-weight: 400;
-    line-height: 1.7;
+    max-width: 30ch;
+    font-size: .82rem;
+    font-weight: 200;
+    line-height: 1.75;
 }
 
 /* .split-screen p (0,1,1) atropelaria .quote (0,1,0); por isso o seletor duplo */
 .split-screen .quote {
     position: absolute;
-    bottom: 30px;
+    bottom: 26px;
     left: 0;
     right: 0;
     padding: 0 24px;
-    font-family: var(--mono);
-    font-size: .78rem;
-    line-height: 1.7;
-    letter-spacing: .02em;
-    /* mais escuro que --mut porque aqui o fundo e a pintura, nao o branco:
-       medido, --mut dava 4,2:1 sobre as tres telas e nao passava em 4,5 */
-    color: #565c58;
+    font-size: .58rem;
+    letter-spacing: .12em;
+    color: var(--mut);
+    opacity: .55;
     max-width: none;
-    opacity: 1;
 }
 
 .btn-back {
     position: fixed;
-    top: 22px;
-    left: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 22px;
     z-index: 60;
-    font-family: var(--sans);
-    font-size: .8rem;
-    color: var(--ink);
-    background: var(--pg);
+    font-family: var(--mono);
+    font-size: .66rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--mut);
+    background: rgba(7, 9, 10, .82);
     border: 1px solid var(--line);
-    border-radius: 3px;
+    border-radius: 0;
     /* alvo de toque garantido em qualquer tela, inclusive celular deitado,
        que passa da largura do breakpoint e caia na regra de desktop */
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    padding: 9px 20px;
+    padding: 11px 24px;
     text-decoration: none;
-    box-shadow: var(--sombra);
-    transition: color .25s ease, border-color .25s ease, background .25s ease;
+    box-shadow: none;
+    transition: color .3s ease, border-color .3s ease;
 }
 
 .btn-back:hover {
     color: var(--phos);
     border-color: var(--phos);
-    background: var(--phos-tint);
+    background: rgba(7, 9, 10, .92);
 }
 
 .btn-back:focus-visible {
@@ -201,16 +201,16 @@ body.page-transition {
     .split-screen {
         width: 100%;
         min-height: auto;
-        padding: 58px 24px 66px;
+        padding: 54px 24px 62px;
         border-right: 0;
         border-bottom: 1px solid var(--line);
     }
-    .split-screen .quote { position: static; margin-top: 24px; padding: 0; }
+    .split-screen .quote { position: static; margin-top: 22px; padding: 0; }
     .btn-back {
         position: static;
         transform: none;
         display: block;
-        margin: 28px auto 40px;
+        margin: 24px auto 40px;
         width: max-content;
         /* 37px de altura era alvo de toque curto para o dedo */
         padding: 13px 24px;
