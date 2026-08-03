@@ -115,6 +115,72 @@
       li::before{content:'';position:absolute;left:0;top:17px;width:7px;height:1px;background:var(--phos)}
       li strong{color:var(--ink);font-weight:400}
 
+      /* ---------------- visualizações ----------------
+         todas com dado que ja esta na pagina; nenhuma porcentagem auto-atribuida */
+      .viz{
+        margin:18px 0 4px;border:1px solid var(--line);
+        background:rgba(5,7,8,.45);padding:18px 18px 16px;
+      }
+      .viz figcaption{
+        margin:0 0 14px;font-size:.58rem;letter-spacing:.2em;
+        text-transform:uppercase;color:var(--mut);
+      }
+      .viz figcaption b{color:var(--phos);font-weight:500}
+
+      /* barras horizontais com rotulo e valor direto no dado */
+      .barra{display:grid;grid-template-columns:168px 1fr 52px;gap:12px;align-items:center;padding:6px 0}
+      .barra span{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+      .trilho{height:10px;background:rgba(120,133,125,.12);overflow:hidden}
+      .trilho i{
+        display:block;height:100%;width:var(--w);
+        background:linear-gradient(90deg, rgba(110,247,167,.45), var(--phos));
+        box-shadow:0 0 10px rgba(110,247,167,.35);
+        animation:crescer 1.1s cubic-bezier(.2,.7,.3,1) .3s both;
+      }
+      .barra.antes .trilho i{background:rgba(120,133,125,.55);box-shadow:none}
+      .barra b{font-size:.76rem;font-weight:700;color:var(--phos);font-variant-numeric:tabular-nums;text-align:right}
+      .barra.antes b{color:var(--mut)}
+      .viz .nota{margin:10px 0 0;font-size:.56rem;letter-spacing:.12em;color:var(--mut);opacity:.7}
+      @keyframes crescer{from{width:0}}
+
+      /* fluxo de etapas encadeadas (pipeline, ciclo) */
+      .fluxo{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+      .fluxo .no{
+        font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;
+        color:var(--ink);border:1px solid var(--line);
+        background:rgba(11,15,17,.8);padding:8px 12px;white-space:nowrap;
+      }
+      .fluxo .no.gate{color:var(--phos);border-color:var(--phos);box-shadow:0 0 12px rgba(110,247,167,.18)}
+      .fluxo .seta{color:var(--phos);font-size:.66rem;opacity:.6}
+
+      /* arvore no formato de saida de terminal */
+      pre.tree{
+        margin:0;font-family:var(--mono);font-size:.66rem;font-weight:200;
+        line-height:1.9;color:var(--mut);overflow-x:auto;white-space:pre;
+      }
+      pre.tree b{color:var(--phos);font-weight:500;letter-spacing:.14em}
+      pre.tree i{color:var(--ink);font-style:normal}
+
+      /* linha do tempo com nos de fosforo */
+      .tl{margin:16px 0 0;padding:0;list-style:none}
+      .tl li{
+        position:relative;margin-left:7px;padding:10px 0 10px 26px;
+        border-left:1px solid var(--line);
+      }
+      .tl li::before{
+        content:'';position:absolute;left:-4.5px;top:19px;width:7px;height:7px;
+        border-radius:50%;background:var(--bg);border:1px solid var(--phos);
+        box-shadow:0 0 9px rgba(110,247,167,.55);
+      }
+      .tl li:last-child{border-left-color:transparent}
+
+      @media (max-width:700px){
+        .barra{grid-template-columns:104px 1fr 46px;gap:8px}
+        .barra span{font-size:.52rem}
+        .viz{padding:14px 12px 12px}
+        pre.tree{font-size:.6rem}
+      }
+
       /* antes ficava fixo no centro do rodape, planando por cima do texto;
          no canto superior sai do caminho e combina com as outras paginas */
       .floating-button{
@@ -179,6 +245,20 @@
                     <div class="linha"><dt>EDR e XDR</dt><dd>Trend Vision One, com resposta a incidente e contenção.</dd></div>
                     <div class="linha"><dt>Metodologia</dt><dd>MITRE ATT&amp;CK para mapear TTP, Diamond Model na análise de intrusão.</dd></div>
                 </dl>
+                <figure class="viz">
+                    <figcaption>Tempo de triagem por alerta — <b>efeito medido da automação</b></figcaption>
+                    <div class="barra antes">
+                        <span>Triagem manual</span>
+                        <div class="trilho"><i style="--w:100%"></i></div>
+                        <b>100</b>
+                    </div>
+                    <div class="barra">
+                        <span>Com o SOAR</span>
+                        <div class="trilho"><i style="--w:50%"></i></div>
+                        <b>50</b>
+                    </div>
+                    <p class="nota">índice com base 100 no processo manual · 10 mil+ alertas correlacionados na operação</p>
+                </figure>
             </section>
 
             <section>
@@ -188,6 +268,19 @@
                     <div class="linha"><dt>Pipeline</dt><dd>SAST, DAST, SCA e segurança de IaC dentro do CI/CD, com Policy as Code.</dd></div>
                     <div class="linha"><dt>Infra</dt><dd>Docker, Kubernetes e Terraform. Hardening de container e gestão de segredo.</dd></div>
                 </dl>
+                <figure class="viz">
+                    <figcaption>Pipeline de segurança no CI/CD — <b>o que roda a cada commit</b></figcaption>
+                    <div class="fluxo" role="list">
+                        <span class="no" role="listitem">commit</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no" role="listitem">SAST</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no" role="listitem">SCA</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no" role="listitem">IaC scan</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no" role="listitem">DAST</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no gate" role="listitem">Policy as Code</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no" role="listitem">deploy</span>
+                    </div>
+                    <p class="nota">o portão de Policy as Code bloqueia o deploy quando qualquer etapa reprova</p>
+                </figure>
             </section>
 
             <section>
@@ -196,6 +289,21 @@
                     <div class="linha"><dt>Investigação</dt><dd>OSINT em deep e dark web, fórum e Telegram. Análise de vazamento e de fraude.</dd></div>
                     <div class="linha"><dt>Produto</dt><dd>Relatório de modus operandi, linha do tempo de incidente e IoCs estruturados para consumo do SOC.</dd></div>
                 </dl>
+                <figure class="viz">
+                    <figcaption>Da coleta ao produto — <b>como a investigação flui</b></figcaption>
+                    <pre class="tree" aria-label="Fluxo da investigação: quatro fontes alimentam a investigação, que gera três produtos para o SOC">
+<b>investigação osint</b>
+├── deep web
+├── dark web
+├── fóruns
+└── telegram
+        │
+        ▼
+<b>produto para o soc</b>
+├── <i>IoCs estruturados</i>
+├── <i>relatório de modus operandi</i>
+└── <i>linha do tempo do incidente</i></pre>
+                </figure>
             </section>
 
             <section>
@@ -205,11 +313,21 @@
                     <div class="linha"><dt>Ferramentas</dt><dd>Tenable.io e Tenable.sc, Nessus, CIS-CAT e Grafana para indicador de risco.</dd></div>
                     <div class="linha"><dt>Prática</dt><dd>Gestão de vulnerabilidade e de patch, hardening de servidor e de banco em ambiente crítico.</dd></div>
                 </dl>
+                <figure class="viz">
+                    <figcaption>Ciclo de gestão de vulnerabilidade — <b>200+ servidores endurecidos</b></figcaption>
+                    <div class="fluxo" role="list">
+                        <span class="no" role="listitem">scan</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no" role="listitem">priorizar</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no" role="listitem">corrigir</span><span class="seta" aria-hidden="true">▸</span>
+                        <span class="no gate" role="listitem">verificar</span><span class="seta" aria-hidden="true">↺</span>
+                    </div>
+                    <p class="nota">Tenable e Nessus na descoberta · CIS-CAT na verificação · Grafana no indicador de risco</p>
+                </figure>
             </section>
 
             <section>
                 <h2>Certificações e formação</h2>
-                <ul>
+                <ul class="tl">
                     <li><strong>Tenable Cloud Security Administration (TSCA)</strong> — Tenable</li>
                     <li><strong>Nessus Engineer</strong> — Tenable</li>
                     <li><strong>From IT To Cyber</strong> — Cecyber</li>
