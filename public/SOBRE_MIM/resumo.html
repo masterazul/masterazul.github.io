@@ -119,30 +119,63 @@
     .tl .onde{color:var(--mut);font-weight:200}
     .tl p{margin:5px 0 0;font-size:.8rem;font-weight:200;line-height:1.72;color:var(--mut);max-width:66ch}
 
-    .index{
-      margin-top:56px;display:flex;flex-wrap:wrap;gap:12px;
+    /* painel de proximos passos: e onde mora o CTA, entao ganha moldura propria */
+    .painel{
+      position:relative;margin-top:56px;
+      border:1px solid var(--line);
+      background:linear-gradient(135deg, rgba(11,15,17,.85), rgba(7,9,10,.55));
+      padding:28px 30px 24px;
       opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .6s forwards;
     }
+    .painel::before{
+      content:'';position:absolute;left:-1px;top:-1px;bottom:-1px;width:2px;
+      background:var(--phos);opacity:.75;
+      box-shadow:0 0 14px rgba(110,247,167,.45);
+    }
+    .cta-titulo{
+      margin:0 0 8px;font-size:.66rem;font-weight:700;letter-spacing:.26em;
+      text-transform:uppercase;color:var(--phos);
+    }
+    .cta-sub{
+      margin:0 0 20px;font-size:.8rem;font-weight:200;line-height:1.7;
+      color:var(--mut);max-width:62ch;
+    }
+
+    .index{display:flex;flex-wrap:wrap;gap:12px}
     .index-button{
+      display:inline-flex;align-items:center;gap:9px;min-height:44px;
       font-family:var(--mono);font-size:.7rem;letter-spacing:.19em;text-transform:uppercase;
       color:var(--mut);text-decoration:none;
-      border:1px solid var(--line);padding:13px 22px;
+      border:1px solid var(--line);padding:12px 22px;
       transition:color .3s ease,border-color .3s ease,background .3s ease;
     }
     .index-button:hover{color:var(--phos);border-color:var(--phos);background:var(--phos-soft)}
     .index-button:focus-visible{outline:2px solid var(--phos);outline-offset:2px}
     .index-button.primary{color:var(--phos);border-color:var(--phos)}
     .index-button.primary:hover{background:var(--phos);color:var(--bg)}
+    .index-button .gl{font-size:.82rem;line-height:1;color:inherit;opacity:.9}
+    /* o download e arquivo, nao navegacao: borda tracejada o diferencia */
+    .index-button.baixar{color:var(--phos);border:1px dashed var(--phos)}
+    .index-button.baixar:hover{background:var(--phos);color:var(--bg);border-style:solid}
+    .index-button.baixar small{
+      font-size:.56rem;letter-spacing:.12em;color:inherit;opacity:.65;text-transform:none;
+    }
 
     .alcance{
-      margin:26px 0 0;font-size:.64rem;letter-spacing:.14em;color:var(--mut);
-      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .68s forwards;
+      margin:22px 0 0;padding-top:16px;border-top:1px solid var(--line);
+      font-size:.64rem;letter-spacing:.14em;color:var(--mut);
     }
     .alcance a{
       color:var(--mut);text-decoration:none;border-bottom:1px solid transparent;
       transition:color .3s ease,border-color .3s ease;
     }
     .alcance a:hover,.alcance a:focus-visible{color:var(--phos);border-bottom-color:var(--phos)}
+
+    @media (max-width:640px){
+      .painel{padding:22px 18px 20px}
+      .index{gap:10px}
+      .index-button{flex:1 1 auto;justify-content:center;padding:12px 14px}
+    }
 
     @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
@@ -152,7 +185,7 @@
     }
     @media (prefers-reduced-motion:reduce){
       *{animation:none !important;transition:none !important}
-      .eyebrow,h1,.lede,.areas li,.secao,.tl,.index,.alcance{opacity:1}
+      .eyebrow,h1,.lede,.areas li,.secao,.tl,.painel{opacity:1}
     }
   </style>
 </head>
@@ -205,14 +238,20 @@
     </li>
   </ol>
 
-  <div class="index">
-    <a href="../projetos/index.html" class="index-button primary" onclick="flipPageAndRedirect('../projetos/index.html'); return false;">Projetos open-source</a>
-    <a href="vitae_matheus.pdf" download="vitae_matheus.pdf" class="index-button">Baixar currículo</a>
-    <a href="../quali/index.html" class="index-button" onclick="flipPageAndRedirect('../quali/index.html'); return false;">Qualificações</a>
-    <a href="../contatos/index.html" class="index-button" onclick="flipPageAndRedirect('../contatos/index.html'); return false;">Contato</a>
+  <div class="painel">
+    <p class="cta-titulo">Continue por aqui</p>
+    <p class="cta-sub">
+      Cinco ferramentas em Rust com saída real de terminal, as qualificações com números
+      medidos — ou o currículo completo em PDF, pronto para recrutador.
+    </p>
+    <div class="index">
+      <a href="../projetos/index.html" class="index-button primary" onclick="flipPageAndRedirect('../projetos/index.html'); return false;">Projetos open-source <span class="gl" aria-hidden="true">&rarr;</span></a>
+      <a href="vitae_matheus.pdf" download="vitae_matheus.pdf" class="index-button baixar"><span class="gl" aria-hidden="true">&darr;</span> Baixar currículo <small>PDF · 280 KB</small></a>
+      <a href="../quali/index.html" class="index-button" onclick="flipPageAndRedirect('../quali/index.html'); return false;">Qualificações</a>
+      <a href="../contatos/index.html" class="index-button" onclick="flipPageAndRedirect('../contatos/index.html'); return false;">Contato</a>
+    </div>
+    <p class="alcance">ae_augusto33@proton.me · <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">linkedin.com/in/augustoae</a> · <a href="https://github.com/masterazul" target="_blank" rel="noopener">github.com/masterazul</a></p>
   </div>
-
-  <p class="alcance">ae_augusto33@proton.me · <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">linkedin.com/in/augustoae</a> · <a href="https://github.com/masterazul" target="_blank" rel="noopener">github.com/masterazul</a></p>
 </div>
 <script src="../../src/transition_verportfolio_resumo.js"></script>
 </body>

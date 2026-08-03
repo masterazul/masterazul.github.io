@@ -96,6 +96,25 @@
             });
         }
 
+        // rolar para baixo leva ao resumo mesmo durante o boot do terminal:
+        // quem rola ja decidiu entrar, nao precisa esperar o teatro acabar
         window.addEventListener('wheel', (event) => {
-            if (conteudoAVista && event.deltaY > 0) redirectToPortfolio();
+            if (event.deltaY > 0) redirectToPortfolio();
+        }, { passive: true });
+
+        // teclado: as teclas usuais de "descer a pagina"
+        window.addEventListener('keydown', (event) => {
+            if (['ArrowDown', 'PageDown', ' '].includes(event.key)) redirectToPortfolio();
+        });
+
+        // toque: swipe para cima (gesto de rolar para baixo) no celular
+        let toqueY = null;
+        window.addEventListener('touchstart', (event) => {
+            toqueY = event.touches[0].clientY;
+        }, { passive: true });
+        window.addEventListener('touchmove', (event) => {
+            if (toqueY !== null && toqueY - event.touches[0].clientY > 40) {
+                toqueY = null;
+                redirectToPortfolio();
+            }
         }, { passive: true });
