@@ -97,9 +97,31 @@
       max-width:34ch;
     }
 
+    /* trajetória profissional, na linha do tempo do currículo */
+    .secao{
+      margin:56px 0 14px;font-size:.68rem;font-weight:700;letter-spacing:.24em;
+      text-transform:uppercase;color:var(--phos);
+      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .45s forwards;
+    }
+    .tl{
+      margin:0;padding:0;list-style:none;
+      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .52s forwards;
+    }
+    .tl li{position:relative;margin-left:7px;padding:12px 0 14px 26px;border-left:1px solid var(--line)}
+    .tl li:last-child{border-left-color:transparent}
+    .tl li::before{
+      content:'';position:absolute;left:-4.5px;top:20px;width:7px;height:7px;
+      border-radius:50%;background:var(--bg);border:1px solid var(--phos);
+      box-shadow:0 0 9px rgba(110,247,167,.55);
+    }
+    .tl .quando{display:block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--phos);margin-bottom:5px}
+    .tl .cargo{display:block;font-size:.86rem;color:var(--ink);line-height:1.5}
+    .tl .onde{color:var(--mut);font-weight:200}
+    .tl p{margin:5px 0 0;font-size:.8rem;font-weight:200;line-height:1.72;color:var(--mut);max-width:66ch}
+
     .index{
       margin-top:56px;display:flex;flex-wrap:wrap;gap:12px;
-      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .5s forwards;
+      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .6s forwards;
     }
     .index-button{
       font-family:var(--mono);font-size:.7rem;letter-spacing:.19em;text-transform:uppercase;
@@ -112,6 +134,16 @@
     .index-button.primary{color:var(--phos);border-color:var(--phos)}
     .index-button.primary:hover{background:var(--phos);color:var(--bg)}
 
+    .alcance{
+      margin:26px 0 0;font-size:.64rem;letter-spacing:.14em;color:var(--mut);
+      opacity:0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .68s forwards;
+    }
+    .alcance a{
+      color:var(--mut);text-decoration:none;border-bottom:1px solid transparent;
+      transition:color .3s ease,border-color .3s ease;
+    }
+    .alcance a:hover,.alcance a:focus-visible{color:var(--phos);border-bottom-color:var(--phos)}
+
     @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
     @media (max-width:640px){
@@ -120,18 +152,19 @@
     }
     @media (prefers-reduced-motion:reduce){
       *{animation:none !important;transition:none !important}
-      .eyebrow,h1,.lede,.areas li,.index{opacity:1}
+      .eyebrow,h1,.lede,.areas li,.secao,.tl,.index,.alcance{opacity:1}
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <p class="eyebrow">Matheus Augusto · Curitiba, 100% remoto</p>
+  <p class="eyebrow">Matheus Augusto · Duque de Caxias, RJ · 100% remoto</p>
   <h1>Olá. Eu cuido da <em>operação</em> e do código que a sustenta.</h1>
   <p class="lede">
-    São três anos em segurança: comecei monitorando em SOC e hoje escrevo, em Rust e Python,
-    a automação que a operação usa todo dia. <strong>Reduzir o ruído que chega ao analista</strong>
-    é o que orienta quase toda decisão minha — de tuning de regra a pipeline de triagem.
+    São três anos em segurança: comecei em GRC e gestão de vulnerabilidades, passei por
+    threat intelligence e hoje escrevo, em Rust, o SOAR que centraliza os alertas de mais
+    de 40 clientes. <strong>Reduzir o ruído que chega ao analista</strong> é o que orienta
+    quase toda decisão minha — o pipeline de IA que acoplei à triagem cortou esse tempo pela metade.
   </p>
 
   <ul class="areas">
@@ -141,7 +174,7 @@
     </li>
     <li style="animation-delay:.28s">
       <h2>Automação e DevSecOps</h2>
-      <p>SOAR próprio escrito em Rust, com API, fila e PostgreSQL. No CI/CD: SAST, DAST, SCA, segurança de IaC, hardening de container e Kubernetes, gestão de segredo.</p>
+      <p>SOAR próprio escrito em Rust, com API, fila e PostgreSQL, e pipeline de IA para triagem preditiva. No CI/CD: SAST, DAST, SCA, segurança de IaC, hardening de container e Kubernetes, gestão de segredo.</p>
     </li>
     <li style="animation-delay:.34s">
       <h2>Threat Intelligence</h2>
@@ -153,12 +186,33 @@
     </li>
   </ul>
 
+  <h2 class="secao">Trajetória</h2>
+  <ol class="tl">
+    <li>
+      <span class="quando">abr/2025 — atual</span>
+      <span class="cargo">Engenheiro de Automação de Segurança / DevSecOps <span class="onde">· Service IT Security</span></span>
+      <p>SOAR interno em Rust — API, fila e PostgreSQL — cobrindo toda a operação de SOC, com pipeline de IA de triagem preditiva e segurança shift-left no CI/CD.</p>
+    </li>
+    <li>
+      <span class="quando">jul/2024 — abr/2025</span>
+      <span class="cargo">Analista de Threat Intelligence &amp; Prevenção a Fraudes <span class="onde">· Service IT Security</span></span>
+      <p>Investigação OSINT em deep e dark web, análise de fraude e vazamento, CTI com IoCs estruturados e automações de correlação em Python.</p>
+    </li>
+    <li>
+      <span class="quando">jun/2023 — mar/2024</span>
+      <span class="cargo">Estágio em SOC — GRC e Compliance <span class="onde">· Vortex Security</span></span>
+      <p>Gestão de vulnerabilidades e de patches com Tenable e Nessus em ambiente crítico; hardening de mais de 200 servidores e bancos de dados.</p>
+    </li>
+  </ol>
+
   <div class="index">
     <a href="../projetos/index.html" class="index-button primary" onclick="flipPageAndRedirect('../projetos/index.html'); return false;">Projetos open-source</a>
     <a href="vitae_matheus.pdf" download="vitae_matheus.pdf" class="index-button">Baixar currículo</a>
     <a href="../quali/index.html" class="index-button" onclick="flipPageAndRedirect('../quali/index.html'); return false;">Qualificações</a>
     <a href="../contatos/index.html" class="index-button" onclick="flipPageAndRedirect('../contatos/index.html'); return false;">Contato</a>
   </div>
+
+  <p class="alcance">ae_augusto33@proton.me · <a href="https://www.linkedin.com/in/augustoae" target="_blank" rel="noopener">linkedin.com/in/augustoae</a> · <a href="https://github.com/masterazul" target="_blank" rel="noopener">github.com/masterazul</a></p>
 </div>
 <script src="../../src/transition_verportfolio_resumo.js"></script>
 </body>
